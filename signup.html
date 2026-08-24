@@ -2,83 +2,211 @@
 <html lang="en">
 
 <head>
-<meta charset="UTF-8">
-<title>MentorSphere Signup</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Join MentorSphere</title>
 
-<link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
 
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="auth-container">
+<div class="auth-page">
 
-<div class="left-panel">
+    <!-- LEFT SIDE -->
+    <div class="auth-left">
 
-<div class="brand">
-<h1>MentorSphere</h1>
-<p>AI-Driven Academic Mentorship Platform</p>
+        <a href="index.html" class="auth-logo">
+            <div class="auth-logo-icon">M</div>
+            <span>MentorSphere</span>
+        </a>
+
+        <div class="auth-content">
+
+            <div class="auth-badge">
+                ✦ AI-Powered Academic Mentorship
+            </div>
+
+            <h1>
+                Find your people.<br>
+                <span>Grow together.</span>
+            </h1>
+
+            <p>
+                Join a community where juniors, seniors and alumni
+                connect, learn and help each other grow.
+            </p>
+
+            <div class="auth-benefits">
+
+                <div class="benefit">
+                    <div class="benefit-icon">✦</div>
+                    <div>
+                        <strong>Find the right mentor</strong>
+                        <span>Connect based on skills and interests</span>
+                    </div>
+                </div>
+
+                <div class="benefit">
+                    <div class="benefit-icon">💬</div>
+                    <div>
+                        <strong>Ask and learn together</strong>
+                        <span>Join topic-based communities</span>
+                    </div>
+                </div>
+
+                <div class="benefit">
+                    <div class="benefit-icon">🛡</div>
+                    <div>
+                        <strong>A safer community</strong>
+                        <span>AI-supported toxicity detection</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <p class="auth-footer-text">
+            © 2026 MentorSphere
+        </p>
+
+    </div>
+
+
+    <!-- RIGHT SIDE -->
+    <div class="auth-right">
+
+        <div class="signup-form-container">
+
+            <div class="form-header">
+
+                <h2>Create your account</h2>
+
+                <p>
+                    Start your mentorship journey today.
+                </p>
+
+            </div>
+
+
+            <form id="signupForm">
+
+                <div class="input-group">
+
+                    <label>Full Name</label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        placeholder="Enter your full name"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>Email</label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Enter your email"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>Password</label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Create a password"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>I am joining as</label>
+
+                    <select id="role" required>
+
+                        <option value="" disabled selected>
+                            Select your role
+                        </option>
+
+                        <option value="Junior">
+                            Junior Student
+                        </option>
+
+                        <option value="Senior">
+                            Senior Student
+                        </option>
+
+                        <option value="Alumni">
+                            Alumni
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <button type="submit" class="auth-submit-btn">
+                    Create Account →
+                </button>
+
+            </form>
+
+
+            <p class="auth-switch">
+
+                Already have an account?
+
+                <a href="login.html">
+                    Login
+                </a>
+
+            </p>
+
+        </div>
+
+    </div>
+
 </div>
 
-<div class="left-content">
 
-<h2>
-Create Your Account<br>
-<span>Join. Learn. Grow.</span>
-</h2>
+<script>
 
-<p>
-Become part of MentorSphere and connect
-with mentors, resources and opportunities.
-</p>
+document.getElementById("signupForm").addEventListener("submit", function(event) {
 
-<img src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png">
+    event.preventDefault();
 
-</div>
+    const name = document.getElementById("name").value;
+    const role = document.getElementById("role").value;
 
-</div>
+    localStorage.setItem("userName", name);
+    localStorage.setItem("userRole", role);
 
-<div class="right-panel">
+    window.location.href = "dashboard.html";
 
-<div class="form-card signup-card">
+});
 
-<h2>Create Account</h2>
-
-<p>Fill your details to continue</p>
-
-<form action="dashboard.html">
-
-<input type="text" placeholder="Full Name">
-
-<input type="email" placeholder="Email">
-
-<input type="password" placeholder="Password">
-
-<select>
-<option>Select Role</option>
-<option>Junior</option>
-<option>Senior</option>
-<option>Alumni</option>
-</select>
-
-<button type="submit">
-Create Account
-</button>
-
-</form>
-
-<div class="bottom-link">
-Already have an account?
-<a href="login.html">Login</a>
-</div>
-
-</div>
-
-</div>
-
-</div>
+</script>
 
 </body>
 </html>

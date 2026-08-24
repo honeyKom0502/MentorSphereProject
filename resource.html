@@ -1,93 +1,914 @@
-<!-- resource.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-<meta charset="UTF-8">
-<title>Resources</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Discussions | MentorSphere</title>
 
-<link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
 
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="dashboard">
+    <div class="app-layout">
 
-<div class="sidebar">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
 
-<h2>MentorSphere</h2>
+            <a href="dashboard.html" class="sidebar-logo">
+                <div class="logo-icon">M</div>
+                <span>MentorSphere</span>
+            </a>
 
-<ul>
+            <nav class="sidebar-nav">
 
-<li>
-<a href="dashboard.html">🏠 Dashboard</a>
-</li>
+                <a href="dashboard.html">
+                    <span>⌂</span>
+                    Dashboard
+                </a>
 
-<li>
-<a href="mentor.html">👨‍🏫 Find Mentors</a>
-</li>
+                <a href="mentor.html">
+                    <span>👨‍🏫</span>
+                    Find Mentors
+                </a>
 
-<li>
-<a href="discussion.html">💬 Discussions</a>
-</li>
+                <a href="discussion.html" class="active">
+                    <span>💬</span>
+                    Discussions
+                </a>
 
-<li>
-<a href="resource.html">📚 Resources</a>
-</li>
+                <a href="resource.html">
+                    <span>📚</span>
+                    Resources
+                </a>
 
-<li>
-<a href="placement.html">🎯 Placements</a>
-</li>
+                <a href="placement.html">
+                    <span>🎯</span>
+                    Placements
+                </a>
 
-<li>
-<a href="#">🔔 Notifications</a>
-</li>
+                <a href="profile.html">
+                    <span>👤</span>
+                    Profile
+                </a>
 
-</ul>
+            </nav>
 
-</div>
+            <div class="sidebar-bottom">
 
-<div class="main-content">
+                <a href="#">
+                    <span>🔔</span>
+                    Notifications
+                </a>
 
-<div class="section-title">
-Learning Resources 📚
-</div>
+            </div>
 
-<div class="channels-grid">
+        </aside>
 
-<div class="channel-card">
-<h3>📘 DSA Notes</h3>
-<p>PDF Notes & Practice Questions</p>
-<button>Open</button>
-</div>
 
-<div class="channel-card">
-<h3>🌐 Web Dev Roadmap</h3>
-<p>Frontend + Backend Guide</p>
-<button>Open</button>
-</div>
+        <!-- MAIN CONTENT -->
+        <main class="main-area">
 
-<div class="channel-card">
-<h3>🤖 AI/ML Resources</h3>
-<p>Machine Learning Notes</p>
-<button>Open</button>
-</div>
 
-<div class="channel-card">
-<h3>🎯 Aptitude Prep</h3>
-<p>Placement Preparation PDFs</p>
-<button>Open</button>
-</div>
+            <!-- PAGE HEADER -->
+            <div class="page-top">
 
-</div>
+                <div>
+                    <p class="page-label">COMMUNITY HUB</p>
+                    <h1>Discussions 💬</h1>
+                </div>
 
-</div>
 
-</div>
+                <!-- CLICKABLE PROFILE -->
+                <a href="profile.html" class="top-profile">
+
+                    <div class="top-avatar" id="topAvatar">
+                        H
+                    </div>
+
+                    <div class="top-profile-info">
+
+                        <strong id="topUserName">
+                            Honey Kumari
+                        </strong>
+
+                        <span id="topUserRole">
+                            Senior Student
+                        </span>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+
+
+            <!-- HERO SECTION -->
+            <section class="discussion-hero">
+
+                <div>
+
+                    <span class="hero-tag">
+                        ✦ Ask. Learn. Grow.
+                    </span>
+
+                    <h2>
+                        Learn together.<br>
+                        <span>Grow together.</span>
+                    </h2>
+
+                    <p>
+                        Ask questions, share knowledge and learn
+                        from the MentorSphere community.
+                    </p>
+
+                </div>
+
+
+                <div class="discussion-hero-icon">
+                    💬
+                </div>
+
+            </section>
+
+
+
+            <!-- DISCUSSION ACTION BAR -->
+            <section class="discussion-actions">
+
+                <div class="discussion-search">
+
+                    <span>🔍</span>
+
+                    <input
+                        type="text"
+                        id="discussionSearch"
+                        placeholder="Search discussions..."
+                    >
+
+                </div>
+
+
+                <button class="ask-question-btn" id="askQuestionBtn">
+                    ＋ Ask a Question
+                </button>
+
+            </section>
+
+
+
+            <!-- ASK QUESTION FORM -->
+            <section
+                class="ask-question-card"
+                id="askQuestionCard"
+                style="display: none;"
+            >
+
+                <div class="ask-question-heading">
+
+                    <div>
+                        <h2>Ask the community</h2>
+                        <p>Share your question and get help from others.</p>
+                    </div>
+
+                    <button
+                        class="close-question-btn"
+                        id="closeQuestionBtn"
+                    >
+                        ×
+                    </button>
+
+                </div>
+
+
+                <input
+                    type="text"
+                    id="questionTitle"
+                    placeholder="What do you want to ask?"
+                >
+
+
+                <textarea
+                    id="questionDescription"
+                    placeholder="Describe your question..."
+                ></textarea>
+
+
+                <div class="question-form-bottom">
+
+                    <select id="questionCategory">
+
+                        <option value="General">
+                            Select category
+                        </option>
+
+                        <option value="DSA">
+                            DSA
+                        </option>
+
+                        <option value="Development">
+                            Development
+                        </option>
+
+                        <option value="AI / ML">
+                            AI / ML
+                        </option>
+
+                        <option value="Placements">
+                            Placements
+                        </option>
+
+                    </select>
+
+
+                    <button
+                        class="post-question-btn"
+                        id="postQuestionBtn"
+                    >
+                        Post Question
+                    </button>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- CATEGORY FILTERS -->
+            <section class="discussion-filters">
+
+                <button class="filter-btn active" data-filter="All">
+                    All
+                </button>
+
+                <button class="filter-btn" data-filter="DSA">
+                    DSA
+                </button>
+
+                <button class="filter-btn" data-filter="Development">
+                    Development
+                </button>
+
+                <button class="filter-btn" data-filter="AI / ML">
+                    AI / ML
+                </button>
+
+                <button class="filter-btn" data-filter="Placements">
+                    Placements
+                </button>
+
+            </section>
+
+
+
+            <!-- RECENT DISCUSSIONS -->
+            <section class="recent-discussions-section">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <h2>Recent discussions</h2>
+
+                        <p>
+                            Learn from questions asked by the community.
+                        </p>
+
+                    </div>
+
+
+                    <span
+                        class="discussion-count"
+                        id="discussionCount"
+                    >
+                        3 Discussions
+                    </span>
+
+                </div>
+
+
+
+                <!-- DISCUSSION LIST -->
+                <div
+                    class="discussion-list"
+                    id="discussionList"
+                >
+
+
+                    <!-- DISCUSSION 1 -->
+                    <article
+                        class="discussion-card"
+                        data-category="DSA"
+                    >
+
+                        <div class="discussion-avatar">
+                            H
+                        </div>
+
+
+                        <div class="discussion-content">
+
+                            <div class="discussion-user">
+
+                                <strong>
+                                    Honey Kumari
+                                </strong>
+
+                                <span>• Senior Student</span>
+
+                                <span>• 10 min ago</span>
+
+                            </div>
+
+
+                            <h3>
+                                How to crack DSA? 🚀
+                            </h3>
+
+
+                            <p>
+                                I have started learning DSA but I'm confused
+                                about the right roadmap. Should I focus on
+                                concepts first or start solving problems?
+                            </p>
+
+
+                            <div class="discussion-tags">
+
+                                <span>DSA</span>
+
+                                <span>Roadmap</span>
+
+                            </div>
+
+
+                            <div class="discussion-footer">
+
+                                <span>
+                                    💬 12 Answers
+                                </span>
+
+                                <span>
+                                    ♡ Helpful
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+
+                    <!-- DISCUSSION 2 -->
+                    <article
+                        class="discussion-card"
+                        data-category="Development"
+                    >
+
+                        <div class="discussion-avatar">
+                            A
+                        </div>
+
+
+                        <div class="discussion-content">
+
+                            <div class="discussion-user">
+
+                                <strong>
+                                    Anjali Mehta
+                                </strong>
+
+                                <span>• Alumni</span>
+
+                                <span>• 1 hour ago</span>
+
+                            </div>
+
+
+                            <h3>
+                                Best roadmap for Web Development?
+                            </h3>
+
+
+                            <p>
+                                If you're starting web development in 2026,
+                                focus on HTML, CSS, JavaScript and then move
+                                towards frameworks and backend development.
+                            </p>
+
+
+                            <div class="discussion-tags">
+
+                                <span>Development</span>
+
+                                <span>Career</span>
+
+                            </div>
+
+
+                            <div class="discussion-footer">
+
+                                <span>
+                                    💬 8 Answers
+                                </span>
+
+                                <span>
+                                    ♡ Helpful
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+
+                    <!-- DISCUSSION 3 -->
+                    <article
+                        class="discussion-card"
+                        data-category="AI / ML"
+                    >
+
+                        <div class="discussion-avatar">
+                            R
+                        </div>
+
+
+                        <div class="discussion-content">
+
+                            <div class="discussion-user">
+
+                                <strong>
+                                    Rahul Sharma
+                                </strong>
+
+                                <span>• Senior Student</span>
+
+                                <span>• 2 hours ago</span>
+
+                            </div>
+
+
+                            <h3>
+                                How should I start Machine Learning?
+                            </h3>
+
+
+                            <p>
+                                I know basic Python. What should be my next
+                                step to start learning Machine Learning and
+                                building projects?
+                            </p>
+
+
+                            <div class="discussion-tags">
+
+                                <span>AI / ML</span>
+
+                                <span>Python</span>
+
+                            </div>
+
+
+                            <div class="discussion-footer">
+
+                                <span>
+                                    💬 15 Answers
+                                </span>
+
+                                <span>
+                                    ♡ Helpful
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                </div>
+
+            </section>
+
+
+        </main>
+
+    </div>
+
+
+
+    <script>
+
+        /* =========================
+           LOAD USER PROFILE DATA
+        ========================== */
+
+        const savedName =
+            localStorage.getItem("userName");
+
+        const savedRole =
+            localStorage.getItem("userRole");
+
+        const savedPhoto =
+            localStorage.getItem("profilePhoto");
+
+
+        const topUserName =
+            document.getElementById("topUserName");
+
+        const topUserRole =
+            document.getElementById("topUserRole");
+
+        const topAvatar =
+            document.getElementById("topAvatar");
+
+
+        if (savedName) {
+
+            topUserName.textContent =
+                savedName;
+
+            topAvatar.textContent =
+                savedName.charAt(0).toUpperCase();
+
+        }
+
+
+        if (savedRole) {
+
+            topUserRole.textContent =
+                savedRole + " Student";
+
+        }
+
+
+
+        /* =========================
+           ASK QUESTION FORM
+        ========================== */
+
+        const askQuestionBtn =
+            document.getElementById("askQuestionBtn");
+
+        const askQuestionCard =
+            document.getElementById("askQuestionCard");
+
+        const closeQuestionBtn =
+            document.getElementById("closeQuestionBtn");
+
+
+        askQuestionBtn.addEventListener(
+            "click",
+            function () {
+
+                askQuestionCard.style.display =
+                    "block";
+
+                askQuestionCard.scrollIntoView({
+                    behavior: "smooth"
+                });
+
+            }
+        );
+
+
+        closeQuestionBtn.addEventListener(
+            "click",
+            function () {
+
+                askQuestionCard.style.display =
+                    "none";
+
+            }
+        );
+
+
+
+        /* =========================
+           POST NEW QUESTION
+        ========================== */
+
+        const postQuestionBtn =
+            document.getElementById("postQuestionBtn");
+
+        const questionTitle =
+            document.getElementById("questionTitle");
+
+        const questionDescription =
+            document.getElementById("questionDescription");
+
+        const questionCategory =
+            document.getElementById("questionCategory");
+
+        const discussionList =
+            document.getElementById("discussionList");
+
+
+        postQuestionBtn.addEventListener(
+            "click",
+            function () {
+
+                const title =
+                    questionTitle.value.trim();
+
+                const description =
+                    questionDescription.value.trim();
+
+                const category =
+                    questionCategory.value;
+
+
+                if (
+                    !title ||
+                    !description ||
+                    category === "General"
+                ) {
+
+                    alert(
+                        "Please fill all the fields!"
+                    );
+
+                    return;
+
+                }
+
+
+                const userName =
+                    savedName || "New User";
+
+                const userRole =
+                    savedRole
+                        ? savedRole + " Student"
+                        : "Student";
+
+                const initial =
+                    userName.charAt(0).toUpperCase();
+
+
+                const newDiscussion =
+                    document.createElement("article");
+
+
+                newDiscussion.className =
+                    "discussion-card";
+
+
+                newDiscussion.dataset.category =
+                    category;
+
+
+                newDiscussion.innerHTML = `
+
+                    <div class="discussion-avatar">
+                        ${initial}
+                    </div>
+
+                    <div class="discussion-content">
+
+                        <div class="discussion-user">
+
+                            <strong>
+                                ${userName}
+                            </strong>
+
+                            <span>
+                                • ${userRole}
+                            </span>
+
+                            <span>
+                                • Just now
+                            </span>
+
+                        </div>
+
+
+                        <h3>
+                            ${title}
+                        </h3>
+
+
+                        <p>
+                            ${description}
+                        </p>
+
+
+                        <div class="discussion-tags">
+
+                            <span>
+                                ${category}
+                            </span>
+
+                        </div>
+
+
+                        <div class="discussion-footer">
+
+                            <span>
+                                💬 0 Answers
+                            </span>
+
+                            <span>
+                                ♡ Helpful
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+
+                discussionList.prepend(
+                    newDiscussion
+                );
+
+
+                questionTitle.value = "";
+
+                questionDescription.value = "";
+
+                questionCategory.value =
+                    "General";
+
+
+                askQuestionCard.style.display =
+                    "none";
+
+
+                updateDiscussionCount();
+
+
+                alert(
+                    "Your question has been posted successfully!"
+                );
+
+            }
+        );
+
+
+
+        /* =========================
+           FILTER DISCUSSIONS
+        ========================== */
+
+        const filterButtons =
+            document.querySelectorAll(".filter-btn");
+
+
+        filterButtons.forEach(
+            function (button) {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        filterButtons.forEach(
+                            function (btn) {
+
+                                btn.classList.remove(
+                                    "active"
+                                );
+
+                            }
+                        );
+
+
+                        button.classList.add(
+                            "active"
+                        );
+
+
+                        const filter =
+                            button.dataset.filter;
+
+
+                        const discussions =
+                            document.querySelectorAll(
+                                ".discussion-card"
+                            );
+
+
+                        discussions.forEach(
+                            function (discussion) {
+
+                                if (
+                                    filter === "All" ||
+                                    discussion.dataset.category === filter
+                                ) {
+
+                                    discussion.style.display =
+                                        "flex";
+
+                                }
+
+                                else {
+
+                                    discussion.style.display =
+                                        "none";
+
+                                }
+
+                            }
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+
+        /* =========================
+           SEARCH DISCUSSIONS
+        ========================== */
+
+        const discussionSearch =
+            document.getElementById(
+                "discussionSearch"
+            );
+
+
+        discussionSearch.addEventListener(
+            "input",
+            function () {
+
+                const searchText =
+                    this.value.toLowerCase();
+
+
+                const discussions =
+                    document.querySelectorAll(
+                        ".discussion-card"
+                    );
+
+
+                discussions.forEach(
+                    function (discussion) {
+
+                        const text =
+                            discussion.innerText.toLowerCase();
+
+
+                        if (
+                            text.includes(searchText)
+                        ) {
+
+                            discussion.style.display =
+                                "flex";
+
+                        }
+
+                        else {
+
+                            discussion.style.display =
+                                "none";
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+
+
+        /* =========================
+           UPDATE DISCUSSION COUNT
+        ========================== */
+
+        function updateDiscussionCount() {
+
+            const count =
+                document.querySelectorAll(
+                    ".discussion-card"
+                ).length;
+
+
+            document.getElementById(
+                "discussionCount"
+            ).textContent =
+                count +
+                (count === 1
+                    ? " Discussion"
+                    : " Discussions");
+
+        }
+
+    </script>
 
 </body>
+
 </html>

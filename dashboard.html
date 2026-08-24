@@ -2,146 +2,365 @@
 <html lang="en">
 
 <head>
-<meta charset="UTF-8">
-<title>Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Dashboard | MentorSphere</title>
 
-<link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="dashboard">
+    <div class="dashboard">
 
-<!-- Sidebar -->
+        <!-- SIDEBAR -->
 
-<div class="sidebar">
+        <aside class="sidebar">
 
-<h2>MentorSphere</h2>
+            <h2><span>Mentor</span>Sphere</h2>
 
-<ul>
+            <nav>
 
-<li>🏠 Dashboard</li>
-<li>👨‍🏫 Find Mentors</li>
-<li>💬 Discussions</li>
-<li>📚 Resources</li>
-<li>🎯 Placements</li>
-<li>🔔 Notifications</li>
+                <a href="dashboard.html" class="active">
+                    🏠 <span>Dashboard</span>
+                </a>
 
-</ul>
+                <a href="mentor.html">
+                    👨‍🏫 <span>Find Mentors</span>
+                </a>
 
-</div>
+                <a href="discussion.html">
+                    💬 <span>Discussions</span>
+                </a>
 
-<!-- Main Content -->
+                <a href="resource.html">
+                    📚 <span>Resources</span>
+                </a>
 
-<div class="main-content">
+                <a href="placement.html">
+                    🎯 <span>Placements</span>
+                </a>
 
-<!-- Welcome -->
+                <a href="profile.html">
+                    👤 <span>Profile</span>
+                </a>
 
-<div class="welcome-card">
+            </nav>
 
-<h1>Welcome Back 👋</h1>
 
-<p>
-Connect with mentors and grow your skills.
-</p>
+            <div class="sidebar-bottom">
 
-<button>
-Find Your Mentor
-</button>
+                <a href="#">
+                    🔔 <span>Notifications</span>
+                </a>
 
-</div>
+                <a href="#">
+                    🚪 <span>Logout</span>
+                </a>
 
-<!-- Stats -->
+            </div>
 
-<div class="cards-container">
+        </aside>
 
-<div class="small-card">
-<h2>12</h2>
-<p>Channels Joined</p>
-</div>
 
-<div class="small-card">
-<h2>5</h2>
-<p>Mentors Connected</p>
-</div>
+        <!-- MAIN CONTENT -->
 
-<div class="small-card">
-<h2>18</h2>
-<p>Resources Saved</p>
-</div>
+        <main class="main-content">
 
-<div class="small-card">
-<h2>7</h2>
-<p>Doubts Asked</p>
-</div>
 
-</div>
+            <!-- TOP HEADER -->
 
-<!-- Channels -->
+            <div class="dashboard-header">
 
-<div class="section-title">
-Your Channels
-</div>
+                <div>
 
-<div class="channels-grid">
+                    <p class="greeting">
+                        Good morning 👋
+                    </p>
 
-<div class="channel-card">
-<h3>📘 DSA</h3>
-<p>Data Structures & Algorithms</p>
-<button>Join</button>
-</div>
+                    <h1>
+                        Welcome back!
+                    </h1>
 
-<div class="channel-card">
-<h3>🌐 Web Dev</h3>
-<p>Frontend & Backend</p>
-<button>Join</button>
-</div>
+                </div>
 
-<div class="channel-card">
-<h3>🤖 AI/ML</h3>
-<p>Machine Learning & AI</p>
-<button>Join</button>
-</div>
 
-<div class="channel-card">
-<h3>🎯 Placement</h3>
-<p>Interview Prep & Guidance</p>
-<button>Join</button>
-</div>
+                <!-- CLICKABLE PROFILE -->
 
-</div>
+                <a href="profile.html" class="dashboard-profile">
 
-<!-- Recent Activity -->
+                    <div class="dashboard-avatar">
+                        H
+                    </div>
 
-<div class="section-title">
-Recent Discussions
-</div>
+                    <div>
 
-<div class="discussion-box">
+                        <strong>Honey Kumari</strong>
 
-<div class="discussion">
-<h4>Ananya (Senior)</h4>
-<p>Answered your DSA doubt</p>
-</div>
+                        <span>Junior Student</span>
 
-<div class="discussion">
-<h4>Rohit (Alumni)</h4>
-<p>Shared placement preparation roadmap</p>
-</div>
+                    </div>
 
-<div class="discussion">
-<h4>Karan (Senior)</h4>
-<p>Posted React Interview Questions</p>
-</div>
+                </a>
 
-</div>
+            </div>
 
-</div>
 
-</div>
+
+            <!-- HERO SECTION -->
+
+            <section class="dashboard-hero">
+
+                <div class="hero-content">
+
+                    <div class="hero-badge">
+                        ✨ Keep learning, keep growing
+                    </div>
+
+                    <h2>
+                        Learn faster with the right
+                        <span>mentor.</span>
+                    </h2>
+
+                    <p>
+                        Connect with seniors and alumni, join communities,
+                        ask doubts and grow your skills.
+                    </p>
+
+
+                    <div class="hero-buttons">
+
+                        <a href="mentor.html" class="primary-hero-btn">
+                            Find Your Mentor →
+                        </a>
+
+                        <a href="discussion.html" class="secondary-hero-btn">
+                            Join Discussions
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <div class="hero-visual">
+
+                    <div class="floating-card card-one">
+                        💡 <span>Ask doubts</span>
+                    </div>
+
+                    <div class="hero-icon">
+                        🎓
+                    </div>
+
+                    <div class="floating-card card-two">
+                        🎯 <span>Find guidance</span>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- STATS -->
+
+            <section class="dashboard-stats">
+
+                <div class="dashboard-stat-card">
+
+                    <div class="dashboard-stat-icon">
+                        💬
+                    </div>
+
+                    <div>
+
+                        <h3>12</h3>
+
+                        <p>Channels Joined</p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="dashboard-stat-card">
+
+                    <div class="dashboard-stat-icon">
+                        👨‍🏫
+                    </div>
+
+                    <div>
+
+                        <h3>5</h3>
+
+                        <p>Mentors Connected</p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="dashboard-stat-card">
+
+                    <div class="dashboard-stat-icon">
+                        📚
+                    </div>
+
+                    <div>
+
+                        <h3>18</h3>
+
+                        <p>Resources Saved</p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="dashboard-stat-card">
+
+                    <div class="dashboard-stat-icon">
+                        ❓
+                    </div>
+
+                    <div>
+
+                        <h3>7</h3>
+
+                        <p>Doubts Asked</p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- YOUR CHANNELS -->
+
+            <section class="your-channels-section">
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h2>Your Channels</h2>
+
+                        <p>
+                            Communities matching your interests
+                        </p>
+
+                    </div>
+
+                    <a href="discussion.html">
+                        View All →
+                    </a>
+
+                </div>
+
+
+                <div class="channels-grid">
+
+
+                    <div class="channel-card">
+
+                        <div class="channel-icon">
+                            💻
+                        </div>
+
+                        <h3>Development</h3>
+
+                        <p>
+                            Discuss web development, backend,
+                            projects and technologies.
+                        </p>
+
+                        <button>
+                            Explore →
+                        </button>
+
+                    </div>
+
+
+
+                    <div class="channel-card">
+
+                        <div class="channel-icon">
+                            🤖
+                        </div>
+
+                        <h3>AI / ML</h3>
+
+                        <p>
+                            Learn machine learning, AI concepts
+                            and build interesting projects.
+                        </p>
+
+                        <button>
+                            Explore →
+                        </button>
+
+                    </div>
+
+
+
+                    <div class="channel-card">
+
+                        <div class="channel-icon">
+                            🧠
+                        </div>
+
+                        <h3>DSA</h3>
+
+                        <p>
+                            Practice problem solving, algorithms
+                            and data structures together.
+                        </p>
+
+                        <button>
+                            Explore →
+                        </button>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+
+        </main>
+
+    </div>
+
+
+    <script>
+
+        const savedName = localStorage.getItem("userName");
+        const savedRole = localStorage.getItem("userRole");
+
+        if (savedName) {
+
+            document.querySelector(".dashboard-profile strong").textContent =
+                savedName;
+
+        }
+
+        if (savedRole) {
+
+            document.querySelector(".dashboard-profile span").textContent =
+                savedRole + " Student";
+
+        }
+
+    </script>
 
 </body>
+
 </html>
