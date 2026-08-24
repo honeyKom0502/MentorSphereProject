@@ -45,7 +45,7 @@ function Login() {
               </div>
 
               <span className="text-2xl font-bold tracking-tight">
-                Mentora
+                MentorSphere
               </span>
             </div>
 
@@ -108,7 +108,7 @@ function Login() {
               </div>
 
               <span className="text-xl font-bold">
-                Mentora
+                MentorSphere
               </span>
             </div>
 
@@ -119,7 +119,7 @@ function Login() {
               </p>
 
               <h2 className="text-3xl font-bold">
-                Sign in to Mentora
+                Sign in to MentorSphere
               </h2>
 
               <p className="text-slate-400 mt-2">

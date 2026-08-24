@@ -12,14 +12,75 @@ import {
   Bookmark,
   Sparkles,
   CheckCircle2,
+  X,
+  Save,
 } from "lucide-react";
 
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Sidebar from "../components/Sidebar";
 
 function Profile() {
   const navigate = useNavigate();
+
+  const [isEditing, setIsEditing] = useState(false);
+
+  const [profile, setProfile] = useState({
+    name: "Apoorva",
+    role: "Information Science & Engineering Student",
+    college: "Acharya Institute of Technology",
+    location: "Bengaluru",
+    email: "apoorva@example.com",
+    department: "Information Science",
+    bio:
+      "Information Science and Engineering student interested in software development, Java, problem solving and placement preparation. I enjoy learning new technologies and helping others in academic discussions.",
+    skills: [
+      "Java",
+      "DSA",
+      "React",
+      "JavaScript",
+      "SQL",
+      "DBMS",
+      "Web Development",
+      "Problem Solving",
+      "Placement Preparation",
+    ],
+  });
+
+  const [editForm, setEditForm] = useState(profile);
+
+  const handleEdit = () => {
+    setEditForm(profile);
+    setIsEditing(true);
+  };
+
+  const handleCancel = () => {
+    setEditForm(profile);
+    setIsEditing(false);
+  };
+
+  const handleSave = () => {
+    setProfile(editForm);
+    setIsEditing(false);
+  };
+
+  const handleChange = (field, value) => {
+    setEditForm((previous) => ({
+      ...previous,
+      [field]: value,
+    }));
+  };
+
+  const handleSkillsChange = (value) => {
+    setEditForm((previous) => ({
+      ...previous,
+      skills: value
+        .split(",")
+        .map((skill) => skill.trim())
+        .filter((skill) => skill.length > 0),
+    }));
+  };
 
   return (
     <div className="min-h-screen bg-[#070B14] text-white">
@@ -54,7 +115,7 @@ function Profile() {
 
               <div className="w-24 h-24 rounded-3xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-3xl font-bold shadow-lg shadow-indigo-500/20">
 
-                A
+                {profile.name.charAt(0).toUpperCase()}
 
               </div>
 
@@ -65,7 +126,7 @@ function Profile() {
                 <div className="flex flex-wrap items-center gap-3">
 
                   <h1 className="text-3xl font-bold">
-                    Apoorva
+                    {profile.name}
                   </h1>
 
                   <span className="flex items-center gap-1 px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-400 text-[11px]">
@@ -79,36 +140,56 @@ function Profile() {
                 </div>
 
                 <p className="text-slate-500 mt-2">
-                  Information Science & Engineering Student
+                  {profile.role}
                 </p>
 
                 <div className="flex flex-wrap items-center gap-4 mt-4 text-sm text-slate-600">
 
                   <span className="flex items-center gap-2">
                     <GraduationCap size={16} />
-                    Acharya Institute of Technology
+                    {profile.college}
                   </span>
 
                   <span className="flex items-center gap-2">
                     <MapPin size={16} />
-                    Bengaluru
+                    {profile.location}
                   </span>
 
                 </div>
 
               </div>
 
-              {/* Edit */}
+              {/* Edit / Save */}
 
-              <button
-                className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl border border-white/10 text-sm text-slate-400 hover:text-white hover:bg-white/[0.04] transition"
-              >
+              {!isEditing ? (
+                <button
+                  onClick={handleEdit}
+                  className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl border border-white/10 text-sm text-slate-400 hover:text-white hover:bg-white/[0.04] transition"
+                >
+                  <Pencil size={16} />
+                  Edit Profile
+                </button>
+              ) : (
+                <div className="flex gap-3">
 
-                <Pencil size={16} />
+                  <button
+                    onClick={handleCancel}
+                    className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl border border-white/10 text-sm text-slate-400 hover:text-white hover:bg-white/[0.04] transition"
+                  >
+                    <X size={16} />
+                    Cancel
+                  </button>
 
-                Edit Profile
+                  <button
+                    onClick={handleSave}
+                    className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-600 transition text-sm font-medium"
+                  >
+                    <Save size={16} />
+                    Save Changes
+                  </button>
 
-              </button>
+                </div>
+              )}
 
             </div>
 
@@ -120,9 +201,148 @@ function Profile() {
 
         <section className="max-w-6xl mx-auto px-6 lg:px-10 py-8">
 
+          {/* EDIT FORM */}
+
+          {isEditing && (
+            <div className="mb-8 rounded-2xl border border-indigo-500/20 bg-indigo-500/[0.04] p-6">
+
+              <div className="flex items-center gap-3 mb-6">
+
+                <div className="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center">
+                  <UserRound size={19} />
+                </div>
+
+                <div>
+
+                  <h2 className="font-semibold">
+                    Edit Profile
+                  </h2>
+
+                  <p className="text-xs text-slate-600 mt-1">
+                    Update your MentorSphere profile information.
+                  </p>
+
+                </div>
+
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-5">
+
+                {/* Name */}
+
+                <InputField
+                  label="Full Name"
+                  value={editForm.name}
+                  onChange={(value) =>
+                    handleChange("name", value)
+                  }
+                />
+
+                {/* Email */}
+
+                <InputField
+                  label="Email"
+                  value={editForm.email}
+                  onChange={(value) =>
+                    handleChange("email", value)
+                  }
+                />
+
+                {/* Role */}
+
+                <InputField
+                  label="Role"
+                  value={editForm.role}
+                  onChange={(value) =>
+                    handleChange("role", value)
+                  }
+                />
+
+                {/* College */}
+
+                <InputField
+                  label="College"
+                  value={editForm.college}
+                  onChange={(value) =>
+                    handleChange("college", value)
+                  }
+                />
+
+                {/* Department */}
+
+                <InputField
+                  label="Department"
+                  value={editForm.department}
+                  onChange={(value) =>
+                    handleChange("department", value)
+                  }
+                />
+
+                {/* Location */}
+
+                <InputField
+                  label="Location"
+                  value={editForm.location}
+                  onChange={(value) =>
+                    handleChange("location", value)
+                  }
+                />
+
+              </div>
+
+              {/* Bio */}
+
+              <div className="mt-5">
+
+                <label className="block text-xs text-slate-500 mb-2">
+                  About Me
+                </label>
+
+                <textarea
+                  value={editForm.bio}
+                  onChange={(event) =>
+                    handleChange(
+                      "bio",
+                      event.target.value
+                    )
+                  }
+                  rows={4}
+                  className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white outline-none resize-none focus:border-indigo-500/50"
+                />
+
+              </div>
+
+              {/* Skills */}
+
+              <div className="mt-5">
+
+                <label className="block text-xs text-slate-500 mb-2">
+                  Skills
+                </label>
+
+                <input
+                  value={editForm.skills.join(", ")}
+                  onChange={(event) =>
+                    handleSkillsChange(
+                      event.target.value
+                    )
+                  }
+                  placeholder="Java, DSA, React, SQL"
+                  className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white outline-none focus:border-indigo-500/50"
+                />
+
+                <p className="text-xs text-slate-600 mt-2">
+                  Separate skills using commas.
+                </p>
+
+              </div>
+
+            </div>
+          )}
+
           <div className="grid lg:grid-cols-3 gap-6">
 
-            {/* Left */}
+            {/* LEFT */}
 
             <div className="lg:col-span-2 space-y-6">
 
@@ -135,13 +355,7 @@ function Profile() {
                 </h2>
 
                 <p className="text-sm text-slate-500 leading-relaxed mt-3">
-
-                  Information Science and Engineering student
-                  interested in software development, Java,
-                  problem solving and placement preparation.
-                  I enjoy learning new technologies and
-                  helping others in academic discussions.
-
+                  {profile.bio}
                 </p>
 
               </div>
@@ -165,17 +379,7 @@ function Profile() {
 
                 <div className="flex flex-wrap gap-2 mt-5">
 
-                  {[
-                    "Java",
-                    "DSA",
-                    "React",
-                    "JavaScript",
-                    "SQL",
-                    "DBMS",
-                    "Web Development",
-                    "Problem Solving",
-                    "Placement Preparation",
-                  ].map((skill) => (
+                  {profile.skills.map((skill) => (
 
                     <span
                       key={skill}
@@ -239,7 +443,7 @@ function Profile() {
 
             </div>
 
-            {/* Right */}
+            {/* RIGHT */}
 
             <div className="space-y-6">
 
@@ -278,9 +482,7 @@ function Profile() {
                 </p>
 
                 <button className="w-full mt-5 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-600 transition text-sm font-medium">
-
                   Analyze My Profile
-
                 </button>
 
               </div>
@@ -336,13 +538,13 @@ function Profile() {
                   <Info
                     icon={<Mail size={16} />}
                     label="Email"
-                    value="apoorva@example.com"
+                    value={profile.email}
                   />
 
                   <Info
                     icon={<GraduationCap size={16} />}
                     label="Department"
-                    value="Information Science"
+                    value={profile.department}
                   />
 
                 </div>
@@ -361,9 +563,39 @@ function Profile() {
   );
 }
 
+/* Input Field */
+
+function InputField({
+  label,
+  value,
+  onChange,
+}) {
+  return (
+    <div>
+
+      <label className="block text-xs text-slate-500 mb-2">
+        {label}
+      </label>
+
+      <input
+        value={value}
+        onChange={(event) =>
+          onChange(event.target.value)
+        }
+        className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white outline-none focus:border-indigo-500/50"
+      />
+
+    </div>
+  );
+}
+
 /* Activity */
 
-function Activity({ icon, value, label }) {
+function Activity({
+  icon,
+  value,
+  label,
+}) {
   return (
     <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
 
@@ -395,7 +627,10 @@ function Activity({ icon, value, label }) {
 
 /* Achievement */
 
-function Achievement({ title, description }) {
+function Achievement({
+  title,
+  description,
+}) {
   return (
     <div className="flex items-start gap-3">
 
@@ -423,7 +658,11 @@ function Achievement({ title, description }) {
 
 /* Info */
 
-function Info({ icon, label, value }) {
+function Info({
+  icon,
+  label,
+  value,
+}) {
   return (
     <div className="flex items-center gap-3">
 

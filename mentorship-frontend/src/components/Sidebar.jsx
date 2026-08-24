@@ -58,7 +58,7 @@ function Sidebar() {
           <div>
 
             <h1 className="font-bold text-white">
-              MentorHub
+              MentorSphere
             </h1>
 
             <p className="text-[10px] text-slate-600">

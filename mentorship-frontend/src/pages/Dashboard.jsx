@@ -45,7 +45,7 @@ function Dashboard() {
               />
 
               <input
-                placeholder="Search Mentora..."
+                placeholder="Search MentorSphere..."
                 className="bg-transparent outline-none text-sm w-full placeholder:text-slate-600"
               />
 

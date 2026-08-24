@@ -12,8 +12,10 @@ import {
   GraduationCap,
   BookOpen,
   Megaphone,
+  Calendar,
 } from "lucide-react";
 
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import Sidebar from "../components/Sidebar";
@@ -96,8 +98,7 @@ const discussions = [
 
   {
     id: 2,
-    title:
-      "ArrayList vs LinkedList — which one should I use?",
+    title: "ArrayList vs LinkedList — which one should I use?",
     description:
       "I understand the basic difference but I'm confused about which one to use in real projects.",
     author: "Ananya S",
@@ -142,28 +143,73 @@ const mentors = [
 
 const resources = [
   {
+    id: "fundamentals",
     title: "Java Fundamentals",
     description:
       "Learn Core Java, OOP, classes, objects, inheritance and interfaces.",
+    category: "Core Java",
     icon: BookOpen,
   },
+
   {
+    id: "collections",
     title: "Java Collections",
     description:
       "Understand ArrayList, LinkedList, HashMap, HashSet and other collections.",
+    category: "Java",
     icon: BookOpen,
   },
+
   {
+    id: "interview",
     title: "Java Interview Preparation",
     description:
       "Practice commonly asked Java interview questions and coding problems.",
-    icon: GraduationCap,
+    category: "Placement",
+    icon: BookOpen,
+  },
+];
+
+const announcements = [
+  {
+    id: 1,
+    title: "Placement Drive Announcement",
+    description:
+      "A new placement drive has been announced. Check the placement channel for eligibility and registration details.",
+    date: "August 24, 2026",
+    category: "Placement",
+  },
+
+  {
+    id: 2,
+    title: "New Mentors Available",
+    description:
+      "Verified mentors are now available to help students with Java, DSA, Web Development and placement preparation.",
+    date: "August 22, 2026",
+    category: "Mentorship",
+  },
+
+  {
+    id: 3,
+    title: "New Learning Resources Added",
+    description:
+      "New study materials, interview preparation resources and useful learning guides have been added.",
+    date: "August 20, 2026",
+    category: "Resources",
   },
 ];
 
 function Channel() {
   const navigate = useNavigate();
   const { channelId } = useParams();
+
+  const [activeTab, setActiveTab] = useState("Discussions");
+
+  // Discussion search
+  const [discussionSearch, setDiscussionSearch] = useState("");
+
+  // Resource search
+  const [resourceSearch, setResourceSearch] = useState("");
 
   const channel =
     channelData[channelId] || channelData.java;
@@ -175,6 +221,59 @@ function Channel() {
   const handleBack = () => {
     navigate("/channels");
   };
+
+  // Filter discussions
+  const filteredDiscussions = discussions.filter(
+    (discussion) => {
+      const search = discussionSearch
+        .toLowerCase()
+        .trim();
+
+      if (!search) {
+        return true;
+      }
+
+      return (
+        discussion.title
+          .toLowerCase()
+          .includes(search) ||
+        discussion.description
+          .toLowerCase()
+          .includes(search) ||
+        discussion.author
+          .toLowerCase()
+          .includes(search) ||
+        discussion.tags.some((tag) =>
+          tag.toLowerCase().includes(search)
+        )
+      );
+    }
+  );
+
+  // Filter resources
+  const filteredResources = resources.filter(
+    (resource) => {
+      const search = resourceSearch
+        .toLowerCase()
+        .trim();
+
+      if (!search) {
+        return true;
+      }
+
+      return (
+        resource.title
+          .toLowerCase()
+          .includes(search) ||
+        resource.description
+          .toLowerCase()
+          .includes(search) ||
+        resource.category
+          .toLowerCase()
+          .includes(search)
+      );
+    }
+  );
 
   return (
     <div className="min-h-screen bg-[#070B14] text-white">
@@ -192,7 +291,6 @@ function Channel() {
             className="flex items-center gap-2 text-sm text-slate-500 hover:text-white transition"
           >
             <ArrowLeft size={17} />
-
             Back to channels
           </button>
 
@@ -206,14 +304,12 @@ function Channel() {
 
             <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
 
-              {/* LEFT */}
+              {/* CHANNEL INFORMATION */}
 
               <div className="flex gap-5">
 
                 <div className="w-16 h-16 rounded-2xl bg-white/[0.05] border border-white/10 flex items-center justify-center text-3xl shrink-0">
-
                   {channel.emoji}
-
                 </div>
 
                 <div>
@@ -265,31 +361,38 @@ function Channel() {
             <div className="flex gap-6 mt-8 overflow-x-auto">
 
               <Tab
-                active
+                active={activeTab === "Discussions"}
                 label="Discussions"
                 icon={<MessageSquare size={15} />}
-                onClick={() => {}}
+                onClick={() =>
+                  setActiveTab("Discussions")
+                }
               />
 
               <Tab
+                active={activeTab === "Mentors"}
                 label="Mentors"
                 icon={<GraduationCap size={15} />}
-                onClick={() => navigate("/mentors")}
+                onClick={() =>
+                  setActiveTab("Mentors")
+                }
               />
 
               <Tab
+                active={activeTab === "Resources"}
                 label="Resources"
                 icon={<BookOpen size={15} />}
-                onClick={() => navigate("/resources")}
+                onClick={() =>
+                  setActiveTab("Resources")
+                }
               />
 
               <Tab
+                active={activeTab === "Announcements"}
                 label="Announcements"
                 icon={<Megaphone size={15} />}
                 onClick={() =>
-                  navigate(
-                    `/channel/${channelId}?tab=announcements`
-                  )
+                  setActiveTab("Announcements")
                 }
               />
 
@@ -303,303 +406,558 @@ function Channel() {
 
         <section className="max-w-7xl mx-auto px-6 lg:px-10 py-8">
 
-          {/* ACTIONS */}
+          {/* ================= DISCUSSIONS ================= */}
 
-          <div className="flex flex-col md:flex-row gap-4 justify-between mb-8">
+          {activeTab === "Discussions" && (
+            <>
 
-            {/* SEARCH */}
+              {/* SEARCH + ASK QUESTION */}
 
-            <div className="flex items-center gap-3 border border-white/10 bg-white/[0.03] rounded-xl px-4 py-3 w-full md:max-w-md">
+              <div className="flex flex-col md:flex-row gap-4 justify-between mb-8">
 
-              <Search
-                size={18}
-                className="text-slate-600"
-              />
+                <div className="flex items-center gap-3 border border-white/10 bg-white/[0.03] rounded-xl px-4 py-3 w-full md:max-w-md">
 
-              <input
-                placeholder="Search discussions..."
-                className="bg-transparent outline-none text-sm w-full placeholder:text-slate-600"
-              />
+                  <Search
+                    size={18}
+                    className="text-slate-600 shrink-0"
+                  />
 
-            </div>
+                  <input
+                    value={discussionSearch}
+                    onChange={(event) =>
+                      setDiscussionSearch(
+                        event.target.value
+                      )
+                    }
+                    placeholder="Search discussions..."
+                    className="bg-transparent outline-none text-sm w-full placeholder:text-slate-600"
+                  />
 
-            {/* ASK QUESTION */}
+                  {discussionSearch && (
+                    <button
+                      onClick={() =>
+                        setDiscussionSearch("")
+                      }
+                      className="text-xs text-slate-600 hover:text-white"
+                    >
+                      Clear
+                    </button>
+                  )}
 
-            <button
-              onClick={handleAskQuestion}
-              className="flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-violet-600 font-medium text-sm shadow-lg shadow-indigo-500/10 hover:scale-[1.01] transition"
-            >
+                </div>
 
-              <Plus size={18} />
+                <button
+                  onClick={handleAskQuestion}
+                  className="flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-violet-600 font-medium text-sm shadow-lg shadow-indigo-500/10 hover:scale-[1.01] transition"
+                >
+                  <Plus size={18} />
+                  Ask Question
+                </button>
 
-              Ask Question
+              </div>
 
-            </button>
+              {/* AI BANNER */}
 
-          </div>
+              <div className="mb-8 rounded-2xl border border-indigo-500/20 bg-indigo-500/[0.05] p-5 flex flex-col md:flex-row md:items-center gap-4">
 
-          {/* AI BANNER */}
-
-          <div className="mb-8 rounded-2xl border border-indigo-500/20 bg-indigo-500/[0.05] p-5 flex flex-col md:flex-row md:items-center gap-4">
-
-            <div className="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-400">
-
-              <Sparkles size={19} />
-
-            </div>
-
-            <div>
-
-              <p className="font-medium">
-                AI-powered discussions
-              </p>
-
-              <p className="text-sm text-slate-500 mt-1">
-                Similar questions and mentor recommendations
-                will appear here.
-              </p>
-
-            </div>
-
-          </div>
-
-          {/* QUICK LINKS */}
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-
-            {/* Mentors */}
-
-            <button
-              onClick={() => navigate("/mentors")}
-              className="text-left border border-white/10 bg-white/[0.025] rounded-2xl p-5 hover:bg-white/[0.05] hover:border-indigo-500/30 transition"
-            >
-
-              <div className="flex items-center gap-4">
-
-                <div className="w-11 h-11 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center">
-                  <GraduationCap size={21} />
+                <div className="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-400">
+                  <Sparkles size={19} />
                 </div>
 
                 <div>
 
-                  <h3 className="font-semibold">
-                    Find a Mentor
-                  </h3>
+                  <p className="font-medium">
+                    AI-powered discussions
+                  </p>
 
                   <p className="text-sm text-slate-500 mt-1">
-                    Connect with seniors and alumni.
+                    Similar questions and mentor recommendations
+                    will appear here.
                   </p>
 
                 </div>
 
               </div>
 
-            </button>
+              {/* QUICK LINKS */}
 
-            {/* Resources */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
 
-            <button
-              onClick={() => navigate("/resources")}
-              className="text-left border border-white/10 bg-white/[0.025] rounded-2xl p-5 hover:bg-white/[0.05] hover:border-indigo-500/30 transition"
-            >
-
-              <div className="flex items-center gap-4">
-
-                <div className="w-11 h-11 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center">
-                  <BookOpen size={21} />
-                </div>
-
-                <div>
-
-                  <h3 className="font-semibold">
-                    Explore Resources
-                  </h3>
-
-                  <p className="text-sm text-slate-500 mt-1">
-                    Find useful learning materials.
-                  </p>
-
-                </div>
-
-              </div>
-
-            </button>
-
-          </div>
-
-          {/* DISCUSSION HEADER */}
-
-          <div className="flex items-center justify-between mb-4">
-
-            <div>
-
-              <h2 className="font-semibold">
-                Recent Discussions
-              </h2>
-
-              <p className="text-sm text-slate-600 mt-1">
-                Ask questions and learn from the community.
-              </p>
-
-            </div>
-
-            <button className="hidden sm:flex items-center gap-2 text-sm text-slate-500 hover:text-white">
-
-              <Clock3 size={16} />
-
-              Recent
-
-            </button>
-
-          </div>
-
-          {/* DISCUSSIONS */}
-
-          <div className="space-y-4">
-
-            {discussions.map((discussion) => (
-
-              <DiscussionCard
-                key={discussion.id}
-                discussion={discussion}
-                onClick={() =>
-                  navigate(`/post/${discussion.id}`)
-                }
-              />
-
-            ))}
-
-          </div>
-
-          {/* MENTOR PREVIEW */}
-
-          <div className="mt-10">
-
-            <div className="flex items-center justify-between mb-4">
-
-              <div>
-
-                <h2 className="font-semibold">
-                  Recommended Mentors
-                </h2>
-
-                <p className="text-sm text-slate-600 mt-1">
-                  Seniors who can help you learn.
-                </p>
-
-              </div>
-
-              <button
-                onClick={() => navigate("/mentors")}
-                className="text-sm text-indigo-400 hover:text-indigo-300"
-              >
-                View all
-              </button>
-
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-
-              {mentors.map((mentor) => (
-
-                <div
-                  key={mentor.name}
-                  className="border border-white/10 bg-white/[0.025] rounded-2xl p-5"
+                <button
+                  onClick={() =>
+                    setActiveTab("Mentors")
+                  }
+                  className="text-left border border-white/10 bg-white/[0.025] rounded-2xl p-5 hover:bg-white/[0.05] hover:border-indigo-500/30 transition"
                 >
 
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-4">
 
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center font-semibold">
-                      {mentor.name.charAt(0)}
+                    <div className="w-11 h-11 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center">
+                      <GraduationCap size={21} />
                     </div>
 
                     <div>
 
-                      <p className="font-medium">
-                        {mentor.name}
-                      </p>
+                      <h3 className="font-semibold">
+                        Find a Mentor
+                      </h3>
 
-                      <p className="text-xs text-slate-600">
-                        {mentor.role}
+                      <p className="text-sm text-slate-500 mt-1">
+                        Connect with seniors and alumni.
                       </p>
 
                     </div>
 
                   </div>
 
-                  <p className="text-xs text-slate-500 mt-4">
-                    {mentor.skills}
+                </button>
+
+                <button
+                  onClick={() =>
+                    setActiveTab("Resources")
+                  }
+                  className="text-left border border-white/10 bg-white/[0.025] rounded-2xl p-5 hover:bg-white/[0.05] hover:border-indigo-500/30 transition"
+                >
+
+                  <div className="flex items-center gap-4">
+
+                    <div className="w-11 h-11 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center">
+                      <BookOpen size={21} />
+                    </div>
+
+                    <div>
+
+                      <h3 className="font-semibold">
+                        Explore Resources
+                      </h3>
+
+                      <p className="text-sm text-slate-500 mt-1">
+                        Find useful learning materials.
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                </button>
+
+              </div>
+
+              {/* DISCUSSION HEADER */}
+
+              <div className="flex items-center justify-between mb-4">
+
+                <div>
+
+                  <h2 className="font-semibold">
+                    Recent Discussions
+                  </h2>
+
+                  <p className="text-sm text-slate-600 mt-1">
+                    {discussionSearch
+                      ? `Showing ${filteredDiscussions.length} result${
+                          filteredDiscussions.length !== 1
+                            ? "s"
+                            : ""
+                        }`
+                      : "Ask questions and learn from the community."}
                   </p>
 
                 </div>
 
-              ))}
+                <button className="hidden sm:flex items-center gap-2 text-sm text-slate-500 hover:text-white">
+                  <Clock3 size={16} />
+                  Recent
+                </button>
 
-            </div>
+              </div>
 
-          </div>
+              {/* DISCUSSIONS */}
 
-          {/* RESOURCES PREVIEW */}
+              <div className="space-y-4">
 
-          <div className="mt-10">
+                {filteredDiscussions.length > 0 ? (
 
-            <div className="flex items-center justify-between mb-4">
+                  filteredDiscussions.map(
+                    (discussion) => (
 
-              <div>
+                      <DiscussionCard
+                        key={discussion.id}
+                        discussion={discussion}
+                        onClick={() =>
+                          navigate(
+                            `/post/${discussion.id}`
+                          )
+                        }
+                      />
 
-                <h2 className="font-semibold">
-                  Learning Resources
+                    )
+                  )
+
+                ) : (
+
+                  <div className="rounded-2xl border border-white/10 bg-white/[0.025] p-10 text-center">
+
+                    <Search
+                      size={30}
+                      className="mx-auto text-slate-600"
+                    />
+
+                    <h3 className="font-semibold mt-4">
+                      No discussions found
+                    </h3>
+
+                    <p className="text-sm text-slate-600 mt-2">
+                      Try searching with another keyword.
+                    </p>
+
+                    <button
+                      onClick={() =>
+                        setDiscussionSearch("")
+                      }
+                      className="mt-5 px-4 py-2 rounded-xl bg-indigo-500 hover:bg-indigo-600 text-sm"
+                    >
+                      Clear Search
+                    </button>
+
+                  </div>
+
+                )}
+
+              </div>
+
+            </>
+          )}
+
+          {/* ================= MENTORS ================= */}
+
+          {activeTab === "Mentors" && (
+            <div>
+
+              <div className="mb-8">
+
+                <h2 className="text-2xl font-semibold">
+                  Recommended Mentors
                 </h2>
 
-                <p className="text-sm text-slate-600 mt-1">
-                  Resources related to {channel.name}.
+                <p className="text-slate-500 mt-2">
+                  Connect with seniors and alumni who can help you learn.
                 </p>
 
               </div>
 
-              <button
-                onClick={() => navigate("/resources")}
-                className="text-sm text-indigo-400 hover:text-indigo-300"
-              >
-                View all
-              </button>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
 
-            </div>
+                {mentors.map((mentor) => (
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-
-              {resources.map((resource) => {
-
-                const Icon = resource.icon;
-
-                return (
                   <div
-                    key={resource.title}
-                    className="border border-white/10 bg-white/[0.025] rounded-2xl p-5"
+                    key={mentor.name}
+                    className="border border-white/10 bg-white/[0.025] rounded-2xl p-6 hover:bg-white/[0.04] hover:border-indigo-500/30 transition"
                   >
 
-                    <div className="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center mb-4">
+                    <div className="flex items-center gap-4">
 
-                      <Icon size={19} />
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center font-semibold text-lg">
+                        {mentor.name.charAt(0)}
+                      </div>
+
+                      <div>
+
+                        <p className="font-semibold">
+                          {mentor.name}
+                        </p>
+
+                        <p className="text-sm text-slate-500 mt-1">
+                          {mentor.role}
+                        </p>
+
+                      </div>
 
                     </div>
 
-                    <h3 className="font-medium">
-                      {resource.title}
-                    </h3>
+                    <div className="mt-5">
 
-                    <p className="text-sm text-slate-600 mt-2 leading-relaxed">
-                      {resource.description}
+                      <p className="text-xs text-slate-600 uppercase tracking-wide">
+                        Expertise
+                      </p>
+
+                      <p className="text-sm text-slate-400 mt-2">
+                        {mentor.skills}
+                      </p>
+
+                    </div>
+
+                    <button
+                      onClick={() => {
+
+                        const mentorId =
+                          mentor.name
+                            .toLowerCase()
+                            .split(" ")[0];
+
+                        navigate(
+                          `/mentor/${mentorId}`
+                        );
+
+                      }}
+                      className="w-full mt-5 px-4 py-2.5 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 hover:bg-indigo-500 hover:text-white transition text-sm font-medium"
+                    >
+                      View Profile
+                    </button>
+
+                  </div>
+
+                ))}
+
+              </div>
+
+            </div>
+          )}
+
+          {/* ================= RESOURCES ================= */}
+
+          {activeTab === "Resources" && (
+            <div>
+
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 mb-8">
+
+                <div>
+
+                  <h2 className="text-2xl font-semibold">
+                    Learning Resources
+                  </h2>
+
+                  <p className="text-slate-500 mt-2">
+                    Useful learning materials related to{" "}
+                    {channel.name}.
+                  </p>
+
+                </div>
+
+                {/* RESOURCE SEARCH */}
+
+                <div className="flex items-center gap-3 border border-white/10 bg-white/[0.03] rounded-xl px-4 py-3 w-full md:w-80">
+
+                  <Search
+                    size={18}
+                    className="text-slate-600 shrink-0"
+                  />
+
+                  <input
+                    value={resourceSearch}
+                    onChange={(event) =>
+                      setResourceSearch(
+                        event.target.value
+                      )
+                    }
+                    placeholder="Search resources..."
+                    className="bg-transparent outline-none text-sm w-full placeholder:text-slate-600"
+                  />
+
+                  {resourceSearch && (
+                    <button
+                      onClick={() =>
+                        setResourceSearch("")
+                      }
+                      className="text-xs text-slate-600 hover:text-white"
+                    >
+                      Clear
+                    </button>
+                  )}
+
+                </div>
+
+              </div>
+
+              {/* RESULT COUNT */}
+
+              {resourceSearch && (
+                <p className="text-sm text-slate-600 mb-5">
+                  Showing {filteredResources.length} resource
+                  {filteredResources.length !== 1
+                    ? "s"
+                    : ""}
+                </p>
+              )}
+
+              {/* RESOURCES */}
+
+              {filteredResources.length > 0 ? (
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+                  {filteredResources.map(
+                    (resource) => {
+
+                      const Icon = resource.icon;
+
+                      return (
+
+                        <div
+                          key={resource.id}
+                          className="border border-white/10 bg-white/[0.025] rounded-2xl p-6 hover:bg-white/[0.04] hover:border-indigo-500/30 transition"
+                        >
+
+                          <div className="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center mb-5">
+
+                            <Icon size={22} />
+
+                          </div>
+
+                          <span className="text-xs text-indigo-400">
+                            {resource.category}
+                          </span>
+
+                          <h3 className="font-semibold text-lg mt-2">
+                            {resource.title}
+                          </h3>
+
+                          <p className="text-sm text-slate-500 mt-3 leading-relaxed">
+                            {resource.description}
+                          </p>
+
+                          <button
+                            onClick={() =>
+                              navigate(
+                                `/resource/${resource.id}`
+                              )
+                            }
+                            className="mt-5 text-sm text-indigo-400 hover:text-indigo-300 font-medium"
+                          >
+                            View Resource →
+                          </button>
+
+                        </div>
+
+                      );
+
+                    }
+                  )}
+
+                </div>
+
+              ) : (
+
+                <div className="rounded-2xl border border-white/10 bg-white/[0.025] p-10 text-center">
+
+                  <BookOpen
+                    size={30}
+                    className="mx-auto text-slate-600"
+                  />
+
+                  <h3 className="font-semibold mt-4">
+                    No resources found
+                  </h3>
+
+                  <p className="text-sm text-slate-600 mt-2">
+                    Try searching for another resource.
+                  </p>
+
+                  <button
+                    onClick={() =>
+                      setResourceSearch("")
+                    }
+                    className="mt-5 px-4 py-2 rounded-xl bg-indigo-500 hover:bg-indigo-600 text-sm"
+                  >
+                    Clear Search
+                  </button>
+
+                </div>
+
+              )}
+
+            </div>
+          )}
+
+          {/* ================= ANNOUNCEMENTS ================= */}
+
+          {activeTab === "Announcements" && (
+            <div>
+
+              <div className="mb-8">
+
+                <div className="flex items-center gap-3">
+
+                  <div className="w-11 h-11 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center">
+
+                    <Megaphone size={21} />
+
+                  </div>
+
+                  <div>
+
+                    <h2 className="text-2xl font-semibold">
+                      Announcements
+                    </h2>
+
+                    <p className="text-slate-500 mt-1">
+                      Latest announcements for the{" "}
+                      {channel.name} community.
                     </p>
 
                   </div>
-                );
 
-              })}
+                </div>
+
+              </div>
+
+              <div className="space-y-5">
+
+                {announcements.map(
+                  (announcement) => (
+
+                    <div
+                      key={announcement.id}
+                      className="border border-white/10 bg-white/[0.025] rounded-2xl p-6 hover:bg-white/[0.04] hover:border-indigo-500/30 transition"
+                    >
+
+                      <div className="flex gap-4">
+
+                        <div className="w-11 h-11 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center shrink-0">
+
+                          <Megaphone size={20} />
+
+                        </div>
+
+                        <div className="flex-1">
+
+                          <div className="flex flex-wrap items-center gap-3">
+
+                            <h3 className="text-lg font-semibold">
+                              {announcement.title}
+                            </h3>
+
+                            <span className="px-2.5 py-1 rounded-md bg-indigo-500/10 border border-indigo-500/20 text-xs text-indigo-400">
+                              {announcement.category}
+                            </span>
+
+                          </div>
+
+                          <p className="text-sm text-slate-500 mt-3 leading-relaxed">
+                            {announcement.description}
+                          </p>
+
+                          <div className="flex items-center gap-2 mt-4 text-xs text-slate-600">
+
+                            <Calendar size={14} />
+
+                            {announcement.date}
+
+                          </div>
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                  )
+                )}
+
+              </div>
 
             </div>
-
-          </div>
+          )}
 
         </section>
 
@@ -624,11 +982,8 @@ function Tab({
           : "text-slate-500 border-transparent hover:text-white"
       }`}
     >
-
       {icon}
-
       {label}
-
     </button>
   );
 }
@@ -662,15 +1017,11 @@ function DiscussionCard({
             <div>
 
               <h3 className="font-semibold text-base group-hover:text-indigo-400 transition">
-
                 {discussion.title}
-
               </h3>
 
               <p className="text-sm text-slate-500 mt-2 leading-relaxed">
-
                 {discussion.description}
-
               </p>
 
             </div>
@@ -681,9 +1032,7 @@ function DiscussionCard({
               }
               className="text-slate-600 hover:text-white shrink-0"
             >
-
               <MoreHorizontal size={18} />
-
             </button>
 
           </div>
