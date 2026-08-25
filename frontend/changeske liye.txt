@@ -1,0 +1,25 @@
+ function setDynamicGreeting() {
+            const hours = new Date().getHours();
+            let greetingText = "Good morning 👋";
+
+            if (hours >= 12 && hours < 17) {
+                greetingText = "Good afternoon ☀️";
+            } else if (hours >= 17 && hours < 22) {
+                greetingText = "Good evening 🌙";
+            } else if (hours >= 22 || hours < 5) {
+                greetingText = "Good night 🌌";
+            }
+
+            const greetingElement = document.getElementById("dynamicGreeting");
+            if (greetingElement) {
+                greetingElement.textContent = greetingText;
+            }
+        }
+
+
+
+        <div>
+                        <!-- Dynamic Greeting Paragraph -->
+                        <p class="greeting" id="dynamicGreeting">Good morning 👋</p>
+                        <h1 id="welcome-heading">Welcome!</h1>
+                    </div>

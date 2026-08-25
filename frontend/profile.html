@@ -55,10 +55,28 @@
                 Placements
             </a>
 
-            <a href="profile.html" class="active">
-                <span>👤</span>
+          <!--- <span>👤</span>
                 My Profile
-            </a>
+            </a>->  <a href="profile.html" class="active">-->
+    <a href="profile.html" class="sidebar-link">
+    <svg xmlns="http://www.w3.org/2000/svg"
+         width="20"
+         height="20"
+         viewBox="0 0 24 24"
+         fill="none"
+         stroke="currentColor"
+         stroke-width="2"
+         stroke-linecap="round"
+         stroke-linejoin="round">
+
+        <path d="M20 21a8 8 0 0 0-16 0"/>
+        <circle cx="12" cy="7" r="4"/>
+
+    </svg>
+
+    <span>Profile</span>
+</a>
+               
 
         </nav>
 
@@ -699,7 +717,18 @@
         ).textContent = savedResources;
 
     }
+// 6. Logout Function
+const logoutBtn = document.getElementById("logoutBtn");
 
+if (logoutBtn) {
+    logoutBtn.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        localStorage.removeItem("token");
+
+        window.location.href = "index.html";
+    });
+}
 </script>
 
 </body>

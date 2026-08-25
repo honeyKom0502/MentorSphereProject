@@ -429,7 +429,18 @@ if (savedRole) {
     document.getElementById("userRole").textContent =
         savedRole + " Student";
 }
+// 6. Logout Function
+const logoutBtn = document.getElementById("logoutBtn");
 
+if (logoutBtn) {
+    logoutBtn.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        localStorage.removeItem("token");
+
+        window.location.href = "index.html";
+    });
+}
 </script>
 
 </body>

@@ -398,6 +398,17 @@
         }
     });
 </script>
+<script>
+document.getElementById("logoutBtn").addEventListener("click", function (event) {
+    event.preventDefault();
+
+    // Login/session data remove
+    localStorage.removeItem("token");
+
+    // Main landing page par redirect
+    window.location.href = "index.html";
+});
+</script>
 
 </body>
 </html>

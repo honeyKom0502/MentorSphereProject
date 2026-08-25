@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Complete Your Profile | MentorSphere</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body class="onboarding-body">
+
+
+<div class="onboarding-page">
+
+
+    <!-- HEADER -->
+
+    <div class="onboarding-logo">
+
+        <div class="onboarding-logo-icon">
+            M
+        </div>
+
+        <span>MentorSphere</span>
+
+    </div>
+
+
+
+    <!-- PROGRESS -->
+
+    <div class="onboarding-progress">
+
+        <div class="progress-step active" id="progress1">
+            1
+        </div>
+
+        <div class="progress-line"></div>
+
+        <div class="progress-step" id="progress2">
+            2
+        </div>
+
+        <div class="progress-line"></div>
+
+        <div class="progress-step" id="progress3">
+            3
+        </div>
+
+        <div class="progress-line"></div>
+
+        <div class="progress-step" id="progress4">
+            4
+        </div>
+
+    </div>
+
+
+
+    <!-- MAIN CARD -->
+
+    <div class="onboarding-card">
+
+
+        <!-- STEP 1 SKILLS -->
+
+        <div class="onboarding-step active-step" id="step1">
+
+            <div class="step-badge">
+                STEP 1 OF 4
+            </div>
+
+            <h1>
+                What are your skills? 🚀
+            </h1>
+
+            <p>
+                Select the skills you already know.
+                This helps us recommend the right mentors.
+            </p>
+
+
+            <div class="option-grid">
+
+                <button class="select-option">
+                    Java
+                </button>
+
+                <button class="select-option">
+                    Python
+                </button>
+
+                <button class="select-option">
+                    C++
+                </button>
+
+                <button class="select-option">
+                    DSA
+                </button>
+
+                <button class="select-option">
+                    HTML
+                </button>
+
+                <button class="select-option">
+                    CSS
+                </button>
+
+                <button class="select-option">
+                    JavaScript
+                </button>
+
+                <button class="select-option">
+                    Machine Learning
+                </button>
+
+                <button class="select-option">
+                    Web Development
+                </button>
+
+                <button class="select-option">
+                    Git & GitHub
+                </button>
+
+            </div>
+
+
+            <div class="custom-input-row">
+
+                <input
+                    type="text"
+                    id="customSkill"
+                    placeholder="Add your own skill..."
+                >
+
+                <button type="button" id="addSkillBtn">
+                    + Add
+                </button>
+
+            </div>
+
+
+            <div class="custom-tags" id="customSkills"></div>
+
+
+            <div class="onboarding-buttons">
+
+                <div></div>
+
+                <button class="next-btn" onclick="nextStep(2)">
+                    Continue →
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- STEP 2 INTERESTS -->
+
+        <div class="onboarding-step" id="step2">
+
+            <div class="step-badge">
+                STEP 2 OF 4
+            </div>
+
+            <h1>
+                What do you want to explore? ✨
+            </h1>
+
+            <p>
+                Choose topics you're interested in learning.
+            </p>
+
+
+            <div class="option-grid">
+
+                <button class="select-option interest-option">
+                    AI / ML
+                </button>
+
+                <button class="select-option interest-option">
+                    Backend Development
+                </button>
+
+                <button class="select-option interest-option">
+                    Frontend Development
+                </button>
+
+                <button class="select-option interest-option">
+                    DSA
+                </button>
+
+                <button class="select-option interest-option">
+                    Cloud
+                </button>
+
+                <button class="select-option interest-option">
+                    Cyber Security
+                </button>
+
+                <button class="select-option interest-option">
+                    DevOps
+                </button>
+
+                <button class="select-option interest-option">
+                    Placement Preparation
+                </button>
+
+            </div>
+
+
+            <div class="onboarding-buttons">
+
+                <button class="back-btn" onclick="previousStep(1)">
+                    ← Back
+                </button>
+
+                <button class="next-btn" onclick="nextStep(3)">
+                    Continue →
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- STEP 3 GOAL -->
+
+        <div class="onboarding-step" id="step3">
+
+            <div class="step-badge">
+                STEP 3 OF 4
+            </div>
+
+            <h1>
+                What's your current goal? 🎯
+            </h1>
+
+            <p>
+                Select the goal you want to focus on right now.
+            </p>
+
+
+            <div class="goal-list">
+
+                <button class="goal-option">
+                    🚀 Become placement ready
+                </button>
+
+                <button class="goal-option">
+                    💻 Improve my coding skills
+                </button>
+
+                <button class="goal-option">
+                    📚 Learn a new technology
+                </button>
+
+                <button class="goal-option">
+                    🛠 Build strong projects
+                </button>
+
+                <button class="goal-option">
+                    🎓 Prepare for higher studies
+                </button>
+
+            </div>
+
+
+            <div class="onboarding-buttons">
+
+                <button class="back-btn" onclick="previousStep(2)">
+                    ← Back
+                </button>
+
+                <button class="next-btn" onclick="nextStep(4)">
+                    Continue →
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- STEP 4 ABOUT -->
+
+        <div class="onboarding-step" id="step4">
+
+            <div class="step-badge">
+                STEP 4 OF 4
+            </div>
+
+            <h1>
+                Tell us about yourself 👋
+            </h1>
+
+            <p>
+                This is optional. You can always add it later.
+            </p>
+
+
+            <textarea
+                id="aboutMe"
+                placeholder="For example: I'm an engineering student interested in software development and AI..."
+            ></textarea>
+
+
+            <div class="onboarding-buttons">
+
+                <button class="back-btn" onclick="previousStep(3)">
+                    ← Back
+                </button>
+
+
+                <div class="finish-buttons">
+
+                    <button class="skip-btn" onclick="finishOnboarding(true)">
+                        Skip for now
+                    </button>
+
+                    <button class="next-btn" onclick="finishOnboarding(false)">
+                        Finish →
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+let currentStep = 1;
+
+let selectedSkills = [];
+let selectedInterests = [];
+let selectedGoal = "";
+
+
+/* SKILLS */
+
+document.querySelectorAll("#step1 .select-option").forEach(button => {
+
+    button.addEventListener("click", function() {
+
+        this.classList.toggle("selected");
+
+        const skill = this.textContent.trim();
+
+        if (this.classList.contains("selected")) {
+
+            if (!selectedSkills.includes(skill)) {
+                selectedSkills.push(skill);
+            }
+
+        } else {
+
+            selectedSkills =
+                selectedSkills.filter(item => item !== skill);
+
+        }
+
+    });
+
+});
+
+
+/* ADD CUSTOM SKILL */
+
+document.getElementById("addSkillBtn").addEventListener("click", function() {
+
+    const input = document.getElementById("customSkill");
+
+    const skill = input.value.trim();
+
+    if (skill && !selectedSkills.includes(skill)) {
+
+        selectedSkills.push(skill);
+
+        const tag = document.createElement("span");
+
+        tag.textContent = skill;
+
+        document
+            .getElementById("customSkills")
+            .appendChild(tag);
+
+        input.value = "";
+
+    }
+
+});
+
+
+/* INTERESTS */
+
+document.querySelectorAll(".interest-option").forEach(button => {
+
+    button.addEventListener("click", function() {
+
+        this.classList.toggle("selected");
+
+        const interest = this.textContent.trim();
+
+        if (this.classList.contains("selected")) {
+
+            if (!selectedInterests.includes(interest)) {
+                selectedInterests.push(interest);
+            }
+
+        } else {
+
+            selectedInterests =
+                selectedInterests.filter(
+                    item => item !== interest
+                );
+
+        }
+
+    });
+
+});
+
+
+/* GOAL */
+
+document.querySelectorAll(".goal-option").forEach(button => {
+
+    button.addEventListener("click", function() {
+
+        document
+            .querySelectorAll(".goal-option")
+            .forEach(item => {
+                item.classList.remove("selected");
+            });
+
+        this.classList.add("selected");
+
+        selectedGoal = this.textContent.trim();
+
+    });
+
+});
+
+
+/* NEXT STEP */
+
+function nextStep(step) {
+
+    document
+        .getElementById("step" + currentStep)
+        .classList.remove("active-step");
+
+    currentStep = step;
+
+    document
+        .getElementById("step" + currentStep)
+        .classList.add("active-step");
+
+    updateProgress();
+
+}
+
+
+/* PREVIOUS STEP */
+
+function previousStep(step) {
+
+    document
+        .getElementById("step" + currentStep)
+        .classList.remove("active-step");
+
+    currentStep = step;
+
+    document
+        .getElementById("step" + currentStep)
+        .classList.add("active-step");
+
+    updateProgress();
+
+}
+
+
+/* PROGRESS */
+
+function updateProgress() {
+
+    for (let i = 1; i <= 4; i++) {
+
+        const progress =
+            document.getElementById("progress" + i);
+
+        if (i <= currentStep) {
+            progress.classList.add("active");
+        } else {
+            progress.classList.remove("active");
+        }
+
+    }
+
+}
+
+
+/* FINISH */
+
+function finishOnboarding(skipAbout) {
+
+    const about = skipAbout
+        ? ""
+        : document.getElementById("aboutMe").value.trim();
+
+
+    /* Save onboarding data */
+
+    localStorage.setItem(
+        "userSkills",
+        JSON.stringify(selectedSkills)
+    );
+
+    localStorage.setItem(
+        "userInterests",
+        JSON.stringify(selectedInterests)
+    );
+
+    localStorage.setItem(
+        "userGoal",
+        selectedGoal
+    );
+
+    localStorage.setItem(
+        "userAbout",
+        about
+    );
+
+
+    localStorage.setItem(
+        "profileCompleted",
+        "true"
+    );
+
+
+    window.location.href = "dashboard.html";
+
+}
+
+</script>
+
+</body>
+</html>

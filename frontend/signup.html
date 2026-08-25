@@ -13,46 +13,7 @@
 
     <link rel="stylesheet" href="style.css">
 </head>
-<script>
-  // Form element ko select kar rahe hain
-  const signupForm = document.querySelector('form');
 
-  if (signupForm) {
-    signupForm.addEventListener('submit', async (e) => {
-      e.preventDefault(); // Page reload hone se rokega
-
-      // Input fields se values nikal rahe hain
-      // (Check kar lena ki aapke HTML inputs ki ID 'name', 'email', 'password', 'role' hi ho)
-      const name = document.querySelector('#name')?.value;
-      const email = document.querySelector('#email')?.value;
-      const password = document.querySelector('#password')?.value;
-      const role = document.querySelector('#role')?.value || 'student';
-
-      try {
-        // Backend API ko POST request bhej rahe hain
-        const response = await fetch('http://localhost:5000/api/auth/register', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ name, email, password, role }),
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-          alert('✅ Registration Successful! Ab Login kar sakte hain.');
-          window.location.href = 'login.html'; // Direct login page par bhej dega
-        } else {
-          alert('❌ ' + (data.message || 'Registration Failed!'));
-        }
-      } catch (error) {
-        console.error('Error:', error);
-        alert('❌ Backend Server Running Nahi Hai!');
-      }
-    });
-  }
-</script>
 <body>
 
 <div class="auth-page">
@@ -231,17 +192,68 @@
 
 <script>
 
-document.getElementById("signupForm").addEventListener("submit", function(event) {
+document.getElementById("signupForm").addEventListener("submit", async function(event) {
 
     event.preventDefault();
 
-    const name = document.getElementById("name").value;
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
     const role = document.getElementById("role").value;
 
-    localStorage.setItem("userName", name);
-    localStorage.setItem("userRole", role);
+    try {
 
-    window.location.href = "dashboard.html";
+        const response = await fetch(
+            "http://localhost:5000/api/auth/register",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    name,
+                    email,
+                    password,
+                    role
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        if (response.ok) {
+
+            /* Basic user details save */
+
+            localStorage.setItem("userName", name);
+            localStorage.setItem("userEmail", email);
+            localStorage.setItem("userRole", role);
+
+            /* New user profile is not complete yet */
+
+            localStorage.setItem("profileCompleted", "false");
+
+            alert("Account created successfully! 🎉");
+
+            /* Go directly to onboarding */
+
+            window.location.href = "onboarding.html";
+
+        } else {
+
+            alert(data.message || "Registration failed!");
+
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Backend server running nahi hai!");
+
+    }
 
 });
 
