@@ -5924,3 +5924,694 @@ body {
     opacity: 0;
     pointer-events: none;
 }
+
+/* =====================================================
+   FINAL COMMON LAYOUT FIX - ALL MENTORSPHERE PAGES
+   Paste this at the VERY END of style.css
+===================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    background: #f7f7fb;
+    color: #27304f;
+    font-family: "DM Sans", "Poppins", sans-serif;
+}
+
+/* =====================================================
+   COMMON SIDEBAR
+===================================================== */
+
+.sidebar,
+.dashboard-sidebar {
+    width: 330px !important;
+    min-width: 330px !important;
+
+    height: 100vh;
+    min-height: 100vh;
+
+    position: fixed !important;
+    top: 0;
+    left: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    background: #ffffff;
+
+    padding: 35px 28px !important;
+
+    border-right: 1px solid #e5e5ee;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    z-index: 1000;
+
+    transition:
+        width 0.3s ease,
+        min-width 0.3s ease,
+        padding 0.3s ease,
+        opacity 0.3s ease;
+}
+
+/* =====================================================
+   SIDEBAR LOGO
+===================================================== */
+
+.sidebar h2,
+.dashboard-logo,
+.sidebar-logo,
+.sidebar-header h2 {
+    margin: 0;
+    color: #27304f;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+.sidebar nav,
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    width: 100%;
+
+    margin-top: 45px;
+}
+
+.sidebar nav a,
+.sidebar-nav a {
+    width: 100%;
+
+    min-height: 58px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 15px 24px;
+
+    border-radius: 16px;
+
+    color: #344054;
+
+    font-size: 18px;
+    font-weight: 500;
+
+    text-decoration: none;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.sidebar nav a:hover,
+.sidebar-nav a:hover {
+    background: #f1f0fa;
+    color: #554bb5;
+}
+
+/* ACTIVE PAGE */
+
+.sidebar nav a.active,
+.sidebar-nav a.active {
+    background: linear-gradient(
+        135deg,
+        #e8e7f7,
+        #dcdbea
+    );
+
+    color: #4f46a5;
+
+    font-weight: 700;
+}
+
+/* =====================================================
+   SIDEBAR BOTTOM
+===================================================== */
+
+.sidebar-bottom {
+    width: 100%;
+
+    margin-top: auto;
+
+    padding-top: 25px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+.sidebar-bottom a {
+    width: 100%;
+
+    min-height: 55px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 14px 24px;
+
+    border-radius: 14px;
+
+    color: #526070;
+
+    font-size: 17px;
+
+    text-decoration: none;
+}
+
+.sidebar-bottom a:hover {
+    background: #f4f3fb;
+}
+
+/* =====================================================
+   COMMON MAIN CONTENT
+===================================================== */
+
+.main-content,
+.main-area,
+.dashboard-main,
+.dashboard-content {
+    margin-left: 330px !important;
+
+    width: calc(100% - 330px) !important;
+
+    min-height: 100vh;
+
+    padding: 35px 48px !important;
+
+    overflow-x: hidden;
+
+    transition:
+        margin-left 0.3s ease,
+        width 0.3s ease;
+}
+
+/* =====================================================
+   PAGE WRAPPERS
+===================================================== */
+
+.dashboard,
+.dashboard-page,
+.app-layout {
+    display: block !important;
+
+    width: 100%;
+
+    min-height: 100vh;
+
+    background: #f7f7fb;
+}
+
+/* =====================================================
+   DASHBOARD HEADER
+===================================================== */
+
+.dashboard-header,
+.top-bar,
+.page-header,
+.profile-page-header {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 25px;
+
+    margin-bottom: 30px;
+}
+
+.dashboard-header h1,
+.top-bar h1 {
+    margin: 0;
+
+    font-size: clamp(30px, 3vw, 48px);
+
+    color: #28364f;
+}
+
+.greeting {
+    margin-bottom: 5px;
+
+    color: #687386;
+
+    font-size: 16px;
+}
+
+/* =====================================================
+   TOP PROFILE
+===================================================== */
+
+.dashboard-profile,
+.top-profile,
+.profile-mini {
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 10px 18px 10px 10px;
+
+    background: #ffffff;
+
+    border: 1px solid #dedee8;
+
+    border-radius: 18px;
+
+    color: #27304f;
+
+    text-decoration: none;
+}
+
+.dashboard-profile:hover,
+.top-profile:hover {
+    transform: translateY(-2px);
+
+    box-shadow: 0 10px 25px rgba(50, 45, 100, 0.08);
+}
+
+.dashboard-avatar,
+.profile-avatar {
+    width: 60px;
+    height: 60px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: linear-gradient(
+        135deg,
+        #4f46a5,
+        #7654c7
+    );
+
+    color: white;
+
+    font-size: 22px;
+    font-weight: 700;
+}
+
+/* =====================================================
+   DASHBOARD HERO
+===================================================== */
+
+.dashboard-hero,
+.welcome-card {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 40px;
+
+    padding: 50px 65px;
+
+    border-radius: 32px;
+
+    background: linear-gradient(
+        135deg,
+        #47418d,
+        #6c56b8
+    );
+
+    color: white;
+
+    overflow: hidden;
+}
+
+.hero-content,
+.welcome-text {
+    flex: 1;
+
+    min-width: 0;
+}
+
+.dashboard-hero h2,
+.welcome-card h2 {
+    margin: 20px 0;
+
+    max-width: 700px;
+
+    font-size: clamp(38px, 4vw, 62px);
+
+    line-height: 1.12;
+
+    color: white;
+}
+
+.dashboard-hero h2 span,
+.welcome-card h2 span {
+    color: #ddd8ff;
+}
+
+.dashboard-hero p,
+.welcome-card p {
+    max-width: 720px;
+
+    font-size: 18px;
+
+    line-height: 1.7;
+
+    color: #e6e4f5;
+}
+
+.hero-buttons {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 16px;
+
+    margin-top: 30px;
+}
+
+.primary-hero-btn,
+.primary-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 16px 28px;
+
+    background: white;
+
+    color: #4f4697;
+
+    border-radius: 14px;
+
+    font-weight: 700;
+
+    text-decoration: none;
+}
+
+.secondary-hero-btn,
+.secondary-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 16px 28px;
+
+    border: 1px solid rgba(255,255,255,0.35);
+
+    color: white;
+
+    border-radius: 14px;
+
+    font-weight: 700;
+
+    text-decoration: none;
+}
+
+/* =====================================================
+   DASHBOARD STATS
+===================================================== */
+
+.dashboard-stats,
+.stats-grid,
+.profile-stats {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(220px, 1fr));
+
+    gap: 22px;
+
+    margin-top: 30px;
+}
+
+.dashboard-stat-card,
+.stat-card {
+    min-height: 115px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 18px;
+
+    padding: 24px;
+
+    background: white;
+
+    border: 1px solid #e3e3ec;
+
+    border-radius: 22px;
+}
+
+/* =====================================================
+   MENTOR PAGE
+===================================================== */
+
+.mentors-grid {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(320px, 1fr));
+
+    gap: 24px;
+}
+
+.mentor-card {
+    width: 100%;
+
+    min-width: 0;
+}
+
+/* =====================================================
+   DISCUSSION PAGE
+===================================================== */
+
+.discussion-layout,
+.discussion-container,
+.discussion-grid {
+    width: 100%;
+
+    min-width: 0;
+}
+
+.discussion-list,
+.discussion-card {
+    max-width: 100%;
+}
+
+/* =====================================================
+   RESOURCES PAGE
+===================================================== */
+
+.resource-grid {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(330px, 1fr));
+
+    gap: 24px;
+}
+
+.resource-card {
+    min-width: 0;
+}
+
+/* =====================================================
+   PLACEMENTS PAGE
+===================================================== */
+
+.placement-grid,
+.placement-cards,
+.placement-tools {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(300px, 1fr));
+
+    gap: 24px;
+}
+
+.placement-hero {
+    width: 100%;
+
+    min-width: 0;
+}
+
+/* =====================================================
+   PROFILE PAGE
+===================================================== */
+
+.profile-content-grid {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr) minmax(300px, 380px);
+
+    gap: 28px;
+}
+
+.profile-hero-card,
+.profile-card {
+    min-width: 0;
+}
+
+/* =====================================================
+   SIDEBAR TOGGLE
+===================================================== */
+
+.sidebar.collapsed {
+    width: 0 !important;
+
+    min-width: 0 !important;
+
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+
+    border: none;
+
+    opacity: 0;
+
+    overflow: hidden;
+
+    pointer-events: none;
+}
+
+.sidebar.collapsed + .main-content {
+    margin-left: 0 !important;
+
+    width: 100% !important;
+}
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 1100px) {
+
+    .sidebar,
+    .dashboard-sidebar {
+        width: 260px !important;
+        min-width: 260px !important;
+    }
+
+    .main-content,
+    .main-area,
+    .dashboard-main,
+    .dashboard-content {
+        margin-left: 260px !important;
+
+        width: calc(100% - 260px) !important;
+
+        padding: 30px !important;
+    }
+
+    .dashboard-hero,
+    .welcome-card {
+        padding: 40px;
+    }
+
+    .hero-visual {
+        display: none;
+    }
+
+    .profile-content-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 700px) {
+
+    .sidebar,
+    .dashboard-sidebar {
+        width: 250px !important;
+        min-width: 250px !important;
+
+        transform: translateX(-100%);
+    }
+
+    .main-content,
+    .main-area,
+    .dashboard-main,
+    .dashboard-content {
+        margin-left: 0 !important;
+
+        width: 100% !important;
+
+        padding: 20px !important;
+    }
+
+    .dashboard-header,
+    .top-bar,
+    .page-header,
+    .profile-page-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+    .dashboard-profile,
+    .top-profile,
+    .profile-mini {
+        align-self: flex-start;
+    }
+
+    .dashboard-hero,
+    .welcome-card {
+        padding: 30px 24px;
+    }
+
+    .dashboard-hero h2,
+    .welcome-card h2 {
+        font-size: 36px;
+    }
+
+    .resource-grid,
+    .mentors-grid,
+    .placement-grid,
+    .placement-cards,
+    .placement-tools,
+    .dashboard-stats,
+    .stats-grid,
+    .profile-stats {
+        grid-template-columns: 1fr;
+    }
+}

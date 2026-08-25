@@ -81,6 +81,11 @@ socket.on('receive_message', (data) => {
     <!-- SIDEBAR -->
 
     <aside class="sidebar">
+        <div class="sidebar-header" style="display: flex; align-items: center; justify-content: space-between;">
+                
+                <!-- Inside Sidebar Toggle Button -->
+              <!---->  
+            </div>
 
         <a href="dashboard.html" class="sidebar-logo">
 
@@ -94,13 +99,13 @@ socket.on('receive_message', (data) => {
         <nav class="sidebar-nav">
 
             <a href="dashboard.html">
-                <span>⌂</span>
+                <span></span>
                 Dashboard
             </a>
             
 
             <a href="mentor.html">
-                <span>👨‍🏫</span>
+                <span></span>
                 Find Mentors
             </a>
 
@@ -110,19 +115,20 @@ socket.on('receive_message', (data) => {
             </a>
 
             <a href="resource.html">
-                <span>📚</span>
+                <span></span>
                 Resources
             </a>
 
             <a href="placement.html">
-                <span>🎯</span>
+                <span></span>
                 Placements
             </a>
 
             <a href="profile.html" class="active">
-            <span>👤</span>
+            <span></span>
             Profile
             </a>
+
 
         </nav>
 
@@ -132,7 +138,11 @@ socket.on('receive_message', (data) => {
             <a href="#">
                 <span>🔔</span>
                 Notifications
+                
             </a>
+            <a href="#" id="logoutBtn">
+                    ↪ <span>Logout</span>
+                </a>
 
         </div>
 
