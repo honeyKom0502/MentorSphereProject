@@ -87,7 +87,8 @@ socket.on('receive_message', (data) => {
               <!---->  
             </div>
 
-        <a href="dashboard.html" class="sidebar-logo">
+            <a>
+        <img id="navbarProfileImage" class="user-avatar" src="" alt="Profile">
 
             <div class="logo-icon">M</div>
 
@@ -176,9 +177,7 @@ socket.on('receive_message', (data) => {
    class="user-profile"
    style="text-decoration: none; color: inherit; cursor: pointer;">
 
-    <div class="user-avatar" id="userAvatar">
-        H
-    </div>
+     <img id="globalProfilePhoto" class="user-avatar" alt="Profile Photo">
 
     <div>
         <strong id="userName">
@@ -696,8 +695,20 @@ if (logoutBtn) {
     });
 }
 </script>
+<script>
+const savedImage = localStorage.getItem("profileImage");
 
+if (savedImage) {
+    document.getElementById("navbarProfileImage").src = savedImage;
+}
+</script>
+<script>
+    const savedPhoto = localStorage.getItem("profileImage");
 
+    if (savedPhoto) {
+        document.getElementById("globalProfilePhoto").src = savedPhoto;
+    }
+</script>
 </body>
 
 </html>

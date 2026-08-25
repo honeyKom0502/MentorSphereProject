@@ -62,27 +62,26 @@
                 Placements
             </a>
 
+            <a href="profile.html">
+                <span></span>
+                Profile
+            </a>
+
         </nav>
 
 
         <div class="sidebar-bottom">
 
-         <a href="profile.html">
-          <span></span>
-              Profile
-    </a>
+            <a href="#">
+                <span>🔔</span>
+                Notifications
+            </a>
 
-    <a href="#">
-        <span>🔔</span>
-        Notifications
-    </a>
-    <a href="#" id="logoutBtn">
-                    ↪ <span>Logout</span>
-                </a>
+            <a href="#" id="logoutBtn">
+                ↪ <span>Logout</span>
+            </a>
 
-    
-
-</div>
+        </div>
 
     </aside>
 
@@ -110,25 +109,29 @@
             </div>
 
 
-           <a href="profile.html" class="user-profile">
+            <!-- USER PROFILE -->
 
-    <div class="user-avatar"> 
-        H 
-    </div> 
+            <a href="profile.html"
+               class="user-profile"
+               style="text-decoration: none; color: inherit; cursor: pointer;">
 
-    <div> 
+                <div id="userAvatar" class="user-avatar">
+                    H
+                </div>
 
-        <strong id="userName"> 
-            Honey Kumari 
-        </strong> 
+                <div>
 
-        <span id="userRole"> 
-            Senior Student 
-        </span> 
+                    <strong id="userName">
+                        Honey Kumari
+                    </strong>
 
-    </div> 
+                    <span id="userRole">
+                        Senior Student
+                    </span>
 
-</a>
+                </div>
+
+            </a>
 
         </div>
 
@@ -418,29 +421,77 @@
 
 <script>
 
-const savedName = localStorage.getItem("userName");
-const savedRole = localStorage.getItem("userRole");
+    /* =========================
+       GLOBAL USER PROFILE
+    ========================== */
 
-if (savedName) {
-    document.getElementById("userName").textContent = savedName;
-}
+    const savedName = localStorage.getItem("userName");
+    const savedRole = localStorage.getItem("userRole");
+    const savedPhoto = localStorage.getItem("profileImage");
 
-if (savedRole) {
-    document.getElementById("userRole").textContent =
-        savedRole + " Student";
-}
-// 6. Logout Function
-const logoutBtn = document.getElementById("logoutBtn");
+    const userName = document.getElementById("userName");
+    const userRole = document.getElementById("userRole");
+    const userAvatar = document.getElementById("userAvatar");
 
-if (logoutBtn) {
-    logoutBtn.addEventListener("click", function (event) {
-        event.preventDefault();
 
-        localStorage.removeItem("token");
+    /* NAME + INITIAL */
 
-        window.location.href = "index.html";
-    });
-}
+    if (savedName && savedName.trim() !== "") {
+
+        userName.textContent = savedName;
+
+        userAvatar.textContent =
+            savedName.trim().charAt(0).toUpperCase();
+
+    }
+
+
+    /* ROLE */
+
+    if (savedRole && savedRole.trim() !== "") {
+
+        userRole.textContent =
+            savedRole + " Student";
+
+    }
+
+
+    /* PROFILE PHOTO */
+
+    if (savedPhoto) {
+
+        userAvatar.innerHTML = "";
+
+        userAvatar.style.backgroundImage =
+            `url(${savedPhoto})`;
+
+        userAvatar.style.backgroundSize = "cover";
+        userAvatar.style.backgroundPosition = "center";
+        userAvatar.style.backgroundRepeat = "no-repeat";
+
+    }
+
+
+    /* =========================
+       LOGOUT
+    ========================== */
+
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    if (logoutBtn) {
+
+        logoutBtn.addEventListener("click", function (event) {
+
+            event.preventDefault();
+
+            localStorage.removeItem("token");
+
+            window.location.href = "index.html";
+
+        });
+
+    }
+
 </script>
 
 </body>

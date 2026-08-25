@@ -17,6 +17,7 @@
         <!-- SIDEBAR -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header" style="display: flex; align-items: center; justify-content: space-between;">
+                 <div class="logo-icon">M</div>
                 <h2><span>Mentor</span>Sphere</h2>
                 <!-- Inside Sidebar Toggle Button -->
               <!---->  
@@ -304,6 +305,14 @@ if (logoutBtn) {
     });
 }
     </script>
+
+    <script>
+    const savedPhoto = localStorage.getItem("profileImage");
+
+    if (savedPhoto) {
+        document.getElementById("globalProfilePhoto").src = savedPhoto;
+    }
+</script>
 
 </body>
 
