@@ -7,57 +7,75 @@
 
     <title>Dashboard | MentorSphere</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
 </head>
+
 
 <body>
 
 <div class="dashboard">
 
-    <!-- SIDEBAR -->
+
+    <!-- ================= SIDEBAR ================= -->
+
     <aside class="sidebar" id="sidebar">
 
-        <div class="sidebar-header"
-             style="display: flex; align-items: center; justify-content: space-between;">
+        <div class="sidebar-header">
 
-            <div class="logo-icon">M</div>
+            <div class="logo">
+    <img src="images/logo.png" alt="MentorSphere Logo">
+</div>
 
-            <h2><span>Mentor</span>Sphere</h2>
+            <h2>
+                Mentor<span>Sphere</span>
+            </h2>
 
         </div>
 
 
+        <!-- NAVIGATION -->
+
         <nav>
 
-            <a href="/frontend/dashboard.html" class="active">
+            <a href="dashboard.html" class="active">
                 <span>⌂</span>
                 Dashboard
             </a>
 
-            <a href="/frontend/mentor.html">
-                <span>Find Mentors</span>
+            <a href="mentor.html">
+                <span>👨‍🏫</span>
+                Find Mentors
             </a>
 
-            <a href="/frontend/discussion.html">
-                <span>Discussions</span>
+            <a href="discussion.html">
+                <span>💬</span>
+                Discussions
             </a>
 
-            <a href="/frontend/resource.html">
-                <span>Resources</span>
+            <a href="resource.html">
+                <span>📚</span>
+                Resources
             </a>
 
-            <a href="/frontend/placement.html">
-                <span>Placements</span>
+            <a href="placement.html">
+                <span>🎯</span>
+                Placements
             </a>
 
-            <a href="/frontend/profile.html">
-                <span>Profile</span>
+            <a href="profile.html">
+                <span>👤</span>
+                Profile
             </a>
 
         </nav>
 
+
+        <!-- BOTTOM -->
 
         <div class="sidebar-bottom">
 
@@ -76,55 +94,56 @@
     </aside>
 
 
-    <!-- MAIN CONTENT -->
+
+    <!-- ================= MAIN CONTENT ================= -->
+
     <main class="main-content">
 
 
-        <!-- TOP HEADER -->
+        <!-- ================= HEADER ================= -->
+
         <div class="dashboard-header">
 
-            <div style="display: flex; align-items: center; gap: 12px;">
+            <div>
 
-                <button
-                    id="openSidebarBtn"
-                    class="toggle-btn-outer"
-                    style="background: none; border: none; font-size: 22px; cursor: pointer;">
-                    ☰
-                </button>
+                <p class="greeting" id="dynamicGreeting">
+                    Good morning 👋
+                </p>
 
-
-                <div>
-
-                    <p class="greeting" id="dynamicGreeting">
-                        Good morning 👋
-                    </p>
-
-                    <h1 id="welcome-heading">
-                        Welcome!
-                    </h1>
-
-                </div>
+                <h1 id="welcome-heading">
+                    Welcome!
+                </h1>
 
             </div>
 
 
-            <!-- PROFILE - SAME STYLE AS RESOURCES -->
-            <a href="/frontend/profile.html"
-               class="user-profile"
-               style="text-decoration: none; color: inherit; cursor: pointer;">
+            <!-- PROFILE -->
 
-                <div class="user-avatar" id="headerAvatar">
-                    H
+            <a href="profile.html" class="user-profile">
+
+                <div
+                    class="user-avatar"
+                    id="headerAvatar"
+                >
+                    U
                 </div>
 
-                <div>
 
-                    <strong id="headerUserName">
-                        Honey
+                <div class="profile-details">
+
+                    <strong
+                        class="profile-name"
+                        id="headerUserName"
+                    >
+                        User
                     </strong>
 
-                    <span id="headerUserRole">
-                        Junior
+
+                    <span
+                        class="profile-role"
+                        id="headerUserRole"
+                    >
+                        Student
                     </span>
 
                 </div>
@@ -135,8 +154,10 @@
 
 
 
-        <!-- HERO SECTION -->
+        <!-- ================= HERO ================= -->
+
         <section class="dashboard-hero">
+
 
             <div class="hero-content">
 
@@ -159,16 +180,18 @@
 
                 <div class="hero-buttons">
 
-                    <a href="/frontend/mentor.html"
-                       class="primary-hero-btn">
-
+                    <a
+                        href="mentor.html"
+                        class="primary-hero-btn"
+                    >
                         Find Your Mentor →
                     </a>
 
 
-                    <a href="/frontend/discussion.html"
-                       class="secondary-hero-btn">
-
+                    <a
+                        href="discussion.html"
+                        class="secondary-hero-btn"
+                    >
                         Join Discussions
                     </a>
 
@@ -177,15 +200,20 @@
             </div>
 
 
+
+            <!-- HERO VISUAL -->
+
             <div class="hero-visual">
 
                 <div class="floating-card card-one">
                     💡 <span>Ask doubts</span>
                 </div>
 
+
                 <div class="hero-icon">
                     🎓
                 </div>
+
 
                 <div class="floating-card card-two">
                     🎯 <span>Find guidance</span>
@@ -193,12 +221,15 @@
 
             </div>
 
+
         </section>
 
 
 
-        <!-- STATS -->
+        <!-- ================= STATS ================= -->
+
         <section class="dashboard-stats">
+
 
             <div class="dashboard-stat-card">
 
@@ -212,6 +243,7 @@
                 </div>
 
             </div>
+
 
 
             <div class="dashboard-stat-card">
@@ -228,6 +260,7 @@
             </div>
 
 
+
             <div class="dashboard-stat-card">
 
                 <div class="dashboard-stat-icon">
@@ -235,11 +268,12 @@
                 </div>
 
                 <div>
-                    <h3>18</h3>
+                    <h3>24</h3>
                     <p>Resources Saved</p>
                 </div>
 
             </div>
+
 
 
             <div class="dashboard-stat-card">
@@ -255,18 +289,23 @@
 
             </div>
 
+
         </section>
 
 
 
-        <!-- YOUR CHANNELS -->
+        <!-- ================= YOUR CHANNELS ================= -->
+
         <section class="your-channels-section">
+
 
             <div class="section-header">
 
                 <div>
 
-                    <h2>Your Channels</h2>
+                    <h2>
+                        Your Channels
+                    </h2>
 
                     <p>
                         Communities matching your interests
@@ -275,15 +314,18 @@
                 </div>
 
 
-                <a href="/frontend/discussion.html">
+                <a href="discussion.html">
                     View All →
                 </a>
 
             </div>
 
 
+
             <div class="channels-grid">
 
+
+                <!-- DEVELOPMENT -->
 
                 <div class="channel-card">
 
@@ -291,20 +333,27 @@
                         💻
                     </div>
 
-                    <h3>Development</h3>
+
+                    <h3>
+                        Development
+                    </h3>
+
 
                     <p>
                         Discuss web development, backend,
                         projects and technologies.
                     </p>
 
-                    <button>
+
+                    <button onclick="window.location.href='discussion.html'">
                         Explore →
                     </button>
 
                 </div>
 
 
+
+                <!-- AI ML -->
 
                 <div class="channel-card">
 
@@ -312,14 +361,19 @@
                         🤖
                     </div>
 
-                    <h3>AI / ML</h3>
+
+                    <h3>
+                        AI / ML
+                    </h3>
+
 
                     <p>
                         Learn machine learning, AI concepts
                         and build interesting projects.
                     </p>
 
-                    <button>
+
+                    <button onclick="window.location.href='discussion.html'">
                         Explore →
                     </button>
 
@@ -327,20 +381,27 @@
 
 
 
+                <!-- DSA -->
+
                 <div class="channel-card">
 
                     <div class="channel-icon">
                         🧠
                     </div>
 
-                    <h3>DSA</h3>
+
+                    <h3>
+                        DSA
+                    </h3>
+
 
                     <p>
                         Practice problem solving, algorithms
                         and data structures together.
                     </p>
 
-                    <button>
+
+                    <button onclick="window.location.href='discussion.html'">
                         Explore →
                     </button>
 
@@ -349,18 +410,25 @@
 
             </div>
 
+
         </section>
 
 
     </main>
 
+
 </div>
 
 
 
+<!-- ================= JAVASCRIPT ================= -->
+
 <script>
 
-    /* DYNAMIC GREETING */
+
+    /* =========================
+       DYNAMIC GREETING
+    ========================== */
 
     function setDynamicGreeting() {
 
@@ -383,84 +451,23 @@
 
         else if (hours >= 22 || hours < 5) {
 
-            greetingText = "Good night 🌌";
+            greetingText = "Good evening 🌙";
 
         }
 
 
-        const greetingElement =
-            document.getElementById("dynamicGreeting");
-
-
-        if (greetingElement) {
-
-            greetingElement.textContent =
-                greetingText;
-
-        }
+        document.getElementById("dynamicGreeting").textContent =
+            greetingText;
 
     }
 
 
 
-    /* UPDATE USER DATA */
+    /* =========================
+       LOAD USER DATA
+    ========================== */
 
-    function updateUIWithUserData(userName, userRole) {
-
-        if (!userName) return;
-
-
-        const welcomeHeading =
-            document.getElementById("welcome-heading");
-
-        const headerUserName =
-            document.getElementById("headerUserName");
-
-        const headerAvatar =
-            document.getElementById("headerAvatar");
-
-        const headerUserRole =
-            document.getElementById("headerUserRole");
-
-
-        if (welcomeHeading) {
-
-            welcomeHeading.textContent =
-                `Welcome, ${userName}! 👋`;
-
-        }
-
-
-        if (headerUserName) {
-
-            headerUserName.textContent =
-                userName;
-
-        }
-
-
-        if (headerAvatar) {
-
-            headerAvatar.textContent =
-                userName.charAt(0).toUpperCase();
-
-        }
-
-
-        if (headerUserRole && userRole) {
-
-            headerUserRole.textContent =
-                userRole;
-
-        }
-
-    }
-
-
-
-    /* LOAD USER FROM LOCAL STORAGE */
-
-    function loadSavedLocalUser() {
+    function loadUserData() {
 
         const savedName =
             localStorage.getItem("userName");
@@ -469,12 +476,40 @@
             localStorage.getItem("userRole");
 
 
+        const headerUserName =
+            document.getElementById("headerUserName");
+
+        const headerUserRole =
+            document.getElementById("headerUserRole");
+
+        const headerAvatar =
+            document.getElementById("headerAvatar");
+
+
         if (savedName) {
 
-            updateUIWithUserData(
-                savedName,
-                savedRole
-            );
+            headerUserName.textContent =
+                savedName;
+
+
+            headerAvatar.textContent =
+                savedName
+                    .charAt(0)
+                    .toUpperCase();
+
+
+            document.getElementById("welcome-heading").textContent =
+                "Welcome, " +
+                savedName.split(" ")[0] +
+                "!";
+
+        }
+
+
+        if (savedRole) {
+
+            headerUserRole.textContent =
+                savedRole;
 
         }
 
@@ -482,210 +517,26 @@
 
 
 
-    /* FETCH USER DATA */
-
-    async function loadDashboardData() {
-
-        const token =
-            localStorage.getItem("token");
-
-
-        if (!token) return;
-
-
-        try {
-
-            const userRes = await fetch(
-                "http://localhost:5000/api/auth/me",
-                {
-                    method: "GET",
-
-                    headers: {
-                        "Authorization": `Bearer ${token}`
-                    }
-                }
-            );
-
-
-            if (userRes.ok) {
-
-                const user =
-                    await userRes.json();
-
-
-                const fullName =
-                    user.name ||
-                    user.username ||
-                    localStorage.getItem("userName");
-
-
-                const role =
-                    user.role ||
-                    localStorage.getItem("userRole") ||
-                    "Student";
-
-
-                if (fullName) {
-
-                    updateUIWithUserData(
-                        fullName,
-                        role
-                    );
-
-
-                    localStorage.setItem(
-                        "userName",
-                        fullName
-                    );
-
-
-                    if (role) {
-
-                        localStorage.setItem(
-                            "userRole",
-                            role
-                        );
-
-                    }
-
-                }
-
-            }
-
-        }
-
-        catch (err) {
-
-            console.error(
-                "Error fetching user info:",
-                err
-            );
-
-        }
-
-
-        /* FETCH CHANNELS */
-
-        try {
-
-            const channelRes =
-                await fetch(
-                    "http://localhost:5000/api/channels",
-                    {
-                        method: "GET",
-
-                        headers: {
-
-                            "Authorization":
-                                `Bearer ${token}`,
-
-                            "Content-Type":
-                                "application/json"
-
-                        }
-
-                    }
-                );
-
-
-            if (channelRes.ok) {
-
-                const channels =
-                    await channelRes.json();
-
-
-                console.log(
-                    "User Channels:",
-                    channels
-                );
-
-            }
-
-        }
-
-        catch (error) {
-
-            console.error(
-                "Error loading channels:",
-                error
-            );
-
-        }
-
-    }
-
-
-
-    /* SIDEBAR TOGGLE */
-
-    function initSidebarToggle() {
-
-        const sidebar =
-            document.getElementById("sidebar");
-
-        const toggleBtn =
-            document.getElementById(
-                "toggleSidebarBtn"
-            );
-
-        const openBtn =
-            document.getElementById(
-                "openSidebarBtn"
-            );
-
-
-        function toggleMenu() {
-
-            sidebar.classList.toggle(
-                "collapsed"
-            );
-
-        }
-
-
-        if (toggleBtn) {
-
-            toggleBtn.addEventListener(
-                "click",
-                toggleMenu
-            );
-
-        }
-
-
-        if (openBtn) {
-
-            openBtn.addEventListener(
-                "click",
-                toggleMenu
-            );
-
-        }
-
-    }
-
-
-
-    /* PAGE LOAD */
+    /* =========================
+       PAGE LOAD
+    ========================== */
 
     window.addEventListener(
         "DOMContentLoaded",
-        () => {
+        function () {
 
             setDynamicGreeting();
 
-            loadSavedLocalUser();
-
-            loadDashboardData();
-
-            initSidebarToggle();
+            loadUserData();
 
         }
     );
 
 
 
-    /* LOGOUT */
+    /* =========================
+       LOGOUT
+    ========================== */
 
     const logoutBtn =
         document.getElementById("logoutBtn");
@@ -700,10 +551,7 @@
                 event.preventDefault();
 
 
-                localStorage.removeItem(
-                    "token"
-                );
-
+                localStorage.removeItem("token");
 
                 window.location.href =
                     "index.html";
@@ -713,7 +561,9 @@
 
     }
 
+
 </script>
+
 
 </body>
 

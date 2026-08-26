@@ -23,3 +23,11 @@
                         <p class="greeting" id="dynamicGreeting">Good morning 👋</p>
                         <h1 id="welcome-heading">Welcome!</h1>
                     </div>
+
+                    <script>
+    const savedPhoto = localStorage.getItem("profileImage");
+
+    if (savedPhoto) {
+        document.getElementById("globalProfilePhoto").src = savedPhoto;
+    }
+</script>
