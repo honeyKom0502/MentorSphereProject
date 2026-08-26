@@ -6687,10 +6687,83 @@ body {
     width: 100px;
     height: 100px;
     object-fit: contain;
-
+    border-radius: 50%;
     position: relative;
     left: 70px;
     top: 20px;
 
     border-radius: 0;
+}
+.theme-toggle {
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: inherit;
+}
+
+/* DARK THEME */
+body.dark-mode {
+    background-color: #121212;
+    color: white;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .main-content {
+    background-color: #121212;
+}
+
+body.dark-mode .card {
+    background-color: #242424;
+    color: white;
+}
+.theme-switch {
+    display: flex;
+    align-items: center;
+}
+
+#theme-toggle {
+    display: none;
+}
+
+.toggle-label {
+    width: 70px;
+    height: 36px;
+    background: #1f2937;
+    border-radius: 50px;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    transition: 0.3s;
+    padding: 2px;
+}
+
+.toggle-label::before {
+    content: "";
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: white;
+    border-radius: 50%;
+    left: 3px;
+    transition: 0.3s;
+}
+
+.toggle-label span {
+    z-index: 1;
+    font-size: 17px;
+}
+
+/* DARK MODE */
+#theme-toggle:checked + .toggle-label {
+    background: #111827;
+}
+
+#theme-toggle:checked + .toggle-label::before {
+    transform: translateX(34px);
 }
