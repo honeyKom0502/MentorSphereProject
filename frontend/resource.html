@@ -106,7 +106,7 @@
                         </strong>
 
                         <span id="userRole">
-                            Senior Student
+                            Junior Student
                         </span>
 
                     </div>
@@ -393,12 +393,11 @@
         }
 
 
-        /* ROLE */
+        /* ROLE - EXACT SELECTED ROLE */
 
         if (savedRole && savedRole.trim() !== "") {
 
-            userRole.textContent =
-                savedRole + " Student";
+            userRole.textContent = savedRole;
 
         }
 
@@ -407,7 +406,7 @@
 
         if (savedPhoto && savedPhoto.trim() !== "") {
 
-            userAvatar.innerHTML = "";
+            userAvatar.textContent = "";
 
             userAvatar.style.backgroundImage =
                 `url("${savedPhoto}")`;

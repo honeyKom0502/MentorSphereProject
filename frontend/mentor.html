@@ -17,473 +17,477 @@
 
 <body>
 
-    <div class="dashboard-page">
+<div class="app-layout">
 
-        <!-- SIDEBAR -->
-        <aside class="dashboard-sidebar">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
 
-            <a href="dashboard.html" class="dashboard-logo">
-                <div class="dashboard-logo-icon">M</div>
-                <span>MentorSphere</span>
+        <a href="dashboard.html" class="sidebar-logo">
+            <div class="logo-icon">M</div>
+            <span>MentorSphere</span>
+        </a>
+
+        <nav class="sidebar-nav">
+
+            <a href="dashboard.html">
+                <span></span>
+                Dashboard
             </a>
 
-            <nav class="sidebar-menu">
+            <a href="mentor.html" class="active">
+                <span>👨‍🏫</span>
+                Find Mentors
+            </a>
 
-                <a href="dashboard.html" class="sidebar-link">
-                    <span></span>
-                    Dashboard
-                </a>
+            <a href="discussion.html">
+                <span></span>
+                Discussions
+            </a>
 
-                <a href="mentor.html" class="sidebar-link active">
-                    <span>👨‍🏫</span>
-                    Find Mentors
-                </a>
+            <a href="resource.html">
+                <span></span>
+                Resources
+            </a>
 
-                <a href="discussion.html" class="sidebar-link">
-                    <span></span>
-                    Discussions
-                </a>
+            <a href="placement.html">
+                <span></span>
+                Placements
+            </a>
 
-                <a href="resource.html" class="sidebar-link">
-                    <span></span>
-                    Resources
-                </a>
+        </nav>
 
-                <a href="placement.html" class="sidebar-link">
-                    <span></span>
-                    Placements
-                </a>
+        <div class="sidebar-bottom">
 
-                <a href="profile.html" class="sidebar-link">
-                    <span></span>
-                    Profile
-                </a>
+            <a href="profile.html">
+                <span></span>
+                Profile
+            </a>
 
-            </nav>
+            <a href="notifications.html">
+                <span>🔔</span>
+                Notifications
+            </a>
 
-            <div class="sidebar-bottom">
+            <a href="#" id="logoutBtn">
+                ↪ <span>Logout</span>
+            </a>
 
-                <a href="notifications.html" class="sidebar-link">
-                    <span>🔔</span>
-                    Notifications
-                </a>
+        </div>
 
-                <a href="#" id="logoutBtn" class="sidebar-link">
-                    <span>↪</span>
-                    Logout
-                </a>
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-area">
+
+        <!-- TOP -->
+        <div class="page-top">
+
+            <div>
+                <p class="page-label">
+                    MENTOR DISCOVERY
+                </p>
+
+                <h1>
+                    Find the right mentor ✨
+                </h1>
+            </div>
+
+
+            <!-- USER PROFILE -->
+            <a href="profile.html" class="user-profile">
+
+                <img
+                    id="globalProfilePhoto"
+                    class="user-avatar"
+                    alt="Profile Photo"
+                >
+
+                <div>
+
+                    <strong id="userName">
+                        User
+                    </strong>
+
+                    <span id="userRole">
+                        Senior
+                    </span>
+
+                </div>
+
+            </a>
+
+        </div>
+
+
+        <!-- HERO -->
+        <section class="mentor-hero">
+
+            <div class="mentor-hero-content">
+
+                <span class="mentor-badge">
+                    ✦ Personalized recommendations
+                </span>
+
+                <h2>
+                    Learn from people who have
+                    <span>already been there.</span>
+                </h2>
+
+                <p>
+                    Discover seniors and alumni based on your skills,
+                    interests and career goals.
+                </p>
 
             </div>
 
-        </aside>
+            <div class="mentor-hero-icon">
+                ✦
+            </div>
+
+        </section>
 
 
-        <!-- MAIN CONTENT -->
-        <main class="dashboard-main">
+        <!-- SEARCH -->
+        <section class="mentor-controls">
 
-            <!-- TOPBAR -->
-            <header class="dashboard-topbar">
+            <div class="mentor-search">
+
+                <span>⌕</span>
+
+                <input
+                    type="text"
+                    placeholder="Search mentors by name or skill..."
+                >
+
+            </div>
+
+
+            <div class="mentor-filters">
+
+                <button class="filter-btn active-filter">
+                    All
+                </button>
+
+                <button class="filter-btn">
+                    Development
+                </button>
+
+                <button class="filter-btn">
+                    DSA
+                </button>
+
+                <button class="filter-btn">
+                    AI / ML
+                </button>
+
+                <button class="filter-btn">
+                    Placements
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- RECOMMENDED MENTORS -->
+        <section class="mentors-section">
+
+            <div class="section-header">
 
                 <div>
-                    <p class="page-label">MENTOR DISCOVERY</p>
-                    <h1>Find the right mentor ✨</h1>
-                </div>
-
-
-                <!-- PROFILE -->
-                <a href="profile.html" class="topbar-profile">
-
-                    <img
-                        id="globalProfilePhoto"
-                        class="user-avatar"
-                        src=""
-                        alt="Profile Photo"
-                    >
-
-                    <div class="topbar-user-info">
-                        <strong id="userName">User</strong>
-                        <span id="userRole">Senior</span>
-                    </div>
-
-                </a>
-
-            </header>
-
-
-            <!-- HERO -->
-            <section class="mentor-hero">
-
-                <div class="mentor-hero-content">
-
-                    <span class="mentor-badge">
-                        ✦ Personalized recommendations
-                    </span>
 
                     <h2>
-                        Learn from people who have
-                        <span>already been there.</span>
+                        Recommended for you
                     </h2>
 
                     <p>
-                        Discover seniors and alumni based on your skills,
-                        interests and career goals.
+                        Based on your interests and learning goals.
                     </p>
 
                 </div>
 
-                <div class="mentor-hero-icon">
-                    ✦
-                </div>
+                <span class="mentor-count">
+                    4 mentors available
+                </span>
 
-            </section>
-
-
-            <!-- SEARCH -->
-            <section class="mentor-controls">
-
-                <div class="mentor-search">
-
-                    <span>⌕</span>
-
-                    <input
-                        type="text"
-                        placeholder="Search mentors by name or skill..."
-                    >
-
-                </div>
+            </div>
 
 
-                <div class="mentor-filters">
+            <div class="mentors-grid">
 
-                    <button class="filter-btn active-filter">
-                        All
-                    </button>
+                <!-- MENTOR 1 -->
+                <article class="mentor-card">
 
-                    <button class="filter-btn">
-                        Development
-                    </button>
+                    <div class="mentor-card-top">
 
-                    <button class="filter-btn">
-                        DSA
-                    </button>
+                        <div class="mentor-profile">
 
-                    <button class="filter-btn">
-                        AI / ML
-                    </button>
+                            <div class="mentor-avatar purple-avatar">
+                                R
+                            </div>
 
-                    <button class="filter-btn">
-                        Placements
-                    </button>
+                            <div>
+                                <h3>Rahul Sharma</h3>
+                                <p>Senior Student</p>
+                            </div>
 
-                </div>
+                        </div>
 
-            </section>
+                        <span class="match-badge">
+                            94% Match
+                        </span>
 
-
-            <!-- RECOMMENDED MENTORS -->
-            <section class="mentors-section">
-
-                <div class="section-header">
-
-                    <div>
-                        <h2>Recommended for you</h2>
-
-                        <p>
-                            Based on your interests and learning goals.
-                        </p>
                     </div>
 
-                    <span class="mentor-count">
-                        4 mentors available
-                    </span>
+                    <p class="mentor-description">
+                        Helping students master Java, Backend Development
+                        and Data Structures.
+                    </p>
 
-                </div>
+                    <div class="mentor-skills">
+                        <span>Java</span>
+                        <span>Backend</span>
+                        <span>DSA</span>
+                    </div>
+
+                    <button class="connect-btn">
+                        Connect →
+                    </button>
+
+                </article>
 
 
-                <div class="mentors-grid">
+                <!-- MENTOR 2 -->
+                <article class="mentor-card">
 
-                    <!-- MENTOR 1 -->
-                    <article class="mentor-card">
+                    <div class="mentor-card-top">
 
-                        <div class="mentor-card-top">
+                        <div class="mentor-profile">
 
-                            <div class="mentor-profile">
-
-                                <div class="mentor-avatar purple-avatar">
-                                    R
-                                </div>
-
-                                <div>
-                                    <h3>Rahul Sharma</h3>
-                                    <p>Senior Student</p>
-                                </div>
-
+                            <div class="mentor-avatar blue-avatar">
+                                A
                             </div>
 
-                            <span class="match-badge">
-                                94% Match
-                            </span>
-
-                        </div>
-
-                        <p class="mentor-description">
-                            Helping students master Java, Backend Development
-                            and Data Structures.
-                        </p>
-
-                        <div class="mentor-skills">
-                            <span>Java</span>
-                            <span>Backend</span>
-                            <span>DSA</span>
-                        </div>
-
-                        <button class="connect-btn">
-                            Connect →
-                        </button>
-
-                    </article>
-
-
-                    <!-- MENTOR 2 -->
-                    <article class="mentor-card">
-
-                        <div class="mentor-card-top">
-
-                            <div class="mentor-profile">
-
-                                <div class="mentor-avatar blue-avatar">
-                                    A
-                                </div>
-
-                                <div>
-                                    <h3>Anjali Mehta</h3>
-                                    <p>Alumni</p>
-                                </div>
-
+                            <div>
+                                <h3>Anjali Mehta</h3>
+                                <p>Alumni</p>
                             </div>
 
-                            <span class="match-badge">
-                                89% Match
-                            </span>
-
                         </div>
 
-                        <p class="mentor-description">
-                            Guiding students in web development, projects
-                            and building strong portfolios.
-                        </p>
+                        <span class="match-badge">
+                            89% Match
+                        </span>
 
-                        <div class="mentor-skills">
-                            <span>Web Dev</span>
-                            <span>React</span>
-                            <span>Projects</span>
-                        </div>
+                    </div>
 
-                        <button class="connect-btn">
-                            Connect →
-                        </button>
+                    <p class="mentor-description">
+                        Guiding students in web development, projects
+                        and building strong portfolios.
+                    </p>
 
-                    </article>
+                    <div class="mentor-skills">
+                        <span>Web Dev</span>
+                        <span>React</span>
+                        <span>Projects</span>
+                    </div>
+
+                    <button class="connect-btn">
+                        Connect →
+                    </button>
+
+                </article>
 
 
-                    <!-- MENTOR 3 -->
-                    <article class="mentor-card">
+                <!-- MENTOR 3 -->
+                <article class="mentor-card">
 
-                        <div class="mentor-card-top">
+                    <div class="mentor-card-top">
 
-                            <div class="mentor-profile">
+                        <div class="mentor-profile">
 
-                                <div class="mentor-avatar orange-avatar">
-                                    A
-                                </div>
-
-                                <div>
-                                    <h3>Aman Verma</h3>
-                                    <p>Senior Student</p>
-                                </div>
-
+                            <div class="mentor-avatar orange-avatar">
+                                A
                             </div>
 
-                            <span class="match-badge">
-                                86% Match
-                            </span>
-
-                        </div>
-
-                        <p class="mentor-description">
-                            Exploring Artificial Intelligence, Machine Learning
-                            and practical ML projects.
-                        </p>
-
-                        <div class="mentor-skills">
-                            <span>Python</span>
-                            <span>Machine Learning</span>
-                            <span>AI</span>
-                        </div>
-
-                        <button class="connect-btn">
-                            Connect →
-                        </button>
-
-                    </article>
-
-
-                    <!-- MENTOR 4 -->
-                    <article class="mentor-card">
-
-                        <div class="mentor-card-top">
-
-                            <div class="mentor-profile">
-
-                                <div class="mentor-avatar green-avatar">
-                                    K
-                                </div>
-
-                                <div>
-                                    <h3>Karan Singh</h3>
-                                    <p>Alumni</p>
-                                </div>
-
+                            <div>
+                                <h3>Aman Verma</h3>
+                                <p>Senior Student</p>
                             </div>
 
-                            <span class="match-badge">
-                                82% Match
-                            </span>
+                        </div>
+
+                        <span class="match-badge">
+                            86% Match
+                        </span>
+
+                    </div>
+
+                    <p class="mentor-description">
+                        Exploring Artificial Intelligence, Machine Learning
+                        and practical ML projects.
+                    </p>
+
+                    <div class="mentor-skills">
+                        <span>Python</span>
+                        <span>Machine Learning</span>
+                        <span>AI</span>
+                    </div>
+
+                    <button class="connect-btn">
+                        Connect →
+                    </button>
+
+                </article>
+
+
+                <!-- MENTOR 4 -->
+                <article class="mentor-card">
+
+                    <div class="mentor-card-top">
+
+                        <div class="mentor-profile">
+
+                            <div class="mentor-avatar green-avatar">
+                                K
+                            </div>
+
+                            <div>
+                                <h3>Karan Singh</h3>
+                                <p>Alumni</p>
+                            </div>
 
                         </div>
 
-                        <p class="mentor-description">
-                            Helping students prepare for placements, interviews
-                            and their transition into industry.
-                        </p>
+                        <span class="match-badge">
+                            82% Match
+                        </span>
 
-                        <div class="mentor-skills">
-                            <span>Placements</span>
-                            <span>Interviews</span>
-                            <span>Career</span>
-                        </div>
+                    </div>
 
-                        <button class="connect-btn">
-                            Connect →
-                        </button>
+                    <p class="mentor-description">
+                        Helping students prepare for placements, interviews
+                        and their transition into industry.
+                    </p>
 
-                    </article>
+                    <div class="mentor-skills">
+                        <span>Placements</span>
+                        <span>Interviews</span>
+                        <span>Career</span>
+                    </div>
 
-                </div>
+                    <button class="connect-btn">
+                        Connect →
+                    </button>
 
-            </section>
+                </article>
 
-        </main>
+            </div>
 
-    </div>
+        </section>
+
+    </main>
+
+</div>
 
 
-    <script>
+<script>
 
-        /* =========================
-           LOGOUT
-        ========================= */
+    /* =========================
+       LOGOUT
+    ========================= */
 
-        const logoutBtn = document.getElementById("logoutBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
 
-        if (logoutBtn) {
+    if (logoutBtn) {
 
-            logoutBtn.addEventListener("click", function (event) {
+        logoutBtn.addEventListener("click", function (event) {
 
-                event.preventDefault();
+            event.preventDefault();
 
-                localStorage.removeItem("token");
+            localStorage.removeItem("token");
 
-                window.location.href = "index.html";
+            window.location.href = "index.html";
 
-            });
+        });
+
+    }
+
+
+    /* =========================
+       LOAD USER DATA
+    ========================= */
+
+    const savedName =
+        localStorage.getItem("userName") || "User";
+
+    const savedRole =
+        localStorage.getItem("userRole") || "Senior";
+
+    const savedPhoto =
+        localStorage.getItem("profileImage");
+
+
+    const userName =
+        document.getElementById("userName");
+
+    const userRole =
+        document.getElementById("userRole");
+
+    const profilePhoto =
+        document.getElementById("globalProfilePhoto");
+
+
+    /* USER NAME */
+
+    if (userName) {
+
+        userName.textContent = savedName;
+
+    }
+
+
+    /* USER ROLE - EXACT SELECTED ROLE */
+
+    if (userRole) {
+
+        userRole.textContent = savedRole;
+
+    }
+
+
+    /* PROFILE PHOTO */
+
+    if (profilePhoto) {
+
+        if (
+            savedPhoto &&
+            savedPhoto.trim() !== ""
+        ) {
+
+            profilePhoto.src = savedPhoto;
+
+        } else {
+
+            const firstLetter =
+                savedName
+                    .trim()
+                    .charAt(0)
+                    .toUpperCase();
+
+            profilePhoto.src =
+                "https://ui-avatars.com/api/?name=" +
+                encodeURIComponent(firstLetter) +
+                "&background=635BBD" +
+                "&color=fff" +
+                "&size=128";
 
         }
 
+    }
 
-        /* =========================
-           LOAD LATEST USER DATA
-        ========================= */
-
-        const savedName =
-            localStorage.getItem("userName") || "User";
-
-        const savedRole =
-            localStorage.getItem("userRole") || "Senior";
-
-        const savedPhoto =
-            localStorage.getItem("profileImage");
-
-
-        /* UPDATE NAME */
-
-        const userName =
-            document.getElementById("userName");
-
-        if (userName) {
-
-            userName.textContent = savedName;
-
-        }
-
-
-        /* UPDATE ROLE */
-
-        const userRole =
-            document.getElementById("userRole");
-
-        if (userRole) {
-
-            userRole.textContent = savedRole;
-
-        }
-
-
-        /* =========================
-           UPDATE PROFILE AVATAR
-        ========================= */
-
-        const profilePhoto =
-            document.getElementById("globalProfilePhoto");
-
-
-        if (profilePhoto) {
-
-            /* If user uploaded photo */
-
-            if (
-                savedPhoto &&
-                savedPhoto.trim() !== ""
-            ) {
-
-                profilePhoto.src = savedPhoto;
-
-            }
-
-            /* Otherwise show first letter
-               of CURRENT user name */
-
-            else {
-
-                const firstLetter =
-                    savedName
-                        .trim()
-                        .charAt(0)
-                        .toUpperCase();
-
-                profilePhoto.src =
-                    "https://ui-avatars.com/api/?name=" +
-                    encodeURIComponent(firstLetter) +
-                    "&background=635BBD" +
-                    "&color=fff" +
-                    "&size=128";
-
-            }
-
-        }
-
-    </script>
+</script>
 
 </body>
-
 </html>

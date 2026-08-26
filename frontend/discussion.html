@@ -12,90 +12,50 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
+
+    <style>
+        .profile-avatar-wrapper {
+            position: relative;
+            width: 72px;
+            height: 72px;
+            flex-shrink: 0;
+        }
+
+        .profile-avatar-wrapper .user-avatar,
+        .profile-avatar-wrapper .profile-initial {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+        }
+
+        .profile-avatar-wrapper .user-avatar {
+            display: none;
+            object-fit: cover;
+        }
+
+        .profile-initial {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #4b3f91, #7568d8);
+            color: white;
+            font-size: 28px;
+            font-weight: 700;
+        }
+    </style>
 </head>
-<!-- Socket.io Client SDK -->
-<script src="https://cdn.socket.io/4.7.5/socket.io.min.js">
-    // 1. Socket server se connect karo
-const socket = io('http://localhost:5000');
-
-// LocalStorage se saved token aur active Channel ID fetch karo
-const token = localStorage.getItem('token');
-const currentChannelId = '65f123abc456def789012345'; // Aapki actual Channel ID paste karein
-
-// 2. Specific Channel Room Join Karo
-socket.emit('join_channel', currentChannelId);
-
-// 3. Form Submission Handling (Message Send)
-const messageForm = document.querySelector('#message-form'); // HTML form element ki ID
-const messageInput = document.querySelector('#message-input'); // Textbox input ki ID
-const chatContainer = document.querySelector('#chat-messages'); // Message display container ID
-
-if (messageForm) {
-  messageForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const content = messageInput.value.trim();
-    if (!content) return;
-
-    try {
-      // Step A: DB me save karne ke liye HTTP POST call
-      const res = await fetch('http://localhost:5000/api/messages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ channelId: currentChannelId, content })
-      });
-
-      const savedMessage = await res.json();
-
-      if (res.ok) {
-        // Step B: Socket event emit karke bakiyo ko notification bhejo
-        socket.emit('send_message', savedMessage);
-        messageInput.value = ''; // Input box clear karo
-      }
-    } catch (err) {
-      console.error('Message send karne me error aaya:', err);
-    }
-  });
-}
-
-// 4. Real-time Incoming Messages Listener
-socket.on('receive_message', (data) => {
-  if (chatContainer) {
-    const msgElement = document.createElement('div');
-    msgElement.classList.add('message-item');
-    msgElement.innerHTML = `<strong>${data.sender?.name || 'User'}:</strong> ${data.content}`;
-    chatContainer.appendChild(msgElement);
-    
-    // Auto-scroll to bottom
-    chatContainer.scrollTop = chatContainer.scrollHeight;
-  }
-});
-</script>
 
 <body>
 
 <div class="app-layout">
 
     <!-- SIDEBAR -->
-
     <aside class="sidebar">
-        <div class="sidebar-header" style="display: flex; align-items: center; justify-content: space-between;">
-                
-                <!-- Inside Sidebar Toggle Button -->
-              <!---->  
-            </div>
 
-            <a>
-        <img id="navbarProfileImage" class="user-avatar" src="" alt="Profile">
-
+        <a href="dashboard.html" class="sidebar-logo">
             <div class="logo-icon">M</div>
-
             <span>MentorSphere</span>
-
         </a>
-
 
         <nav class="sidebar-nav">
 
@@ -103,7 +63,6 @@ socket.on('receive_message', (data) => {
                 <span></span>
                 Dashboard
             </a>
-            
 
             <a href="mentor.html">
                 <span></span>
@@ -125,39 +84,33 @@ socket.on('receive_message', (data) => {
                 Placements
             </a>
 
-            <a href="profile.html" class="active">
-            <span></span>
-            Profile
+            <a href="profile.html">
+                <span></span>
+                Profile
             </a>
 
-
         </nav>
-
 
         <div class="sidebar-bottom">
 
             <a href="#">
                 <span>🔔</span>
                 Notifications
-                
             </a>
+
             <a href="#" id="logoutBtn">
-                    ↪ <span>Logout</span>
-                </a>
+                ↪ <span>Logout</span>
+            </a>
 
         </div>
 
     </aside>
 
 
-
     <!-- MAIN CONTENT -->
-
     <main class="main-area">
 
-
         <!-- TOP BAR -->
-
         <div class="page-top">
 
             <div>
@@ -173,30 +126,42 @@ socket.on('receive_message', (data) => {
             </div>
 
 
-           <a href="profile.html"
-   class="user-profile"
-   style="text-decoration: none; color: inherit; cursor: pointer;">
+            <!-- USER PROFILE -->
+            <a href="profile.html"
+               class="user-profile"
+               style="text-decoration: none; color: inherit; cursor: pointer;">
 
-     <img id="globalProfilePhoto" class="user-avatar" alt="Profile Photo">
+                <div class="profile-avatar-wrapper">
 
-    <div>
-        <strong id="userName">
-            Honey Kumari
-        </strong>
+                    <div id="globalProfileInitial"
+                         class="profile-initial">
+                        H
+                    </div>
 
-        <span id="userRole">
-            Senior Student
-        </span>
-    </div>
+                    <img id="globalProfilePhoto"
+                         class="user-avatar"
+                         alt="Profile Photo">
 
-</a>
+                </div>
+
+                <div>
+
+                    <strong id="userName">
+                        Honey Kumari
+                    </strong>
+
+                    <span id="userRole">
+                        Junior Student
+                    </span>
+
+                </div>
+
+            </a>
 
         </div>
 
 
-
         <!-- HERO SECTION -->
-
         <section class="discussion-hero">
 
             <div>
@@ -217,178 +182,179 @@ socket.on('receive_message', (data) => {
 
             </div>
 
-
             <button class="ask-question-btn">
                 + Ask a Question
             </button>
 
         </section>
+
+
         <!-- EXPLORE CHANNELS -->
-<section class="channels-section">
+        <section class="channels-section">
 
-    <div class="section-header">
+            <div class="section-header">
 
-        <div>
-            <h2>Explore Channels</h2>
-            <p>Join communities based on your interests.</p>
-        </div>
-
-        <button class="create-channel-btn" id="createChannelBtn">
-            + Create Channel
-        </button>
-
-    </div>
-
-
-    <!-- CHANNEL CARDS -->
-    <div class="channels-grid">
-
-        <!-- DSA -->
-        <div class="channel-card">
-
-            <div class="channel-card-top">
-
-                <div class="channel-icon">
-                    🧠
+                <div>
+                    <h2>Explore Channels</h2>
+                    <p>Join communities based on your interests.</p>
                 </div>
 
-                <div class="channel-info">
-                    <h3>DSA</h3>
-                    <p>Data Structures and Algorithms</p>
-                </div>
-
-            </div>
-
-            <p class="channel-description">
-                Practice problems, discuss concepts and prepare for coding interviews.
-            </p>
-
-            <div class="channel-footer">
-
-                <span class="member-count">
-                    <strong>85</strong> / 140 Members
-                </span>
-
-                <button class="join-channel-btn">
-                    Join Channel
+                <button class="create-channel-btn" id="createChannelBtn">
+                    + Create Channel
                 </button>
 
             </div>
 
-        </div>
+
+            <!-- CHANNEL CARDS -->
+            <div class="channels-grid">
 
 
-        <!-- DEVELOPMENT -->
-        <div class="channel-card">
+                <!-- DSA -->
+                <div class="channel-card">
 
-            <div class="channel-card-top">
+                    <div class="channel-card-top">
 
-                <div class="channel-icon">
-                    💻
+                        <div class="channel-icon">
+                            🧠
+                        </div>
+
+                        <div class="channel-info">
+                            <h3>DSA</h3>
+                            <p>Data Structures and Algorithms</p>
+                        </div>
+
+                    </div>
+
+                    <p class="channel-description">
+                        Practice problems, discuss concepts and prepare for coding interviews.
+                    </p>
+
+                    <div class="channel-footer">
+
+                        <span class="member-count">
+                            <strong>85</strong> / 140 Members
+                        </span>
+
+                        <button class="join-channel-btn">
+                            Join Channel
+                        </button>
+
+                    </div>
+
                 </div>
 
-                <div class="channel-info">
-                    <h3>Development</h3>
-                    <p>Web and Software Development</p>
+
+                <!-- DEVELOPMENT -->
+                <div class="channel-card">
+
+                    <div class="channel-card-top">
+
+                        <div class="channel-icon">
+                            💻
+                        </div>
+
+                        <div class="channel-info">
+                            <h3>Development</h3>
+                            <p>Web and Software Development</p>
+                        </div>
+
+                    </div>
+
+                    <p class="channel-description">
+                        Learn development, build projects and discuss modern technologies.
+                    </p>
+
+                    <div class="channel-footer">
+
+                        <span class="member-count">
+                            <strong>120</strong> / 140 Members
+                        </span>
+
+                        <button class="join-channel-btn">
+                            Join Channel
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- AI / ML -->
+                <div class="channel-card">
+
+                    <div class="channel-card-top">
+
+                        <div class="channel-icon">
+                            🤖
+                        </div>
+
+                        <div class="channel-info">
+                            <h3>AI / ML</h3>
+                            <p>Artificial Intelligence & Machine Learning</p>
+                        </div>
+
+                    </div>
+
+                    <p class="channel-description">
+                        Explore AI, machine learning concepts and practical projects.
+                    </p>
+
+                    <div class="channel-footer">
+
+                        <span class="member-count">
+                            <strong>64</strong> / 140 Members
+                        </span>
+
+                        <button class="join-channel-btn">
+                            Join Channel
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PLACEMENTS -->
+                <div class="channel-card">
+
+                    <div class="channel-card-top">
+
+                        <div class="channel-icon">
+                            🎯
+                        </div>
+
+                        <div class="channel-info">
+                            <h3>Placements</h3>
+                            <p>Career and Interview Preparation</p>
+                        </div>
+
+                    </div>
+
+                    <p class="channel-description">
+                        Prepare for placements, interviews, resumes and career opportunities.
+                    </p>
+
+                    <div class="channel-footer">
+
+                        <span class="member-count">
+                            <strong>98</strong> / 140 Members
+                        </span>
+
+                        <button class="join-channel-btn">
+                            Join Channel
+                        </button>
+
+                    </div>
+
                 </div>
 
             </div>
 
-            <p class="channel-description">
-                Learn development, build projects and discuss modern technologies.
-            </p>
-
-            <div class="channel-footer">
-
-                <span class="member-count">
-                    <strong>120</strong> / 140 Members
-                </span>
-
-                <button class="join-channel-btn">
-                    Join Channel
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- AI / ML -->
-        <div class="channel-card">
-
-            <div class="channel-card-top">
-
-                <div class="channel-icon">
-                    🤖
-                </div>
-
-                <div class="channel-info">
-                    <h3>AI / ML</h3>
-                    <p>Artificial Intelligence & Machine Learning</p>
-                </div>
-
-            </div>
-
-            <p class="channel-description">
-                Explore AI, machine learning concepts and practical projects.
-            </p>
-
-            <div class="channel-footer">
-
-                <span class="member-count">
-                    <strong>64</strong> / 140 Members
-                </span>
-
-                <button class="join-channel-btn">
-                    Join Channel
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- PLACEMENTS -->
-        <div class="channel-card">
-
-            <div class="channel-card-top">
-
-                <div class="channel-icon">
-                    🎯
-                </div>
-
-                <div class="channel-info">
-                    <h3>Placements</h3>
-                    <p>Career and Interview Preparation</p>
-                </div>
-
-            </div>
-
-            <p class="channel-description">
-                Prepare for placements, interviews, resumes and career opportunities.
-            </p>
-
-            <div class="channel-footer">
-
-                <span class="member-count">
-                    <strong>98</strong> / 140 Members
-                </span>
-
-                <button class="join-channel-btn">
-                    Join Channel
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
+        </section>
 
 
         <!-- FILTER SECTION -->
-
         <div class="discussion-toolbar">
 
             <input
@@ -396,7 +362,6 @@ socket.on('receive_message', (data) => {
                 id="discussionSearch"
                 placeholder="🔍 Search discussions..."
             >
-
 
             <div class="discussion-filters">
 
@@ -425,9 +390,7 @@ socket.on('receive_message', (data) => {
         </div>
 
 
-
         <!-- DISCUSSION HEADER -->
-
         <div class="discussion-heading">
 
             <div>
@@ -442,7 +405,6 @@ socket.on('receive_message', (data) => {
 
             </div>
 
-
             <span class="discussion-count">
                 3 discussions
             </span>
@@ -450,20 +412,16 @@ socket.on('receive_message', (data) => {
         </div>
 
 
-
         <!-- DISCUSSION LIST -->
-
         <section class="discussion-list">
 
 
             <!-- DISCUSSION 1 -->
-
             <div class="discussion-card">
 
                 <div class="discussion-avatar purple">
                     H
                 </div>
-
 
                 <div class="discussion-content">
 
@@ -483,11 +441,9 @@ socket.on('receive_message', (data) => {
 
                     </div>
 
-
                     <h3>
                         How to crack DSA? 🚀
                     </h3>
-
 
                     <p>
                         I have started learning DSA but I'm confused
@@ -495,15 +451,12 @@ socket.on('receive_message', (data) => {
                         concepts first or start solving problems?
                     </p>
 
-
                     <div class="discussion-tags">
 
                         <span>DSA</span>
-
                         <span>Roadmap</span>
 
                     </div>
-
 
                     <div class="discussion-actions">
 
@@ -522,15 +475,12 @@ socket.on('receive_message', (data) => {
             </div>
 
 
-
             <!-- DISCUSSION 2 -->
-
             <div class="discussion-card">
 
                 <div class="discussion-avatar blue">
                     A
                 </div>
-
 
                 <div class="discussion-content">
 
@@ -550,11 +500,9 @@ socket.on('receive_message', (data) => {
 
                     </div>
 
-
                     <h3>
                         Best roadmap for Web Development?
                     </h3>
-
 
                     <p>
                         If you're starting web development in 2026,
@@ -562,15 +510,12 @@ socket.on('receive_message', (data) => {
                         towards frameworks and backend development.
                     </p>
 
-
                     <div class="discussion-tags">
 
                         <span>Development</span>
-
                         <span>Career</span>
 
                     </div>
-
 
                     <div class="discussion-actions">
 
@@ -589,15 +534,12 @@ socket.on('receive_message', (data) => {
             </div>
 
 
-
             <!-- DISCUSSION 3 -->
-
             <div class="discussion-card">
 
                 <div class="discussion-avatar pink">
                     R
                 </div>
-
 
                 <div class="discussion-content">
 
@@ -617,11 +559,9 @@ socket.on('receive_message', (data) => {
 
                     </div>
 
-
                     <h3>
                         AI/ML vs Web Development — which should I choose?
                     </h3>
-
 
                     <p>
                         Both fields have great opportunities. The right
@@ -629,15 +569,12 @@ socket.on('receive_message', (data) => {
                         the type of projects you enjoy building.
                     </p>
 
-
                     <div class="discussion-tags">
 
                         <span>AI / ML</span>
-
                         <span>Career</span>
 
                     </div>
-
 
                     <div class="discussion-actions">
 
@@ -655,60 +592,98 @@ socket.on('receive_message', (data) => {
 
             </div>
 
-
         </section>
-
 
     </main>
 
 </div>
 
 
-
 <script>
 
-const savedName = localStorage.getItem("userName");
-const savedRole = localStorage.getItem("userRole");
+    // ==============================
+    // GLOBAL USER PROFILE
+    // ==============================
 
-if (savedName) {
+    const savedName = localStorage.getItem("userName");
+    const savedRole = localStorage.getItem("userRole");
+    const savedImage = localStorage.getItem("profileImage");
 
-    document.getElementById("userName").textContent = savedName;
+    const userName = document.getElementById("userName");
+    const userRole = document.getElementById("userRole");
 
-}
+    const globalProfilePhoto =
+        document.getElementById("globalProfilePhoto");
 
-if (savedRole) {
+    const globalProfileInitial =
+        document.getElementById("globalProfileInitial");
 
-    document.getElementById("userRole").textContent =
-        savedRole + " Student";
 
-}
-// 6. Logout Function
-const logoutBtn = document.getElementById("logoutBtn");
-
-if (logoutBtn) {
-    logoutBtn.addEventListener("click", function (event) {
-        event.preventDefault();
-
-        localStorage.removeItem("token");
-
-        window.location.href = "index.html";
-    });
-}
-</script>
-<script>
-const savedImage = localStorage.getItem("profileImage");
-
-if (savedImage) {
-    document.getElementById("navbarProfileImage").src = savedImage;
-}
-</script>
-<script>
-    const savedPhoto = localStorage.getItem("profileImage");
-
-    if (savedPhoto) {
-        document.getElementById("globalProfilePhoto").src = savedPhoto;
+    // USER NAME
+    if (savedName && userName) {
+        userName.textContent = savedName;
     }
-</script>
-</body>
 
+
+    // USER ROLE
+    // Exactly jo role profile mein select kiya hai wahi show hoga
+    if (savedRole && userRole) {
+        userRole.textContent = savedRole;
+    }
+
+
+    // CORRECT INITIAL
+    const displayName =
+        savedName ||
+        (userName
+            ? userName.textContent.trim()
+            : "User");
+
+    const initial =
+        displayName.charAt(0).toUpperCase();
+
+
+    // PROFILE IMAGE OR INITIAL
+    if (savedImage) {
+
+        globalProfilePhoto.src = savedImage;
+
+        globalProfilePhoto.style.display = "block";
+
+        globalProfileInitial.style.display = "none";
+
+    } else {
+
+        globalProfileInitial.textContent = initial;
+
+        globalProfileInitial.style.display = "flex";
+
+        globalProfilePhoto.style.display = "none";
+    }
+
+
+    // LOGOUT
+    const logoutBtn =
+        document.getElementById("logoutBtn");
+
+    if (logoutBtn) {
+
+        logoutBtn.addEventListener(
+            "click",
+            function (event) {
+
+                event.preventDefault();
+
+                localStorage.removeItem("token");
+
+                window.location.href = "index.html";
+
+            }
+        );
+
+    }
+
+</script>
+
+</body>
 </html>

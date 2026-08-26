@@ -21,9 +21,7 @@
 
 <div class="app-layout">
 
-
     <!-- SIDEBAR -->
-
     <aside class="sidebar">
 
         <a href="dashboard.html" class="sidebar-logo">
@@ -88,12 +86,10 @@
 
 
     <!-- MAIN CONTENT -->
-
     <main class="main-area">
 
 
         <!-- TOP -->
-
         <div class="page-top">
 
             <div>
@@ -110,7 +106,6 @@
 
 
             <!-- USER PROFILE -->
-
             <a href="profile.html"
                class="user-profile"
                style="text-decoration: none; color: inherit; cursor: pointer;">
@@ -138,7 +133,6 @@
 
 
         <!-- HERO -->
-
         <section class="placement-hero">
 
             <div>
@@ -171,7 +165,6 @@
 
 
         <!-- SEARCH + FILTER -->
-
         <section class="placement-toolbar">
 
             <input
@@ -210,7 +203,6 @@
 
 
         <!-- SECTION HEADING -->
-
         <div class="placement-heading">
 
             <div>
@@ -235,12 +227,10 @@
 
 
         <!-- PLACEMENT CARDS -->
-
         <section class="placement-grid">
 
 
             <!-- CARD 1 -->
-
             <div class="placement-card">
 
                 <div class="placement-icon purple">
@@ -283,7 +273,6 @@
 
 
             <!-- CARD 2 -->
-
             <div class="placement-card">
 
                 <div class="placement-icon blue">
@@ -326,7 +315,6 @@
 
 
             <!-- CARD 3 -->
-
             <div class="placement-card">
 
                 <div class="placement-icon pink">
@@ -369,7 +357,6 @@
 
 
             <!-- CARD 4 -->
-
             <div class="placement-card">
 
                 <div class="placement-icon orange">
@@ -412,7 +399,6 @@
 
         </section>
 
-
     </main>
 
 </div>
@@ -446,24 +432,23 @@
     }
 
 
-    /* ROLE */
+    /* ROLE - EXACTLY AS SELECTED */
 
     if (savedRole && savedRole.trim() !== "") {
 
-        userRole.textContent =
-            savedRole + " Student";
+        userRole.textContent = savedRole;
 
     }
 
 
     /* PROFILE PHOTO */
 
-    if (savedPhoto) {
+    if (savedPhoto && savedPhoto.trim() !== "") {
 
-        userAvatar.innerHTML = "";
+        userAvatar.textContent = "";
 
         userAvatar.style.backgroundImage =
-            `url(${savedPhoto})`;
+            `url("${savedPhoto}")`;
 
         userAvatar.style.backgroundSize = "cover";
         userAvatar.style.backgroundPosition = "center";
