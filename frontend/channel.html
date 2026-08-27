@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Channel | MentorSphere</title>
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="style.css">
+
+</head>
+
+
+<body>
+
+<div class="app-layout">
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <a href="dashboard.html"
+           class="sidebar-logo">
+
+            <div class="logo">
+
+                <img src="images/logo.png"
+                     alt="MentorSphere Logo">
+
+            </div>
+
+        </a>
+
+
+        <nav class="sidebar-nav">
+
+            <a href="dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="mentor.html">
+                Find Mentors
+            </a>
+
+            <a href="discussion.html"
+               class="active">
+                💬 Discussions
+            </a>
+
+            <a href="resource.html">
+                Resources
+            </a>
+
+            <a href="placement.html">
+                Placements
+            </a>
+
+            <a href="profile.html">
+                Profile
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+
+    <!-- MAIN AREA -->
+
+    <main class="main-area channel-main">
+
+
+        <!-- BACK -->
+
+        <a href="discussion.html"
+           class="back-btn">
+
+            ← Back to Discussions
+
+        </a>
+
+
+
+        <!-- CHANNEL HEADER -->
+
+        <section class="modern-channel-header">
+
+
+            <div class="channel-main-info">
+
+
+                <div class="channel-icon-box"
+                     id="channelIcon">
+
+                    🧠
+
+                </div>
+
+
+                <div>
+
+                    <div class="channel-name-row">
+
+                        <span class="channel-hash">
+                            #
+                        </span>
+
+                        <h1 id="channelName">
+                            DSA
+                        </h1>
+
+                    </div>
+
+
+                    <p id="channelDescription">
+                        Data Structures and Algorithms
+                    </p>
+
+
+                    <div class="channel-meta">
+
+                        <span>
+
+                            👥
+                            <strong id="memberCount">
+                                1
+                            </strong>
+                            Members
+
+                        </span>
+
+
+                        <span class="safe-discussion">
+
+                            🔒 Safe Anonymous Discussion
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="channel-status">
+
+                <span class="online-dot">
+                </span>
+
+                Community Active
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- CHAT SECTION -->
+
+        <section class="modern-chat-section">
+
+
+            <!-- WELCOME -->
+
+            <div class="channel-welcome">
+
+                <div class="welcome-icon"
+                     id="welcomeIcon">
+
+                    🧠
+
+                </div>
+
+
+                <div>
+
+                    <p class="welcome-small">
+
+                        WELCOME TO
+
+                    </p>
+
+
+                    <h2 id="welcomeChannelName">
+
+                        # DSA
+
+                    </h2>
+
+
+                    <p>
+
+                        Ask questions, share knowledge and learn
+                        with juniors, seniors and alumni in a safe
+                        anonymous space.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- DIVIDER -->
+
+            <div class="discussion-divider">
+
+                <span>
+                    COMMUNITY DISCUSSION
+                </span>
+
+            </div>
+
+
+
+            <!-- MESSAGES -->
+
+            <div class="messages-container modern-messages"
+                 id="messagesContainer">
+
+            </div>
+
+
+
+            <!-- REPLY STATUS -->
+
+            <div class="reply-status"
+                 id="replyStatus"
+                 style="display: none;">
+
+                <div>
+
+                    <span class="reply-label">
+
+                        Replying to
+
+                    </span>
+
+                    <strong id="replyUser">
+                    </strong>
+
+                </div>
+
+
+                <button id="cancelReply"
+                        type="button">
+
+                    ✕ Cancel
+
+                </button>
+
+            </div>
+
+
+
+            <!-- MESSAGE INPUT -->
+
+            <div class="modern-message-input">
+
+                <div class="input-icon">
+
+                    💬
+
+                </div>
+
+
+                <input type="text"
+                       id="messageInput"
+                       placeholder="Share your thoughts with the community...">
+
+
+                <button id="sendMessageBtn"
+                        type="button">
+
+                    Send
+                    <span>
+                        ➤
+                    </span>
+
+                </button>
+
+            </div>
+
+
+            <p class="anonymous-note">
+
+                🔒 Your real identity is hidden.
+                You are visible only through your anonymous ID.
+
+            </p>
+
+
+        </section>
+
+
+    </main>
+
+</div>
+
+
+
+<script>
+
+
+    // =========================================
+    // GET CHANNEL FROM URL
+    // =========================================
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+
+    const channel =
+        params.get("channel") || "DSA";
+
+
+
+    // =========================================
+    // CHANNEL DATA
+    // =========================================
+
+    const channelData = {
+
+        "DSA": {
+
+            icon: "🧠",
+
+            description:
+                "Data Structures and Algorithms",
+
+            members: 1
+
+        },
+
+
+        "Development": {
+
+            icon: "💻",
+
+            description:
+                "Web and Software Development",
+
+            members: 1
+
+        },
+
+
+        "AI-ML": {
+
+            icon: "🤖",
+
+            description:
+                "Artificial Intelligence and Machine Learning",
+
+            members: 1
+
+        },
+
+
+        "Placements": {
+
+            icon: "🎯",
+
+            description:
+                "Career and Interview Preparation",
+
+            members: 1
+
+        }
+
+    };
+
+
+
+    const currentChannel =
+        channelData[channel] ||
+        channelData["DSA"];
+
+
+
+    // =========================================
+    // SET CHANNEL DETAILS
+    // =========================================
+
+    document.getElementById("channelName")
+        .textContent =
+        channel;
+
+
+    document.getElementById("channelDescription")
+        .textContent =
+        currentChannel.description;
+
+
+    document.getElementById("channelIcon")
+        .textContent =
+        currentChannel.icon;
+
+
+    document.getElementById("welcomeIcon")
+        .textContent =
+        currentChannel.icon;
+
+
+    document.getElementById("welcomeChannelName")
+        .textContent =
+        "# " + channel;
+
+
+    document.getElementById("memberCount")
+        .textContent =
+        currentChannel.members;
+
+
+
+    // =========================================
+    // ELEMENTS
+    // =========================================
+
+    const messageInput =
+        document.getElementById("messageInput");
+
+
+    const sendMessageBtn =
+        document.getElementById("sendMessageBtn");
+
+
+    const messagesContainer =
+        document.getElementById("messagesContainer");
+
+
+    const replyStatus =
+        document.getElementById("replyStatus");
+
+
+    const replyUser =
+        document.getElementById("replyUser");
+
+
+    const cancelReply =
+        document.getElementById("cancelReply");
+
+
+
+    // =========================================
+    // REPLY
+    // =========================================
+
+    let replyingTo = null;
+
+
+
+    // =========================================
+    // STORAGE
+    // =========================================
+
+    const storageKey =
+        "channelMessages_" + channel;
+
+
+
+    // =========================================
+    // DEFAULT DEMO MESSAGES
+    // =========================================
+
+    const defaultMessages = [
+
+        {
+
+            id: 1,
+
+            name: "J01",
+
+            role: "Junior",
+
+            message:
+                "How should I start preparing for DSA? I feel confused about where to begin.",
+
+            time: "10:30 AM",
+
+            type: "received",
+
+            roleClass: "junior",
+
+            replyTo: null
+
+        },
+
+
+        {
+
+            id: 2,
+
+            name: "S01",
+
+            role: "Senior",
+
+            message:
+                "Start with Arrays and Strings first. Focus on understanding concepts before solving too many questions.",
+
+            time: "10:35 AM",
+
+            type: "received",
+
+            roleClass: "senior",
+
+            replyTo: "J01"
+
+        },
+
+
+        {
+
+            id: 3,
+
+            name: "A01",
+
+            role: "Alumni",
+
+            message:
+                "Consistency matters more than solving a huge number of questions in one day.",
+
+            time: "10:40 AM",
+
+            type: "received",
+
+            roleClass: "alumni",
+
+            replyTo: null
+
+        }
+
+    ];
+
+
+
+    // =========================================
+    // GET MESSAGES
+    // =========================================
+
+    function getMessages() {
+
+        const savedMessages =
+            localStorage.getItem(storageKey);
+
+
+        if (savedMessages) {
+
+            return JSON.parse(savedMessages);
+
+        }
+
+
+        localStorage.setItem(
+            storageKey,
+            JSON.stringify(defaultMessages)
+        );
+
+
+        return defaultMessages;
+
+    }
+
+
+
+    // =========================================
+    // SAVE MESSAGES
+    // =========================================
+
+    function saveMessages(messages) {
+
+        localStorage.setItem(
+            storageKey,
+            JSON.stringify(messages)
+        );
+
+    }
+
+
+
+    // =========================================
+    // ESCAPE HTML
+    // =========================================
+
+    function escapeHTML(text) {
+
+        const div =
+            document.createElement("div");
+
+        div.textContent = text;
+
+        return div.innerHTML;
+
+    }
+
+
+
+    // =========================================
+    // CURRENT TIME
+    // =========================================
+
+    function getCurrentTime() {
+
+        return new Date()
+            .toLocaleTimeString(
+                [],
+                {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                }
+            );
+
+    }
+
+
+
+    // =========================================
+    // GET ANONYMOUS ID
+    //
+    // Later backend will generate this.
+    // =========================================
+
+    function getAnonymousIdentity() {
+
+        let identity =
+            localStorage.getItem(
+                "anonymousIdentity"
+            );
+
+
+        if (!identity) {
+
+            identity = {
+                id: "J01",
+                role: "Junior",
+                roleClass: "junior"
+            };
+
+
+            localStorage.setItem(
+                "anonymousIdentity",
+                JSON.stringify(identity)
+            );
+
+        }
+
+        return JSON.parse(identity);
+
+    }
+
+
+
+    // =========================================
+    // CREATE MESSAGE
+    // =========================================
+
+    function createMessageElement(messageData) {
+
+        const messageDiv =
+            document.createElement("div");
+
+
+        messageDiv.classList.add(
+            "community-message",
+            messageData.type
+        );
+
+
+
+        // REPLY REFERENCE
+
+        let replyInfo = "";
+
+
+        if (messageData.replyTo) {
+
+            replyInfo = `
+
+                <div class="reply-reference modern-reply-reference">
+
+                    ↳ Replying to
+
+                    <strong>
+                        ${escapeHTML(messageData.replyTo)}
+                    </strong>
+
+                </div>
+
+            `;
+
+        }
+
+
+
+        // MESSAGE HTML
+
+        messageDiv.innerHTML = `
+
+            <div class="anonymous-avatar ${messageData.roleClass}">
+
+                ${escapeHTML(
+                    messageData.name.charAt(0)
+                )}
+
+            </div>
+
+
+            <div class="community-message-body">
+
+
+                <div class="message-user-info">
+
+                    <strong class="anonymous-id">
+
+                        ${escapeHTML(messageData.name)}
+
+                    </strong>
+
+
+                    <span class="role-badge ${messageData.roleClass}">
+
+                        ${escapeHTML(messageData.role)}
+
+                    </span>
+
+
+                    <span class="message-time">
+
+                        ${escapeHTML(messageData.time)}
+
+                    </span>
+
+                </div>
+
+
+                <div class="community-message-text">
+
+                    ${replyInfo}
+
+                    <p>
+
+                        ${escapeHTML(messageData.message)}
+
+                    </p>
+
+                </div>
+
+
+                <div class="message-actions">
+
+                    <button class="reply-btn"
+                            type="button">
+
+                        ↳ Reply
+
+                    </button>
+
+
+                    <button class="helpful-btn"
+                            type="button">
+
+                        👍 Helpful
+
+                    </button>
+
+
+                    <button class="report-btn"
+                            type="button">
+
+                        ⚠ Report
+
+                    </button>
+
+                </div>
+
+
+            </div>
+
+        `;
+
+
+
+        // REPLY
+
+        const replyButton =
+            messageDiv.querySelector(".reply-btn");
+
+
+        replyButton.addEventListener(
+            "click",
+            function () {
+
+                replyingTo =
+                    messageData.name;
+
+
+                replyUser.textContent =
+                    replyingTo;
+
+
+                replyStatus.style.display =
+                    "flex";
+
+
+                messageInput.placeholder =
+                    "Reply to " +
+                    replyingTo +
+                    "...";
+
+
+                messageInput.focus();
+
+            }
+        );
+
+
+
+        // HELPFUL
+
+        const helpfulButton =
+            messageDiv.querySelector(".helpful-btn");
+
+
+        helpfulButton.addEventListener(
+            "click",
+            function () {
+
+                if (
+                    helpfulButton.classList.contains("active")
+                ) {
+
+                    helpfulButton.classList.remove("active");
+
+                }
+
+                else {
+
+                    helpfulButton.classList.add("active");
+
+                }
+
+            }
+        );
+
+
+
+        // REPORT
+
+        const reportButton =
+            messageDiv.querySelector(".report-btn");
+
+
+        reportButton.addEventListener(
+            "click",
+            function () {
+
+                alert(
+                    "This message has been reported for review."
+                );
+
+            }
+        );
+
+
+
+        // HIDE ACTIONS FOR OWN MESSAGE
+
+        if (
+            messageData.type === "sent"
+        ) {
+
+            messageDiv.querySelector(
+                ".message-actions"
+            ).style.display =
+                "none";
+
+        }
+
+
+
+        return messageDiv;
+
+    }
+
+
+
+    // =========================================
+    // RENDER MESSAGES
+    // =========================================
+
+    function renderMessages() {
+
+        messagesContainer.innerHTML = "";
+
+
+        const messages =
+            getMessages();
+
+
+        messages.forEach(
+            function(messageData) {
+
+                const messageElement =
+                    createMessageElement(messageData);
+
+
+                messagesContainer.appendChild(
+                    messageElement
+                );
+
+            }
+        );
+
+
+        setTimeout(
+            function() {
+
+                messagesContainer.scrollTop =
+                    messagesContainer.scrollHeight;
+
+            },
+            100
+        );
+
+    }
+
+
+
+    // =========================================
+    // CANCEL REPLY
+    // =========================================
+
+    cancelReply.addEventListener(
+        "click",
+        function() {
+
+            replyingTo = null;
+
+
+            replyStatus.style.display =
+                "none";
+
+
+            messageInput.placeholder =
+                "Share your thoughts with the community...";
+
+        }
+    );
+
+
+
+    // =========================================
+    // SEND MESSAGE
+    // =========================================
+
+    function sendMessage() {
+
+        const message =
+            messageInput.value.trim();
+
+
+        if (message === "") {
+            return;
+        }
+
+
+
+        const identity =
+            getAnonymousIdentity();
+
+
+
+        const newMessage = {
+
+            id: Date.now(),
+
+            name: identity.id,
+
+            role: identity.role,
+
+            message: message,
+
+            time: getCurrentTime(),
+
+            type: "sent",
+
+            roleClass: identity.roleClass,
+
+            replyTo: replyingTo
+
+        };
+
+
+
+        const messages =
+            getMessages();
+
+
+        messages.push(newMessage);
+
+
+        saveMessages(messages);
+
+
+
+        const messageElement =
+            createMessageElement(newMessage);
+
+
+        messagesContainer.appendChild(
+            messageElement
+        );
+
+
+        messageInput.value = "";
+
+
+        replyingTo = null;
+
+
+        replyStatus.style.display =
+            "none";
+
+
+        messageInput.placeholder =
+            "Share your thoughts with the community...";
+
+
+        messagesContainer.scrollTop =
+            messagesContainer.scrollHeight;
+
+    }
+
+
+
+    // =========================================
+    // SEND BUTTON
+    // =========================================
+
+    sendMessageBtn.addEventListener(
+        "click",
+        sendMessage
+    );
+
+
+
+    // =========================================
+    // ENTER KEY
+    // =========================================
+
+    messageInput.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (event.key === "Enter") {
+
+                event.preventDefault();
+
+                sendMessage();
+
+            }
+
+        }
+    );
+
+
+
+    // =========================================
+    // INITIAL LOAD
+    // =========================================
+
+    renderMessages();
+
+
+</script>
+
+</body>
+
+</html>

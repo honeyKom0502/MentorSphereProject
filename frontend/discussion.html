@@ -51,13 +51,11 @@
 
     <!-- SIDEBAR -->
     <aside class="sidebar">
-       
 
         <a href="dashboard.html" class="sidebar-logo">
-           <div class="logo">
-    <img src="images/logo.png" alt="MentorSphere Logo">
-</div>
-            
+            <div class="logo">
+                <img src="images/logo.png" alt="MentorSphere Logo">
+            </div>
         </a>
 
         <nav class="sidebar-nav">
@@ -236,10 +234,10 @@
                     <div class="channel-footer">
 
                         <span class="member-count">
-                            <strong>85</strong> / 140 Members
+                            0 / 140<br>Members
                         </span>
 
-                        <button class="join-channel-btn">
+                        <button class="join-channel-btn" data-channel="DSA">
                             Join Channel
                         </button>
 
@@ -271,10 +269,11 @@
                     <div class="channel-footer">
 
                         <span class="member-count">
-                            <strong>120</strong> / 140 Members
+                            0 / 140<br>Members
                         </span>
 
-                        <button class="join-channel-btn">
+                        <button class="join-channel-btn"
+                                data-channel="Development">
                             Join Channel
                         </button>
 
@@ -306,10 +305,11 @@
                     <div class="channel-footer">
 
                         <span class="member-count">
-                            <strong>64</strong> / 140 Members
+                            0 / 140<br>Members
                         </span>
 
-                        <button class="join-channel-btn">
+                        <button class="join-channel-btn"
+                                data-channel="AI-ML">
                             Join Channel
                         </button>
 
@@ -341,10 +341,11 @@
                     <div class="channel-footer">
 
                         <span class="member-count">
-                            <strong>98</strong> / 140 Members
+                            0 / 140<br>Members
                         </span>
 
-                        <button class="join-channel-btn">
+                        <button class="join-channel-btn"
+                                data-channel="Placements">
                             Join Channel
                         </button>
 
@@ -622,20 +623,15 @@
         document.getElementById("globalProfileInitial");
 
 
-    // USER NAME
     if (savedName && userName) {
         userName.textContent = savedName;
     }
 
-
-    // USER ROLE
-    // Exactly jo role profile mein select kiya hai wahi show hoga
     if (savedRole && userRole) {
         userRole.textContent = savedRole;
     }
 
 
-    // CORRECT INITIAL
     const displayName =
         savedName ||
         (userName
@@ -646,7 +642,6 @@
         displayName.charAt(0).toUpperCase();
 
 
-    // PROFILE IMAGE OR INITIAL
     if (savedImage) {
 
         globalProfilePhoto.src = savedImage;
@@ -665,7 +660,10 @@
     }
 
 
+    // ==============================
     // LOGOUT
+    // ==============================
+
     const logoutBtn =
         document.getElementById("logoutBtn");
 
@@ -685,6 +683,78 @@
         );
 
     }
+
+
+    // ==============================
+    // LOAD CHANNEL STATUS
+    // ==============================
+
+    const joinButtons =
+        document.querySelectorAll(".join-channel-btn");
+
+
+    joinButtons.forEach(function (button) {
+
+        const channel =
+            button.dataset.channel;
+
+        const channelCard =
+            button.closest(".channel-card");
+
+        const memberCount =
+            channelCard.querySelector(".member-count");
+
+        const joined =
+            localStorage.getItem("joined_" + channel);
+
+
+        if (joined === "true") {
+
+            memberCount.innerHTML =
+                "1 / 140<br>Members";
+
+            button.textContent =
+                "Joined ✓";
+
+        }
+
+
+        // ==============================
+        // JOIN CHANNEL
+        // ==============================
+
+        button.addEventListener(
+            "click",
+            function () {
+
+                // First time joining
+                if (!localStorage.getItem(
+                    "joined_" + channel
+                )) {
+
+                    localStorage.setItem(
+                        "joined_" + channel,
+                        "true"
+                    );
+
+                    memberCount.innerHTML =
+                        "1 / 140<br>Members";
+
+                    button.textContent =
+                        "Joined ✓";
+
+                }
+
+
+                // Open respective channel
+                window.location.href =
+                    "channel.html?channel=" +
+                    encodeURIComponent(channel);
+
+            }
+        );
+
+    });
 
 </script>
 
