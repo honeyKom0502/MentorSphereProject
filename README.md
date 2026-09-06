@@ -1,4 +1,4 @@
-# MentorSphere — Premium Anime-Style College Mentorship & Knowledge Network
+# MentorSphere 
 
 <div align="center">
   <h3>"Connect. Learn. Grow Together."</h3>
