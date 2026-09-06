@@ -40,10 +40,10 @@ import { ProfileView } from './components/profile/ProfileView';
 import { DISCUSSIONS_DATA } from './data/mockData';
 
 const MainAppContent = () => {
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, login } = useAuth();
 
-  // Navigation State
-  const [viewMode, setViewMode] = useState('app'); // 'landing' | 'app'
+  // Navigation State: Set default viewMode to 'landing' so user always hits Landing/Auth first
+  const [viewMode, setViewMode] = useState('landing'); // 'landing' | 'app'
   const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard', 'channels', 'discussions', 'mentors', 'placements', 'profile', 'notifications'
   const [activeChannelId, setActiveChannelId] = useState(null);
   const [selectedDiscussion, setSelectedDiscussion] = useState(null);
@@ -81,7 +81,15 @@ const MainAppContent = () => {
     setActiveTab('channel-detail');
   };
 
-  // If user explicitly views the Landing Page or is logged out
+  // Auth Handlers for Demo Flow
+  const handleAuthSuccess = () => {
+    if (login) login(); // Authenticate in Context if method available
+    setIsLoginOpen(false);
+    setIsSignupOpen(false);
+    setViewMode('app'); // Switch to main SaaS Dashboard
+  };
+
+  // If user is on landing mode or not authenticated
   if (viewMode === 'landing' || !isAuthenticated) {
     return (
       <div className="min-h-screen bg-slate-950 text-slate-100 selection:bg-orange-500/30 selection:text-orange-200">
@@ -109,6 +117,7 @@ const MainAppContent = () => {
         <LoginModal
           isOpen={isLoginOpen}
           onClose={() => setIsLoginOpen(false)}
+          onLoginSuccess={handleAuthSuccess}
           onSwitchToSignup={() => {
             setIsLoginOpen(false);
             setIsSignupOpen(true);
@@ -118,6 +127,7 @@ const MainAppContent = () => {
         <SignupModal
           isOpen={isSignupOpen}
           onClose={() => setIsSignupOpen(false)}
+          onSignupSuccess={handleAuthSuccess}
           onSwitchToLogin={() => {
             setIsSignupOpen(false);
             setIsLoginOpen(true);
