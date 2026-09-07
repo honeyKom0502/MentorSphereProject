@@ -1,17 +1,75 @@
-export class UserModel {
-  constructor({ fullName, email, passwordHash, role = 'Junior', publicId, avatar = 'avatar-1', skills = [], interests = [], joinedChannels = [], connectedMentors = [], savedResources = [] }) {
-    this.id = 'usr-' + Date.now();
-    this.fullName = fullName;
-    this.email = email;
-    this.passwordHash = passwordHash;
-    this.role = role; // 'Junior' | 'Senior' | 'Alumni'
-    this.publicId = publicId; // e.g. KnightRider
-    this.avatar = avatar; // e.g. avatar-1
-    this.skills = skills;
-    this.interests = interests;
-    this.joinedChannels = joinedChannels;
-    this.connectedMentors = connectedMentors;
-    this.savedResources = savedResources;
-    this.createdAt = new Date().toISOString();
+
+import mongoose from 'mongoose';
+
+const userSchema = new mongoose.Schema(
+  {
+    fullName: {
+      type: String,
+      required: true,
+      trim: true
+    },
+
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true
+    },
+
+    passwordHash: {
+      type: String,
+      required: true
+    },
+
+    role: {
+      type: String,
+      enum: ['Junior', 'Senior', 'Alumni'],
+      default: 'Junior'
+    },
+
+    publicId: {
+      type: String,
+      unique: true,
+      sparse: true
+    },
+
+    avatar: {
+      type: String,
+      default: 'avatar-1'
+    },
+
+    skills: {
+      type: [String],
+      default: []
+    },
+
+    interests: {
+      type: [String],
+      default: []
+    },
+
+    joinedChannels: {
+      type: [String],
+      default: []
+    },
+
+    connectedMentors: {
+      type: [String],
+      default: []
+    },
+
+    savedResources: {
+      type: [String],
+      default: []
+    }
+  },
+  {
+    timestamps: true
   }
-}
+);
+
+const User = mongoose.model('User', userSchema);
+
+export default User;
+

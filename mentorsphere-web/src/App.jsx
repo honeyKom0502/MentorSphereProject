@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+
 import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { NotificationProvider } from './context/NotificationContext';
@@ -40,80 +41,153 @@ import { ProfileView } from './components/profile/ProfileView';
 import { DISCUSSIONS_DATA } from './data/mockData';
 
 const MainAppContent = () => {
-  const { user, isAuthenticated, login } = useAuth();
+  const { user, isAuthenticated } = useAuth();
 
-  // Navigation State: Set default viewMode to 'landing' so user always hits Landing/Auth first
-  const [viewMode, setViewMode] = useState('landing'); // 'landing' | 'app'
-  const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard', 'channels', 'discussions', 'mentors', 'placements', 'profile', 'notifications'
+  // --------------------------------------------------
+  // NAVIGATION STATE
+  // --------------------------------------------------
+
+  const [viewMode, setViewMode] = useState(
+    isAuthenticated ? 'app' : 'landing'
+  );
+
+  const [activeTab, setActiveTab] = useState('dashboard');
+
   const [activeChannelId, setActiveChannelId] = useState(null);
+
   const [selectedDiscussion, setSelectedDiscussion] = useState(null);
 
-  // Modals
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
-  const [isSignupOpen, setIsSignupOpen] = useState(false);
-  const [isCreateDiscussionOpen, setIsCreateDiscussionOpen] = useState(false);
-  const [createDiscussionChannelId, setCreateDiscussionChannelId] = useState('dsa');
+  // --------------------------------------------------
+  // AUTH STATE → VIEW MODE
+  // --------------------------------------------------
 
-  // Sidebar & Layout State
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
-  const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
+  useEffect(() => {
+    if (isAuthenticated) {
+      setViewMode('app');
+    } else {
+      setViewMode('landing');
+    }
+  }, [isAuthenticated]);
+
+  // --------------------------------------------------
+  // MODALS
+  // --------------------------------------------------
+
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+
+  const [isSignupOpen, setIsSignupOpen] = useState(false);
+
+  const [isCreateDiscussionOpen, setIsCreateDiscussionOpen] =
+    useState(false);
+
+  const [createDiscussionChannelId, setCreateDiscussionChannelId] =
+    useState('dsa');
+
+  // --------------------------------------------------
+  // SIDEBAR & LAYOUT STATE
+  // --------------------------------------------------
+
+  const [isSidebarCollapsed, setIsSidebarCollapsed] =
+    useState(false);
+
+  const [isMobileDrawerOpen, setIsMobileDrawerOpen] =
+    useState(false);
+
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Live discussions state
-  const [discussionsList, setDiscussionsList] = useState(DISCUSSIONS_DATA);
+  // --------------------------------------------------
+  // LIVE DISCUSSIONS STATE
+  // --------------------------------------------------
+
+  const [discussionsList, setDiscussionsList] =
+    useState(DISCUSSIONS_DATA);
+
+  // --------------------------------------------------
+  // DISCUSSION HANDLERS
+  // --------------------------------------------------
 
   const handleDiscussionCreated = (newDisc) => {
-    setDiscussionsList(prev => [newDisc, ...prev]);
+    setDiscussionsList(prev => [
+      newDisc,
+      ...prev
+    ]);
   };
 
   const handleUpdateDiscussion = (updatedDisc) => {
-    setDiscussionsList(prev => prev.map(d => d.id === updatedDisc.id ? updatedDisc : d));
+    setDiscussionsList(prev =>
+      prev.map(d =>
+        d.id === updatedDisc.id
+          ? updatedDisc
+          : d
+      )
+    );
+
     setSelectedDiscussion(updatedDisc);
   };
 
-  const handleOpenCreateDiscussion = (channelId = 'dsa') => {
+  // --------------------------------------------------
+  // CREATE DISCUSSION
+  // --------------------------------------------------
+
+  const handleOpenCreateDiscussion = (
+    channelId = 'dsa'
+  ) => {
     setCreateDiscussionChannelId(channelId);
     setIsCreateDiscussionOpen(true);
   };
+
+  // --------------------------------------------------
+  // CHANNEL
+  // --------------------------------------------------
 
   const handleOpenChannel = (channelId) => {
     setActiveChannelId(channelId);
     setActiveTab('channel-detail');
   };
 
-  // Auth Handlers for Demo Flow
+  // --------------------------------------------------
+  // AUTH SUCCESS
+  // --------------------------------------------------
+
   const handleAuthSuccess = () => {
-    if (login) login(); // Authenticate in Context if method available
     setIsLoginOpen(false);
     setIsSignupOpen(false);
-    setViewMode('app'); // Switch to main SaaS Dashboard
+    setViewMode('app');
   };
 
-  // If user is on landing mode or not authenticated
+  // --------------------------------------------------
+  // LANDING / AUTH SCREEN
+  // --------------------------------------------------
+
   if (viewMode === 'landing' || !isAuthenticated) {
     return (
       <div className="min-h-screen bg-slate-950 text-slate-100 selection:bg-orange-500/30 selection:text-orange-200">
-        <LandingNav 
+
+        {/* Landing Navigation */}
+        <LandingNav
           onOpenLogin={() => setIsLoginOpen(true)}
           onOpenSignup={() => setIsSignupOpen(true)}
           onEnterDemoApp={() => setViewMode('app')}
         />
-        
-        <HeroCinematic 
+
+        {/* Hero */}
+        <HeroCinematic
           onOpenSignup={() => setIsSignupOpen(true)}
           onExploreApp={() => setViewMode('app')}
         />
 
-        <ScrollStory 
+        {/* Scroll Story */}
+        <ScrollStory
           onOpenSignup={() => setIsSignupOpen(true)}
         />
 
-        <CinematicFooter 
+        {/* Footer */}
+        <CinematicFooter
           onOpenLogin={() => setIsLoginOpen(true)}
           onOpenSignup={() => setIsSignupOpen(true)}
         />
 
-        {/* Auth Modals */}
+        {/* Login Modal */}
         <LoginModal
           isOpen={isLoginOpen}
           onClose={() => setIsLoginOpen(false)}
@@ -124,6 +198,7 @@ const MainAppContent = () => {
           }}
         />
 
+        {/* Signup Modal */}
         <SignupModal
           isOpen={isSignupOpen}
           onClose={() => setIsSignupOpen(false)}
@@ -135,156 +210,300 @@ const MainAppContent = () => {
         />
 
         <Toast />
+
       </div>
     );
   }
 
-  // Authenticated SaaS Dashboard Layout
+  // --------------------------------------------------
+  // AUTHENTICATED SAAS DASHBOARD
+  // --------------------------------------------------
+
   return (
     <div className="min-h-screen flex bg-slate-950 light:bg-slate-50 text-slate-100 light:text-slate-900 transition-colors duration-300">
+
       {/* Floating Sidebar */}
       <FloatingSidebar
-        activeTab={activeTab === 'channel-detail' ? 'channels' : activeTab}
+        activeTab={
+          activeTab === 'channel-detail'
+            ? 'channels'
+            : activeTab
+        }
+
         setActiveTab={(tab) => {
           setActiveTab(tab);
           setActiveChannelId(null);
         }}
+
         isCollapsed={isSidebarCollapsed}
+
         setIsCollapsed={setIsSidebarCollapsed}
+
         isMobileOpen={isMobileDrawerOpen}
+
         setIsMobileOpen={setIsMobileDrawerOpen}
       />
 
       {/* Main Content Area */}
-      <div className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${
-        isSidebarCollapsed ? 'md:pl-24' : 'md:pl-72'
-      }`}>
+      <div
+        className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${
+          isSidebarCollapsed
+            ? 'md:pl-24'
+            : 'md:pl-72'
+        }`}
+      >
+
+        {/* Top Bar */}
         <TopBar
-          activeTab={activeTab === 'channel-detail' ? 'channels' : activeTab}
+          activeTab={
+            activeTab === 'channel-detail'
+              ? 'channels'
+              : activeTab
+          }
+
           setIsMobileOpen={setIsMobileDrawerOpen}
+
           searchQuery={searchQuery}
+
           setSearchQuery={setSearchQuery}
         />
 
+        {/* Main */}
         <main className="flex-1 p-4 md:p-8 max-w-7xl w-full mx-auto space-y-6">
-          {/* DASHBOARD TAB */}
+
+          {/* =========================================
+              DASHBOARD TAB
+          ========================================= */}
+
           {activeTab === 'dashboard' && (
             <div className="space-y-6">
+
               <DynamicGreeting
-                onOpenCreateDiscussion={() => handleOpenCreateDiscussion()}
-                onExploreChannels={() => setActiveTab('channels')}
-                onFindMentors={() => setActiveTab('mentors')}
+                onOpenCreateDiscussion={() =>
+                  handleOpenCreateDiscussion()
+                }
+
+                onExploreChannels={() =>
+                  setActiveTab('channels')
+                }
+
+                onFindMentors={() =>
+                  setActiveTab('mentors')
+                }
               />
 
-              <MetricCards onSelectTab={(tab) => setActiveTab(tab)} />
+              <MetricCards
+                onSelectTab={(tab) =>
+                  setActiveTab(tab)
+                }
+              />
 
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
                 <div className="lg:col-span-2 space-y-6">
+
                   <JoinedChannelsGrid
                     onOpenChannel={handleOpenChannel}
-                    onExploreAll={() => setActiveTab('channels')}
+
+                    onExploreAll={() =>
+                      setActiveTab('channels')
+                    }
                   />
+
                   <RecentDiscussionsFeed
-                    onSelectDiscussion={(disc) => setSelectedDiscussion(disc)}
-                    onExploreDiscussions={() => setActiveTab('discussions')}
+                    onSelectDiscussion={(disc) =>
+                      setSelectedDiscussion(disc)
+                    }
+
+                    onExploreDiscussions={() =>
+                      setActiveTab('discussions')
+                    }
                   />
+
                 </div>
 
                 <div className="space-y-6">
+
                   <PlacementSnapshot
-                    onExplorePlacements={() => setActiveTab('placements')}
+                    onExplorePlacements={() =>
+                      setActiveTab('placements')
+                    }
                   />
+
                 </div>
+
               </div>
+
             </div>
           )}
 
-          {/* CHANNELS TAB */}
-          {activeTab === 'channels' && (
-            <ChannelExplorer onOpenChannel={handleOpenChannel} />
-          )}
+          {/* =========================================
+              CHANNELS TAB
+          ========================================= */}
 
-          {/* SINGLE CHANNEL DETAIL VIEW */}
-          {activeTab === 'channel-detail' && activeChannelId && (
-            <ChannelView
-              channelId={activeChannelId}
-              onBack={() => setActiveTab('channels')}
-              onOpenCreateDiscussion={handleOpenCreateDiscussion}
-              onSelectDiscussion={(disc) => setSelectedDiscussion(disc)}
-              discussionsList={discussionsList}
+          {activeTab === 'channels' && (
+            <ChannelExplorer
+              onOpenChannel={handleOpenChannel}
             />
           )}
 
-          {/* DISCUSSIONS TAB */}
+          {/* =========================================
+              SINGLE CHANNEL DETAIL
+          ========================================= */}
+
+          {activeTab === 'channel-detail' &&
+            activeChannelId && (
+              <ChannelView
+                channelId={activeChannelId}
+
+                onBack={() =>
+                  setActiveTab('channels')
+                }
+
+                onOpenCreateDiscussion={
+                  handleOpenCreateDiscussion
+                }
+
+                onSelectDiscussion={(disc) =>
+                  setSelectedDiscussion(disc)
+                }
+
+                discussionsList={discussionsList}
+              />
+            )}
+
+          {/* =========================================
+              DISCUSSIONS TAB
+          ========================================= */}
+
           {activeTab === 'discussions' && (
             <DiscussionFeed
-              onSelectDiscussion={(disc) => setSelectedDiscussion(disc)}
-              onOpenCreateDiscussion={handleOpenCreateDiscussion}
+              onSelectDiscussion={(disc) =>
+                setSelectedDiscussion(disc)
+              }
+
+              onOpenCreateDiscussion={
+                handleOpenCreateDiscussion
+              }
+
               discussionsList={discussionsList}
             />
           )}
 
-          {/* MENTORS DIRECTORY TAB */}
+          {/* =========================================
+              MENTORS DIRECTORY
+          ========================================= */}
+
           {activeTab === 'mentors' && (
             <MentorDirectory />
           )}
 
-          {/* PLACEMENTS TAB */}
+          {/* =========================================
+              PLACEMENTS
+          ========================================= */}
+
           {activeTab === 'placements' && (
             <PlacementAnalytics />
           )}
 
-          {/* MY PROFILE TAB */}
+          {/* =========================================
+              MY PROFILE
+          ========================================= */}
+
           {activeTab === 'profile' && (
             <ProfileView />
           )}
 
-          {/* NOTIFICATIONS TAB */}
+          {/* =========================================
+              NOTIFICATIONS
+          ========================================= */}
+
           {activeTab === 'notifications' && (
             <div className="p-6 md:p-8 rounded-3xl glass-panel-elevated bg-slate-950/80 light:bg-white/90 border border-slate-800 light:border-slate-200">
+
               <h2 className="font-display font-black text-2xl text-slate-100 light:text-slate-900 mb-2">
                 All College Notifications
               </h2>
+
               <p className="text-xs text-slate-400 mb-6">
-                Activity alerts from discussion replies, mentor connections, and campus placements.
+                Activity alerts from discussion replies,
+                mentor connections, and campus placements.
               </p>
+
               <RecentDiscussionsFeed
-                onSelectDiscussion={(disc) => setSelectedDiscussion(disc)}
-                onExploreDiscussions={() => setActiveTab('discussions')}
+                onSelectDiscussion={(disc) =>
+                  setSelectedDiscussion(disc)
+                }
+
+                onExploreDiscussions={() =>
+                  setActiveTab('discussions')
+                }
               />
+
             </div>
           )}
+
         </main>
       </div>
 
-      {/* Global Modals */}
+      {/* =========================================
+          GLOBAL MODALS
+      ========================================= */}
+
       <CreateDiscussionModal
         isOpen={isCreateDiscussionOpen}
-        onClose={() => setIsCreateDiscussionOpen(false)}
-        defaultChannelId={createDiscussionChannelId}
-        onDiscussionCreated={handleDiscussionCreated}
+
+        onClose={() =>
+          setIsCreateDiscussionOpen(false)
+        }
+
+        defaultChannelId={
+          createDiscussionChannelId
+        }
+
+        onDiscussionCreated={
+          handleDiscussionCreated
+        }
       />
 
       <DiscussionDetailModal
         discussion={selectedDiscussion}
+
         isOpen={!!selectedDiscussion}
-        onClose={() => setSelectedDiscussion(null)}
-        onUpdateDiscussion={handleUpdateDiscussion}
+
+        onClose={() =>
+          setSelectedDiscussion(null)
+        }
+
+        onUpdateDiscussion={
+          handleUpdateDiscussion
+        }
       />
 
       <Toast />
+
     </div>
   );
 };
 
+// ==================================================
+// APP
+// ==================================================
+
 export default function App() {
   return (
     <ThemeProvider>
+
       <AuthProvider>
+
         <NotificationProvider>
+
           <MainAppContent />
+
         </NotificationProvider>
+
       </AuthProvider>
+
     </ThemeProvider>
   );
 }

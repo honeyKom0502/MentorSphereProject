@@ -1,43 +1,96 @@
 import React, { useState } from 'react';
+
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Lock, Mail, ArrowRight, Sparkles, Shield, User } from 'lucide-react';
+
+import {
+  X,
+  Lock,
+  Mail,
+  ArrowRight,
+  Sparkles
+} from 'lucide-react';
+
 import { useAuth } from '../../context/AuthContext';
 import { useNotifications } from '../../context/NotificationContext';
 
 export const LoginModal = ({ isOpen, onClose, onSwitchToSignup }) => {
   const { login, switchDemoRole } = useAuth();
   const { showToast } = useNotifications();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e) => {
+  // Normal Email/Password Login
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!email || !password) {
+
+    // Prevent empty login
+    if (!email.trim() || !password.trim()) {
       showToast('Please enter both email and password', 'warning');
       return;
     }
 
     setIsLoading(true);
-    setTimeout(() => {
-      login(email, password);
+
+    try {
+      const result = await login(email.trim(), password);
+
+      if (result?.success) {
+        showToast(
+          'Welcome back to MentorSphere! 🎉',
+          'success'
+        );
+
+        setEmail('');
+        setPassword('');
+        onClose();
+      } else {
+        showToast(
+          result?.message || 'Invalid email or password',
+          'error'
+        );
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+
+      showToast(
+        'Unable to login. Please try again.',
+        'error'
+      );
+    } finally {
       setIsLoading(false);
-      showToast('Welcome back to MentorSphere!', 'success');
-      onClose();
-    }, 400);
+    }
   };
 
+  // Demo Login
   const handleDemoLogin = (role) => {
-    switchDemoRole(role);
-    showToast(`Logged in as ${role.toUpperCase()} demo user`, 'success');
-    onClose();
+    try {
+      switchDemoRole(role);
+
+      showToast(
+        `Logged in as ${role.toUpperCase()} demo user`,
+        'success'
+      );
+
+      setEmail('');
+      setPassword('');
+      onClose();
+    } catch (error) {
+      console.error('Demo login error:', error);
+
+      showToast(
+        'Unable to login with demo account.',
+        'error'
+      );
+    }
   };
 
   return (
     <AnimatePresence>
-      <div 
+      <div
         onClick={onClose}
         className="fixed inset-0 z-50 bg-black/70 backdrop-blur-md flex items-center justify-center p-4"
       >
@@ -48,11 +101,13 @@ export const LoginModal = ({ isOpen, onClose, onSwitchToSignup }) => {
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           className="relative w-full max-w-md rounded-3xl glass-panel-elevated bg-slate-950/95 light:bg-white/95 border border-slate-800 light:border-slate-200 p-6 md:p-8 shadow-2xl overflow-hidden"
         >
+
           {/* Ambient Glow */}
           <div className="absolute -top-24 -right-24 w-48 h-48 rounded-full bg-blue-500/20 blur-3xl pointer-events-none" />
+
           <div className="absolute -bottom-24 -left-24 w-48 h-48 rounded-full bg-orange-500/15 blur-3xl pointer-events-none" />
 
-          {/* Close button */}
+          {/* Close Button */}
           <button
             onClick={onClose}
             className="absolute top-5 right-5 p-2 rounded-xl text-slate-400 hover:text-slate-100 hover:bg-slate-800/60 light:hover:bg-slate-100 transition-colors"
@@ -65,9 +120,11 @@ export const LoginModal = ({ isOpen, onClose, onSwitchToSignup }) => {
             <div className="inline-flex p-3 rounded-2xl bg-gradient-to-tr from-blue-600 to-orange-500 text-white shadow-lg shadow-blue-500/30 mb-3">
               <Sparkles className="w-6 h-6" />
             </div>
+
             <h2 className="font-display font-black text-2xl text-slate-100 light:text-slate-900 tracking-tight">
               Welcome Back
             </h2>
+
             <p className="text-xs text-slate-400 mt-1">
               Enter your college credentials to access your peer network.
             </p>
@@ -75,10 +132,14 @@ export const LoginModal = ({ isOpen, onClose, onSwitchToSignup }) => {
 
           {/* Quick Demo Access Buttons */}
           <div className="mb-5 p-3 rounded-2xl bg-slate-900/60 border border-slate-800 light:bg-slate-50 light:border-slate-200">
+
             <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 text-center">
               ⚡ Instant 1-Click Demo Login:
             </p>
+
             <div className="grid grid-cols-3 gap-2">
+
+              {/* Junior */}
               <button
                 type="button"
                 onClick={() => handleDemoLogin('junior')}
@@ -86,6 +147,8 @@ export const LoginModal = ({ isOpen, onClose, onSwitchToSignup }) => {
               >
                 👶 Junior
               </button>
+
+              {/* Senior */}
               <button
                 type="button"
                 onClick={() => handleDemoLogin('senior')}
@@ -93,6 +156,8 @@ export const LoginModal = ({ isOpen, onClose, onSwitchToSignup }) => {
               >
                 🎓 Senior
               </button>
+
+              {/* Alumni */}
               <button
                 type="button"
                 onClick={() => handleDemoLogin('alumni')}
@@ -100,24 +165,31 @@ export const LoginModal = ({ isOpen, onClose, onSwitchToSignup }) => {
               >
                 💼 Alumni
               </button>
+
             </div>
           </div>
 
+          {/* Divider */}
           <div className="relative flex items-center justify-center my-4">
             <div className="border-t border-slate-800 light:border-slate-200 w-full" />
+
             <span className="bg-slate-950 light:bg-white px-3 text-[11px] font-semibold text-slate-500 absolute">
               OR LOGIN WITH EMAIL
             </span>
           </div>
 
-          {/* Form */}
+          {/* Login Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
+
+            {/* Email */}
             <div>
               <label className="block text-xs font-semibold text-slate-300 light:text-slate-700 mb-1.5">
                 College Email
               </label>
+
               <div className="relative">
                 <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+
                 <input
                   type="email"
                   value={email}
@@ -128,12 +200,15 @@ export const LoginModal = ({ isOpen, onClose, onSwitchToSignup }) => {
               </div>
             </div>
 
+            {/* Password */}
             <div>
               <label className="block text-xs font-semibold text-slate-300 light:text-slate-700 mb-1.5">
                 Password
               </label>
+
               <div className="relative">
                 <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+
                 <input
                   type="password"
                   value={password}
@@ -144,13 +219,14 @@ export const LoginModal = ({ isOpen, onClose, onSwitchToSignup }) => {
               </div>
             </div>
 
+            {/* Login Button */}
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full mt-2 py-3 px-4 rounded-xl font-display font-bold text-sm text-white bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-600 shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2 transition-all hover:scale-[1.01] active:scale-[0.99]"
+              className="w-full mt-2 py-3 px-4 rounded-xl font-display font-bold text-sm text-white bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-600 shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2 transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {isLoading ? (
-                <span>Entering Guild...</span>
+                <span>Signing In...</span>
               ) : (
                 <>
                   <span>Sign In</span>
@@ -158,12 +234,17 @@ export const LoginModal = ({ isOpen, onClose, onSwitchToSignup }) => {
                 </>
               )}
             </button>
+
           </form>
 
           {/* Switch to Signup */}
           <div className="mt-6 text-center text-xs text-slate-400">
-            <span>New student joining MentorSphere? </span>
+            <span>
+              New student joining MentorSphere?{' '}
+            </span>
+
             <button
+              type="button"
               onClick={() => {
                 onClose();
                 onSwitchToSignup();
@@ -173,6 +254,7 @@ export const LoginModal = ({ isOpen, onClose, onSwitchToSignup }) => {
               Create Account
             </button>
           </div>
+
         </motion.div>
       </div>
     </AnimatePresence>
