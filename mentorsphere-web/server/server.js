@@ -1,3 +1,5 @@
+
+import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import connectDB from './config/db.js';
@@ -6,6 +8,7 @@ import { moderationService } from './services/moderationService.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
 
 // Connect to MongoDB Database
 connectDB();

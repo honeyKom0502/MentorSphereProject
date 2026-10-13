@@ -19,7 +19,8 @@ const userSchema = new mongoose.Schema(
 
     passwordHash: {
       type: String,
-      required: true
+      required: true,
+      select: false
     },
 
     role: {
@@ -31,7 +32,8 @@ const userSchema = new mongoose.Schema(
     publicId: {
       type: String,
       unique: true,
-      sparse: true
+      sparse: true,
+      trim: true
     },
 
     avatar: {
@@ -62,6 +64,22 @@ const userSchema = new mongoose.Schema(
     savedResources: {
       type: [String],
       default: []
+    },
+
+    // Email verification
+    emailVerified: {
+      type: Boolean,
+      default: true
+    },
+
+    emailVerificationOtpHash: {
+      type: String,
+      select: false
+    },
+
+    emailVerificationOtpExpires: {
+      type: Date,
+      select: false
     }
   },
   {
@@ -72,4 +90,3 @@ const userSchema = new mongoose.Schema(
 const User = mongoose.model('User', userSchema);
 
 export default User;
-

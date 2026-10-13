@@ -167,13 +167,13 @@ const MainAppContent = () => {
         <LandingNav
           onOpenLogin={() => setIsLoginOpen(true)}
           onOpenSignup={() => setIsSignupOpen(true)}
-          onEnterDemoApp={() => setViewMode('app')}
+          onEnterDemoApp={() => setIsSignupOpen(true)}
         />
 
         {/* Hero */}
         <HeroCinematic
           onOpenSignup={() => setIsSignupOpen(true)}
-          onExploreApp={() => setViewMode('app')}
+          onExploreApp={() => setIsSignupOpen(true)}
         />
 
         {/* Scroll Story */}
