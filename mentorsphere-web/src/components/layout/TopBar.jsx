@@ -4,10 +4,7 @@ import {
   Search, 
   Bell, 
   Sun, 
-  Moon, 
-  Sparkles, 
-  ShieldCheck, 
-  Zap 
+  Moon 
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
@@ -17,14 +14,14 @@ import { RoleBadge } from '../common/Badge';
 import { NotificationsDrawer } from './NotificationsDrawer';
 
 export const TopBar = ({ activeTab, setIsMobileOpen, searchQuery, setSearchQuery }) => {
-  const { user, switchDemoRole } = useAuth();
+  const { user } = useAuth();
   const { isDark, toggleTheme } = useTheme();
   const { unreadCount } = useNotifications();
   const [isNotifsOpen, setIsNotifsOpen] = useState(false);
 
   const getTabTitle = (tab) => {
     switch (tab) {
-      case 'dashboard': return 'Command Hub';
+      case 'dashboard': return 'Campus Squad';
       case 'channels': return 'Topic Channels';
       case 'discussions': return 'Discussions & Knowledge';
       case 'mentors': return 'Senior & Alumni Mentors';
@@ -36,23 +33,23 @@ export const TopBar = ({ activeTab, setIsMobileOpen, searchQuery, setSearchQuery
   };
 
   return (
-    <header className="sticky top-0 z-30 w-full px-4 md:px-8 py-3.5 backdrop-blur-xl bg-slate-950/60 light:bg-slate-50/80 border-b border-slate-800/60 light:border-slate-200">
+    <header className="sticky top-0 z-30 w-full px-4 md:px-8 py-3.5 backdrop-blur-xl bg-white/90 dark:bg-slate-950/80 border-b border-slate-200 dark:border-slate-800">
       <div className="flex items-center justify-between gap-4 max-w-7xl mx-auto">
         {/* Left: Mobile Menu + View Title */}
         <div className="flex items-center gap-3">
           <button
             onClick={() => setIsMobileOpen(true)}
-            className="md:hidden p-2 rounded-xl text-slate-400 hover:text-slate-100 hover:bg-slate-800/60 light:hover:bg-slate-200 transition-colors"
+            className="md:hidden p-2 rounded-xl text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
           >
             <Menu className="w-5 h-5" />
           </button>
 
           <div>
-            <h1 className="font-display font-black text-lg md:text-xl tracking-tight text-slate-100 light:text-slate-900 flex items-center gap-2">
+            <h1 className="font-display font-black text-lg md:text-xl tracking-tight text-slate-900 dark:text-slate-100 flex items-center gap-2">
               <span>{getTabTitle(activeTab)}</span>
               <span className="hidden sm:inline-block w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
             </h1>
-            <p className="text-xs text-slate-400 hidden sm:block">
+            <p className="text-xs text-slate-500 dark:text-slate-400 hidden sm:block">
               {activeTab === 'dashboard' ? 'Real-time college network stream' : 'Peer-to-peer student ecosystem'}
             </p>
           </div>
@@ -67,38 +64,25 @@ export const TopBar = ({ activeTab, setIsMobileOpen, searchQuery, setSearchQuery
               value={searchQuery || ''}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search channels, mentors, DSA topics, companies..."
-              className="w-full pl-9 pr-4 py-2 rounded-2xl text-xs font-medium bg-slate-900/60 border border-slate-800 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 text-slate-200 placeholder-slate-500 light:bg-white light:border-slate-300 light:text-slate-900 shadow-inner"
+              className="w-full pl-9 pr-4 py-2 rounded-2xl text-xs font-medium bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 shadow-inner"
             />
           </div>
         </div>
 
-        {/* Right: Quick Role Switcher + Notifications + Theme */}
+        {/* Right: Active Role Display + Notifications + Theme */}
         <div className="flex items-center gap-2.5">
-          {/* Quick Demo Switcher on Header */}
-          <div className="hidden sm:flex items-center bg-slate-900/80 border border-slate-800 rounded-2xl p-1 light:bg-white light:border-slate-200 shadow-xs">
-            <span className="text-[10px] font-bold text-slate-400 uppercase px-2 flex items-center gap-1">
-              <Zap className="w-3 h-3 text-orange-400" />
-              Role:
+          {/* Active Logged-In User Role Badge */}
+          <div className="hidden sm:flex items-center bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl px-3 py-1.5 shadow-xs gap-2">
+            <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase flex items-center gap-1">
+              ROLE:
             </span>
-            {['junior', 'senior', 'alumni'].map((r) => (
-              <button
-                key={r}
-                onClick={() => switchDemoRole(r)}
-                className={`px-2.5 py-1 text-xs rounded-xl font-semibold capitalize transition-all ${
-                  user?.role?.toLowerCase() === r
-                    ? 'bg-blue-600 text-white shadow-xs'
-                    : 'text-slate-400 hover:text-slate-200 light:hover:text-slate-800'
-                }`}
-              >
-                {r}
-              </button>
-            ))}
+            <RoleBadge role={user?.role} size="sm" />
           </div>
 
           {/* Theme Toggle Button */}
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-2xl bg-slate-900/60 border border-slate-800 text-slate-300 hover:text-slate-100 hover:bg-slate-800 light:bg-white light:border-slate-200 light:text-slate-700 light:hover:bg-slate-100 transition-colors"
+            className="p-2 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
           >
             {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-blue-600" />}
@@ -107,7 +91,7 @@ export const TopBar = ({ activeTab, setIsMobileOpen, searchQuery, setSearchQuery
           {/* Notification Bell */}
           <button
             onClick={() => setIsNotifsOpen(true)}
-            className="relative p-2 rounded-2xl bg-slate-900/60 border border-slate-800 text-slate-300 hover:text-slate-100 hover:bg-slate-800 light:bg-white light:border-slate-200 light:text-slate-700 light:hover:bg-slate-100 transition-colors"
+            className="relative p-2 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             title="Notifications"
           >
             <Bell className="w-4 h-4" />
@@ -123,7 +107,7 @@ export const TopBar = ({ activeTab, setIsMobileOpen, searchQuery, setSearchQuery
             <AnimeAvatar avatarId={user?.avatar || 'avatar-1'} size="sm" />
             <div className="hidden xl:block text-left">
               <div className="flex items-center gap-1">
-                <span className="text-xs font-bold text-slate-200 light:text-slate-900">{user?.publicId}</span>
+                <span className="text-xs font-bold text-slate-900 dark:text-slate-200">{user?.publicId}</span>
                 <RoleBadge role={user?.role} size="sm" />
               </div>
             </div>

@@ -1,14 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Sun, Sunset, Moon, Sparkles, Plus, MessageSquare, Users, Shield } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { RoleBadge } from '../common/Badge';
 
+// Resolve a display first-name from whatever the auth layer provides
+// (demo accounts, backend login/signup, or older saved sessions).
+const getFirstName = (user) => {
+  const candidates = [user?.fullName, user?.name, user?.displayName, user?.firstName];
+  for (const c of candidates) {
+    if (typeof c === 'string' && c.trim()) {
+      return c.trim().split(/\s+/)[0];
+    }
+  }
+  return '';
+};
+
 export const DynamicGreeting = ({ onOpenCreateDiscussion, onExploreChannels, onFindMentors }) => {
   const { user } = useAuth();
 
+  // Re-evaluate the time of day periodically so the greeting stays correct
+  // if the dashboard is left open across a time-of-day boundary.
+  const [now, setNow] = useState(() => new Date());
+  useEffect(() => {
+    const timer = setInterval(() => setNow(new Date()), 60 * 1000);
+    return () => clearInterval(timer);
+  }, []);
+
   const getGreetingData = () => {
-    const hour = new Date().getHours();
+    const hour = now.getHours();
     if (hour >= 5 && hour < 12) {
       return {
         text: 'Good Morning',
@@ -41,7 +61,7 @@ export const DynamicGreeting = ({ onOpenCreateDiscussion, onExploreChannels, onF
   };
 
   const greeting = getGreetingData();
-  const firstName = user?.fullName?.split(' ')[0] || 'Student';
+  const firstName = getFirstName(user);
 
   return (
     <motion.div
@@ -60,7 +80,7 @@ export const DynamicGreeting = ({ onOpenCreateDiscussion, onExploreChannels, onF
           </div>
 
           <h2 className="font-display font-black text-2xl md:text-3xl text-slate-100 light:text-slate-900 tracking-tight">
-            {greeting.text}, {firstName} 👋
+            {firstName ? `${greeting.text}, ${firstName}` : greeting.text} 👋
           </h2>
 
           <p className="text-xs md:text-sm text-slate-400 light:text-slate-600 mt-1 max-w-xl">

@@ -5747,3 +5747,85 @@ body {
 .create-channel-btn:hover {
     background: #463a9c;
 }
+/* =========================================
+   LIGHT THEME OVERRIDE FIX (6000 lines ke bottom par add karein)
+========================================= */
+
+body.light-theme,
+body.light-theme .app-layout,
+body.light-theme .dashboard,
+body.light-theme .main-content,
+body.light-theme .main-area,
+body.light-theme .hero {
+    background-color: #f8f9fa !important;
+    color: #1a1a1a !important;
+}
+
+body.light-theme .sidebar,
+body.light-theme .dashboard-sidebar {
+    background-color: #ffffff !important;
+    border-right: 1px solid #e2e8f0 !important;
+    color: #1a1a1a !important;
+}
+
+body.light-theme .main-card,
+body.light-theme .feature-card,
+body.light-theme .mentor-card,
+body.light-theme .resource-card,
+body.light-theme .placement-card,
+body.light-theme .stat-card {
+    background-color: #ffffff !important;
+    border: 1px solid #edf2f7 !important;
+    color: #1a1a1a !important;
+}
+
+body.light-theme p,
+body.light-theme span,
+body.light-theme h1,
+body.light-theme h2,
+body.light-theme h3,
+body.light-theme h4 {
+    color: inherit;
+}
+/* =========================================
+   GLOBAL LIGHT THEME OVERRIDE (Paste at bottom of style.css)
+========================================= */
+body.light-theme,
+body.light-theme .app-layout,
+body.light-theme .dashboard,
+body.light-theme .main-content,
+body.light-theme .main-area,
+body.light-theme section {
+    background-color: #FFFFFF !important;
+    color: #1E293B !important;
+}
+
+body.light-theme .sidebar,
+body.light-theme .dashboard-sidebar,
+body.light-theme aside {
+    background-color: #FFFFFF !important;
+    border-right: 1px solid #E2E8F0 !important;
+    color: #1E293B !important;
+}
+
+body.light-theme .main-card,
+body.light-theme .feature-card,
+body.light-theme .mentor-card,
+body.light-theme .resource-card,
+body.light-theme .placement-card,
+body.light-theme .stat-card,
+body.light-theme .card {
+    background-color: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    color: #1E293B !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05) !important;
+}
+
+body.light-theme p,
+body.light-theme span,
+body.light-theme h1,
+body.light-theme h2,
+body.light-theme h3,
+body.light-theme h4 {
+    color: inherit;
+}

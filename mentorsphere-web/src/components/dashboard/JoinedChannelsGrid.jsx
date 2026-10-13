@@ -66,7 +66,7 @@ export const JoinedChannelsGrid = ({ onOpenChannel, onExploreAll }) => {
       </div>
 
       {/* Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full">
         {joined.map((channel) => {
           const IconComponent = ICON_MAP[channel.icon] || Hash;
           return (
@@ -124,7 +124,7 @@ export const JoinedChannelsGrid = ({ onOpenChannel, onExploreAll }) => {
 
       {/* Recommended Channels Banner */}
       {recommended.length > 0 && (
-        <div className="p-5 rounded-3xl bg-gradient-to-r from-blue-900/20 via-slate-900/40 to-orange-900/20 border border-slate-800 light:bg-slate-100 light:border-slate-200">
+        <div className="w-full p-5 rounded-3xl bg-gradient-to-r from-blue-900/20 via-slate-900/40 to-orange-900/20 border border-slate-800 light:bg-slate-100 light:border-slate-200">
           <div className="flex items-center gap-2 mb-3">
             <Sparkles className="w-4 h-4 text-orange-400" />
             <h4 className="font-display font-bold text-xs text-slate-200 light:text-slate-900 uppercase tracking-wider">
@@ -132,7 +132,7 @@ export const JoinedChannelsGrid = ({ onOpenChannel, onExploreAll }) => {
             </h4>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-3 w-full">
             {recommended.map((rec) => {
               const IconComponent = ICON_MAP[rec.icon] || Hash;
               return (

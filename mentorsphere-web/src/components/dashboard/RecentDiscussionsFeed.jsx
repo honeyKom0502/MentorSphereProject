@@ -7,7 +7,7 @@ import { RoleBadge } from '../common/Badge';
 
 export const RecentDiscussionsFeed = ({ onSelectDiscussion, onExploreDiscussions }) => {
   return (
-    <div className="p-6 rounded-3xl glass-panel bg-slate-900/50 light:bg-white/80 border border-slate-800/80 light:border-slate-200">
+    <div className="w-full min-w-0 p-6 rounded-3xl glass-panel bg-slate-900/50 light:bg-white/80 border border-slate-800/80 light:border-slate-200">
       <div className="flex items-center justify-between mb-4">
         <div>
           <h3 className="font-display font-bold text-lg text-slate-100 light:text-slate-900 flex items-center gap-2">

@@ -23,7 +23,6 @@ import { DynamicGreeting } from './components/dashboard/DynamicGreeting';
 import { MetricCards } from './components/dashboard/MetricCards';
 import { JoinedChannelsGrid } from './components/dashboard/JoinedChannelsGrid';
 import { RecentDiscussionsFeed } from './components/dashboard/RecentDiscussionsFeed';
-import { PlacementSnapshot } from './components/dashboard/PlacementSnapshot';
 
 // Channels & Discussions Views
 import { ChannelExplorer } from './components/channels/ChannelExplorer';
@@ -269,7 +268,7 @@ const MainAppContent = () => {
         />
 
         {/* Main */}
-        <main className="flex-1 p-4 md:p-8 max-w-7xl w-full mx-auto space-y-6">
+        <main className="flex-1 w-full min-w-0 p-4 md:p-8 space-y-6">
 
           {/* =========================================
               DASHBOARD TAB
@@ -298,39 +297,25 @@ const MainAppContent = () => {
                 }
               />
 
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="w-full min-w-0 space-y-6">
 
-                <div className="lg:col-span-2 space-y-6">
+                <JoinedChannelsGrid
+                  onOpenChannel={handleOpenChannel}
 
-                  <JoinedChannelsGrid
-                    onOpenChannel={handleOpenChannel}
+                  onExploreAll={() =>
+                    setActiveTab('channels')
+                  }
+                />
 
-                    onExploreAll={() =>
-                      setActiveTab('channels')
-                    }
-                  />
+                <RecentDiscussionsFeed
+                  onSelectDiscussion={(disc) =>
+                    setSelectedDiscussion(disc)
+                  }
 
-                  <RecentDiscussionsFeed
-                    onSelectDiscussion={(disc) =>
-                      setSelectedDiscussion(disc)
-                    }
-
-                    onExploreDiscussions={() =>
-                      setActiveTab('discussions')
-                    }
-                  />
-
-                </div>
-
-                <div className="space-y-6">
-
-                  <PlacementSnapshot
-                    onExplorePlacements={() =>
-                      setActiveTab('placements')
-                    }
-                  />
-
-                </div>
+                  onExploreDiscussions={() =>
+                    setActiveTab('discussions')
+                  }
+                />
 
               </div>
 

@@ -10,12 +10,18 @@ export const ThemeProvider = ({ children }) => {
 
   useEffect(() => {
     const root = document.documentElement;
+    const body = document.body;
+
     if (theme === 'dark') {
       root.classList.add('dark');
       root.classList.remove('light');
+      body.classList.remove('light-theme');
+      body.classList.add('dark-theme');
     } else {
       root.classList.remove('dark');
       root.classList.add('light');
+      body.classList.remove('dark-theme');
+      body.classList.add('light-theme');
     }
     localStorage.setItem('mentorsphere-theme', theme);
   }, [theme]);
