@@ -14,11 +14,12 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useNotifications } from '../../context/NotificationContext';
-import { CHANNELS_DATA, DISCUSSIONS_DATA } from '../../data/mockData';
+import { CHANNELS_DATA } from '../../data/mockData';
+import { DiscussionListState } from '../discussions/DiscussionListState';
 import { AnimeAvatar } from '../../data/animeAvatars';
 import { RoleBadge } from '../common/Badge';
 
-export const ChannelView = ({ channelId, onBack, onOpenCreateDiscussion, onSelectDiscussion, discussionsList }) => {
+export const ChannelView = ({ channelId, onBack, onOpenCreateDiscussion, onSelectDiscussion, discussionsList, loading = false, error = '', onRetry }) => {
   const { user, toggleJoinChannel } = useAuth();
   const { showToast } = useNotifications();
   const [search, setSearch] = useState('');
@@ -27,7 +28,7 @@ export const ChannelView = ({ channelId, onBack, onOpenCreateDiscussion, onSelec
   const isJoined = user?.joinedChannels?.includes(channel.id);
 
   // Filter discussions for this channel
-  const channelDiscussions = (discussionsList || DISCUSSIONS_DATA).filter(d => d.channelId === channel.id);
+  const channelDiscussions = (discussionsList || []).filter(d => d.channelId === channel.id);
 
   const filtered = channelDiscussions.filter(d => 
     d.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -142,10 +143,20 @@ export const ChannelView = ({ channelId, onBack, onOpenCreateDiscussion, onSelec
         </span>
       </div>
 
+      {/* Loading / error states (empty state is handled below) */}
+      {(loading || error) && (
+        <DiscussionListState
+          loading={loading}
+          error={error}
+          isEmpty={(discussionsList || []).length === 0}
+          onRetry={onRetry}
+        />
+      )}
+
       {/* Discussions Threads Feed */}
       <div className="space-y-3">
         {filtered.length === 0 ? (
-          <div className="p-12 text-center rounded-3xl glass-panel bg-slate-900/30 border border-dashed border-slate-800 text-slate-400">
+          loading ? null : <div className="p-12 text-center rounded-3xl glass-panel bg-slate-900/30 border border-dashed border-slate-800 text-slate-400">
             <MessageSquare className="w-8 h-8 mx-auto mb-2 text-slate-500" />
             <h4 className="font-display font-bold text-sm text-slate-300 light:text-slate-800">
               No discussions found in #{channel.slug}

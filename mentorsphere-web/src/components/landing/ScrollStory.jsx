@@ -172,10 +172,10 @@ export const ScrollStory = ({ onOpenSignup }) => {
       </section>
 
       {/* =========================================================================
-          SECTION 4: CAREER HORIZON & PLACEMENTS (WITH ANIME ARTWORK)
+          SECTION 4: CAREER HORIZON & PLACEMENTS
           ========================================================================= */}
       <section id="placements" className="relative p-8 md:p-12 rounded-3xl glass-panel-elevated bg-slate-950/90 light:bg-white/90 border border-slate-800 light:border-slate-200 overflow-hidden">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+        <div className="w-full">
           <div className="space-y-4">
             <div className="flex items-center gap-2 text-xs font-bold text-emerald-400 uppercase tracking-wider">
               <TrendingUp className="w-4 h-4" />
@@ -190,7 +190,7 @@ export const ScrollStory = ({ onOpenSignup }) => {
               Discover real campus placement statistics, package distributions, and company interview patterns. Learn how past batches stepped into top tech careers at Google, Atlassian, Microsoft, and Amazon.
             </p>
 
-            <div className="grid grid-cols-2 gap-3 pt-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
               <div className="p-3.5 rounded-2xl bg-slate-900/80 border border-slate-800 light:bg-slate-50 light:border-slate-200">
                 <span className="text-xs font-semibold text-slate-400">Highest Package</span>
                 <div className="font-display font-black text-2xl text-orange-400 mt-0.5">48.5 LPA</div>
@@ -202,20 +202,6 @@ export const ScrollStory = ({ onOpenSignup }) => {
                 <div className="font-display font-black text-2xl text-blue-400 mt-0.5">14.2 LPA</div>
                 <span className="text-[10px] text-emerald-400">↑ 14% Annual Growth</span>
               </div>
-            </div>
-          </div>
-
-          {/* Anime Career Portal Visual */}
-          <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-blue-500/30 group">
-            <img
-              src="/media/career_portal_1.jpeg"
-              alt="Students stepping into anime cyber career portal"
-              className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-700"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80" />
-            <div className="absolute bottom-4 left-4 right-4 p-4 rounded-2xl glass-panel bg-slate-950/80 border border-slate-800 text-left">
-              <span className="text-[10px] font-bold text-orange-400 uppercase tracking-widest block">AI Career Portal Art</span>
-              <p className="text-xs font-bold text-slate-100">Students Stepping into Career Portals</p>
             </div>
           </div>
         </div>

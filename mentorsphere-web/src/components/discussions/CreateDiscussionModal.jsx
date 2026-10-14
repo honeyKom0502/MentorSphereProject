@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, MessageSquare, Shield, Sparkles, Send, Tag, AlertCircle } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useNotifications } from '../../context/NotificationContext';
 import { CHANNELS_DATA } from '../../data/mockData';
 import { moderationService } from '../../services/moderationService';
+import { createDiscussion } from '../../services/discussionService';
 import { AnimeAvatar } from '../../data/animeAvatars';
 import { RoleBadge } from '../common/Badge';
 import { ModerationAlert } from './ModerationAlert';
@@ -19,6 +20,8 @@ export const CreateDiscussionModal = ({ isOpen, onClose, defaultChannelId, onDis
   const [tagInput, setTagInput] = useState('');
   const [tags, setTags] = useState(['DSA', 'Roadmap']);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+  const submittingRef = useRef(false);
 
   // Moderation state
   const [modAlert, setModAlert] = useState({ isOpen: false, reason: '', message: '' });
@@ -50,43 +53,60 @@ export const CreateDiscussionModal = ({ isOpen, onClose, defaultChannelId, onDis
       return;
     }
 
+    // Ignore repeated clicks while a save is already in progress.
+    if (submittingRef.current) return;
+    submittingRef.current = true;
+
     setIsSubmitting(true);
+    setSubmitError('');
 
-    // AI Moderation Evaluation
-    const combinedText = `${title} ${content}`;
-    const check = await moderationService.evaluateMessage(combinedText);
+    try {
+      // AI Moderation Evaluation
+      const combinedText = `${title} ${content}`;
+      const check = await moderationService.evaluateMessage(combinedText);
 
-    if (!check.isClean) {
-      setIsSubmitting(false);
-      setModAlert({
-        isOpen: true,
-        reason: check.flaggedReason,
-        message: check.friendlyMessage
+      if (!check.isClean) {
+        setModAlert({
+          isOpen: true,
+          reason: check.flaggedReason,
+          message: check.friendlyMessage
+        });
+        return;
+      }
+
+      // Save to the backend (MongoDB). The author identity comes from the
+      // verified session token on the server, not from this form.
+      const saved = await createDiscussion({
+        channelId,
+        title: title.trim(),
+        content: content.trim(),
+        tags
       });
-      return;
-    }
 
-    // Passed moderation -> create post
-    const newDiscussion = {
-      id: 'disc-' + Date.now(),
-      channelId,
-      title: title.trim(),
-      content: content.trim(),
-      authorPublicId: user?.publicId || 'AnonymousCoder',
-      authorAvatar: user?.avatar || 'avatar-1',
-      authorRole: user?.role || 'Junior',
-      createdAt: 'Just now',
-      upvotes: 1,
-      tags,
-      replies: []
-    };
-
-    setTimeout(() => {
-      setIsSubmitting(false);
-      onDiscussionCreated(newDiscussion);
+      onDiscussionCreated(saved);
       showToast('Discussion published to #' + channelId + ' channel!', 'success');
+
+      setTitle('');
+      setContent('');
+      setTagInput('');
+      setTags(['DSA', 'Roadmap']);
       onClose();
-    }, 400);
+    } catch (err) {
+      if (err?.code === 'MODERATION_REJECTED') {
+        setModAlert({
+          isOpen: true,
+          reason: err.data?.flaggedReason,
+          message: err.message
+        });
+      } else {
+        const message = err?.message || 'Could not save your question. Please try again.';
+        setSubmitError(message);
+        showToast(message, 'error');
+      }
+    } finally {
+      submittingRef.current = false;
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -233,11 +253,22 @@ export const CreateDiscussionModal = ({ isOpen, onClose, defaultChannelId, onDis
                 <span>Protected by MentorSphere AI Safety Shield (Anti-abuse & respectful learning filter).</span>
               </div>
 
+              {/* Save error (nothing is shown as posted unless the server saved it) */}
+              {submitError && (
+                <div
+                  role="alert"
+                  className="p-3 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-xs text-rose-300 light:text-rose-700 flex items-start gap-2"
+                >
+                  <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                  <span>{submitError}</span>
+                </div>
+              )}
+
               {/* Submit */}
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full py-3 px-4 rounded-xl font-display font-bold text-xs text-white bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-500 shadow-lg shadow-orange-500/25 flex items-center justify-center gap-2 transition-all hover:scale-[1.01]"
+                className="w-full py-3 px-4 rounded-xl font-display font-bold text-xs text-white bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-500 shadow-lg shadow-orange-500/25 flex items-center justify-center gap-2 transition-all hover:scale-[1.01] disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
                 {isSubmitting ? (
                   <span>Checking content safety & posting...</span>

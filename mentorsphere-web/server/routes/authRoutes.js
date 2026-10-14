@@ -4,6 +4,8 @@ import bcrypt from 'bcryptjs';
 import crypto from 'node:crypto';
 import User from '../models/User.js';
 import { sendVerificationEmail } from '../config/email.js';
+import { signAuthToken } from '../utils/authToken.js';
+import { requireAuth } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -199,10 +201,11 @@ router.post('/verify-otp', async (req, res) => {
     }
 
     if (user.emailVerified === true) {
-      return res.status(200).json({
-        success: true,
-        message: 'Email is already verified.',
-        user: createPublicUser(user)
+      // Do not return the profile or a session token here: no OTP/password was
+      // checked, so this endpoint must not act as a login.
+      return res.status(409).json({
+        success: false,
+        message: 'This email is already verified. Please log in with your password.'
       });
     }
 
@@ -240,7 +243,8 @@ router.post('/verify-otp', async (req, res) => {
     return res.status(200).json({
       success: true,
       message: 'Email verified successfully.',
-      user: createPublicUser(user)
+      user: createPublicUser(user),
+      token: signAuthToken(user._id)
     });
   } catch (error) {
     console.error('OTP verification error:', error);
@@ -315,7 +319,8 @@ router.post('/login', async (req, res) => {
     return res.status(200).json({
       success: true,
       message: 'Login successful.',
-      user: createPublicUser(user)
+      user: createPublicUser(user),
+      token: signAuthToken(user._id)
     });
   } catch (error) {
     console.error('Login error:', error);
@@ -325,6 +330,14 @@ router.post('/login', async (req, res) => {
       message: 'Unable to log in. Please try again.'
     });
   }
+});
+
+// CURRENT USER: GET /api/auth/me  (validates a stored session token)
+router.get('/me', requireAuth, (req, res) => {
+  return res.status(200).json({
+    success: true,
+    user: createPublicUser(req.user)
+  });
 });
 
 export default router;

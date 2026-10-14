@@ -10,16 +10,17 @@ import {
   Filter,
   Layers
 } from 'lucide-react';
-import { DISCUSSIONS_DATA, CHANNELS_DATA } from '../../data/mockData';
+import { CHANNELS_DATA } from '../../data/mockData';
+import { DiscussionListState } from './DiscussionListState';
 import { AnimeAvatar } from '../../data/animeAvatars';
 import { RoleBadge } from '../common/Badge';
 
-export const DiscussionFeed = ({ onSelectDiscussion, onOpenCreateDiscussion, discussionsList }) => {
+export const DiscussionFeed = ({ onSelectDiscussion, onOpenCreateDiscussion, discussionsList, loading = false, error = '', onRetry }) => {
   const [search, setSearch] = useState('');
   const [selectedChannel, setSelectedChannel] = useState('all');
   const [selectedRole, setSelectedRole] = useState('all');
 
-  const allDiscussions = discussionsList || DISCUSSIONS_DATA;
+  const allDiscussions = discussionsList || [];
 
   const filtered = allDiscussions.filter(disc => {
     const matchesChannel = selectedChannel === 'all' || disc.channelId === selectedChannel;
@@ -99,6 +100,13 @@ export const DiscussionFeed = ({ onSelectDiscussion, onOpenCreateDiscussion, dis
           </select>
         </div>
       </div>
+
+      <DiscussionListState
+        loading={loading}
+        error={error}
+        isEmpty={allDiscussions.length === 0}
+        onRetry={onRetry}
+      />
 
       {/* Discussions Feed Grid */}
       <div className="space-y-3.5">

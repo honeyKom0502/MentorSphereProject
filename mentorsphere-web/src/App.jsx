@@ -36,11 +36,11 @@ import { MentorDirectory } from './components/mentors/MentorDirectory';
 import { PlacementAnalytics } from './components/placements/PlacementAnalytics';
 import { ProfileView } from './components/profile/ProfileView';
 
-// Seed data
-import { DISCUSSIONS_DATA } from './data/mockData';
+// Shared discussions (MongoDB-backed, polled)
+import { useDiscussions } from './hooks/useDiscussions';
 
 const MainAppContent = () => {
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, isDemo } = useAuth();
 
   // --------------------------------------------------
   // NAVIGATION STATE
@@ -98,30 +98,48 @@ const MainAppContent = () => {
   // LIVE DISCUSSIONS STATE
   // --------------------------------------------------
 
-  const [discussionsList, setDiscussionsList] =
-    useState(DISCUSSIONS_DATA);
+  // Questions & replies live in MongoDB. This hook loads them from the
+  // backend and polls every few seconds so other users' posts appear
+  // without a manual refresh. Demo (browser-only) accounts have no backend identity.
+  const {
+    discussions: discussionsList,
+    loading: discussionsLoading,
+    error: discussionsFetchError,
+    refresh: refreshDiscussions,
+    upsert: upsertDiscussion
+  } = useDiscussions({
+    enabled: isAuthenticated && viewMode === 'app' && !isDemo
+  });
+
+  const discussionsError = isDemo
+    ? 'You are using a built-in demo account. Sign in with a real account to see and post shared questions.'
+    : discussionsFetchError;
+
+  const discussionListProps = {
+    discussionsList,
+    loading: discussionsLoading,
+    error: discussionsError,
+    onRetry: refreshDiscussions
+  };
+
+  // Keep the open discussion modal in sync with the latest data from the server
+  // (e.g. a reply posted by someone else while it is open).
+  const liveSelectedDiscussion = selectedDiscussion
+    ? discussionsList.find(d => d.id === selectedDiscussion.id) ||
+      selectedDiscussion
+    : null;
 
   // --------------------------------------------------
   // DISCUSSION HANDLERS
   // --------------------------------------------------
 
-  const handleDiscussionCreated = (newDisc) => {
-    setDiscussionsList(prev => [
-      newDisc,
-      ...prev
-    ]);
+  // Both receive the discussion exactly as saved by the server.
+  const handleDiscussionCreated = (savedDisc) => {
+    upsertDiscussion(savedDisc);
   };
 
-  const handleUpdateDiscussion = (updatedDisc) => {
-    setDiscussionsList(prev =>
-      prev.map(d =>
-        d.id === updatedDisc.id
-          ? updatedDisc
-          : d
-      )
-    );
-
-    setSelectedDiscussion(updatedDisc);
+  const handleUpdateDiscussion = (savedDisc) => {
+    upsertDiscussion(savedDisc);
   };
 
   // --------------------------------------------------
@@ -160,7 +178,7 @@ const MainAppContent = () => {
 
   if (viewMode === 'landing' || !isAuthenticated) {
     return (
-      <div className="min-h-screen bg-slate-950 text-slate-100 selection:bg-orange-500/30 selection:text-orange-200">
+      <div className="min-h-screen bg-slate-950 light:bg-slate-50 text-slate-100 light:text-slate-900 selection:bg-orange-500/30 selection:text-orange-200">
 
         {/* Landing Navigation */}
         <LandingNav
@@ -315,6 +333,11 @@ const MainAppContent = () => {
                   onExploreDiscussions={() =>
                     setActiveTab('discussions')
                   }
+
+                  discussions={discussionsList}
+                  loading={discussionsLoading}
+                  error={discussionsError}
+                  onRetry={refreshDiscussions}
                 />
 
               </div>
@@ -353,7 +376,7 @@ const MainAppContent = () => {
                   setSelectedDiscussion(disc)
                 }
 
-                discussionsList={discussionsList}
+                {...discussionListProps}
               />
             )}
 
@@ -371,7 +394,7 @@ const MainAppContent = () => {
                 handleOpenCreateDiscussion
               }
 
-              discussionsList={discussionsList}
+              {...discussionListProps}
             />
           )}
 
@@ -423,6 +446,11 @@ const MainAppContent = () => {
                 onExploreDiscussions={() =>
                   setActiveTab('discussions')
                 }
+
+                discussions={discussionsList}
+                loading={discussionsLoading}
+                error={discussionsError}
+                onRetry={refreshDiscussions}
               />
 
             </div>
@@ -452,9 +480,9 @@ const MainAppContent = () => {
       />
 
       <DiscussionDetailModal
-        discussion={selectedDiscussion}
+        discussion={liveSelectedDiscussion}
 
-        isOpen={!!selectedDiscussion}
+        isOpen={!!liveSelectedDiscussion}
 
         onClose={() =>
           setSelectedDiscussion(null)

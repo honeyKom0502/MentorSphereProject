@@ -1,11 +1,18 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { MessageSquare, ThumbsUp, ArrowRight, ShieldCheck, Tag } from 'lucide-react';
-import { DISCUSSIONS_DATA } from '../../data/mockData';
+import { DiscussionListState } from '../discussions/DiscussionListState';
 import { AnimeAvatar } from '../../data/animeAvatars';
 import { RoleBadge } from '../common/Badge';
 
-export const RecentDiscussionsFeed = ({ onSelectDiscussion, onExploreDiscussions }) => {
+export const RecentDiscussionsFeed = ({
+  onSelectDiscussion,
+  onExploreDiscussions,
+  discussions = [],
+  loading = false,
+  error = '',
+  onRetry
+}) => {
   return (
     <div className="w-full min-w-0 p-6 rounded-3xl glass-panel bg-slate-900/50 light:bg-white/80 border border-slate-800/80 light:border-slate-200">
       <div className="flex items-center justify-between mb-4">
@@ -26,8 +33,15 @@ export const RecentDiscussionsFeed = ({ onSelectDiscussion, onExploreDiscussions
         </button>
       </div>
 
+      <DiscussionListState
+        loading={loading}
+        error={error}
+        isEmpty={discussions.length === 0}
+        onRetry={onRetry}
+      />
+
       <div className="space-y-3">
-        {DISCUSSIONS_DATA.slice(0, 3).map((disc) => (
+        {discussions.slice(0, 3).map((disc) => (
           <motion.div
             key={disc.id}
             whileHover={{ scale: 1.008 }}

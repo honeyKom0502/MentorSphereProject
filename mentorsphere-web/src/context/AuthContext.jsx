@@ -2,8 +2,19 @@ import React, {
   createContext,
   useContext,
   useState,
-  useEffect
+  useEffect,
+  useCallback
 } from 'react';
+
+import {
+  API_BASE,
+  apiRequest,
+  getToken,
+  setToken,
+  clearToken,
+  isDemoUser,
+  UNAUTHORIZED_EVENT
+} from '../services/api';
 
 const AuthContext = createContext();
 
@@ -111,7 +122,15 @@ export const AuthProvider = ({ children }) => {
 
     if (saved) {
       try {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+
+        // A real account without a session token (e.g. logged in before tokens
+        // existed) cannot call protected APIs: ask the person to log in again.
+        if (parsed && !isDemoUser(parsed) && !getToken()) {
+          return null;
+        }
+
+        return parsed;
       } catch (error) {
         console.error('Invalid saved user:', error);
         return null;
@@ -122,7 +141,15 @@ export const AuthProvider = ({ children }) => {
   });
 
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    return !!localStorage.getItem('mentorsphere-user');
+    const saved = localStorage.getItem('mentorsphere-user');
+    if (!saved) return false;
+
+    try {
+      const parsed = JSON.parse(saved);
+      return !!parsed && (isDemoUser(parsed) || !!getToken());
+    } catch {
+      return false;
+    }
   });
 
   // --------------------------------------------------
@@ -165,6 +192,7 @@ export const AuthProvider = ({ children }) => {
       );
 
       if (demoAccount) {
+        clearToken();
         setUser(demoAccount);
         setIsAuthenticated(true);
 
@@ -179,7 +207,7 @@ export const AuthProvider = ({ children }) => {
       // ------------------------------------------------
 
       const response = await fetch(
-        'http://localhost:5000/api/auth/login',
+        `${API_BASE}/api/auth/login`,
         {
           method: 'POST',
 
@@ -222,6 +250,14 @@ export const AuthProvider = ({ children }) => {
         };
       }
 
+      if (!data.token) {
+        return {
+          success: false,
+          message: 'Login succeeded but no session was issued by the server. Please try again.'
+        };
+      }
+
+      setToken(data.token);
       setUser(loggedInUser);
       setIsAuthenticated(true);
 
@@ -249,7 +285,7 @@ export const AuthProvider = ({ children }) => {
   const signup = async (userData) => {
     try {
       const response = await fetch(
-        'http://localhost:5000/api/auth/signup',
+        `${API_BASE}/api/auth/signup`,
         {
           method: 'POST',
 
@@ -328,7 +364,7 @@ export const AuthProvider = ({ children }) => {
       }
 
       const response = await fetch(
-        'http://localhost:5000/api/auth/verify-otp',
+        `${API_BASE}/api/auth/verify-otp`,
         {
           method: 'POST',
 
@@ -357,7 +393,8 @@ export const AuthProvider = ({ children }) => {
       // Backend returns verified user
       const verifiedUser = data.user;
 
-      if (verifiedUser) {
+      if (verifiedUser && data.token) {
+        setToken(data.token);
         setUser(verifiedUser);
         setIsAuthenticated(true);
       }
@@ -385,14 +422,37 @@ export const AuthProvider = ({ children }) => {
   // LOGOUT
   // --------------------------------------------------
 
-  const logout = () => {
+  const logout = useCallback(() => {
+    clearToken();
     setUser(null);
     setIsAuthenticated(false);
 
     localStorage.removeItem(
       'mentorsphere-user'
     );
-  };
+  }, []);
+
+  // --------------------------------------------------
+  // SESSION VALIDATION
+  // --------------------------------------------------
+
+  // If the server rejects our token (expired / invalid), return to the login screen.
+  useEffect(() => {
+    const onUnauthorized = () => logout();
+    window.addEventListener(UNAUTHORIZED_EVENT, onUnauthorized);
+    return () => window.removeEventListener(UNAUTHORIZED_EVENT, onUnauthorized);
+  }, [logout]);
+
+  // On app load, confirm a stored session is still valid (real accounts only).
+  useEffect(() => {
+    if (!user || isDemoUser(user) || !getToken()) return;
+
+    apiRequest('/api/auth/me').catch(() => {
+      /* 401 triggers logout via the event above; network errors are ignored here */
+    });
+    // Run once on first load only.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // --------------------------------------------------
   // SWITCH DEMO ROLE
@@ -408,6 +468,7 @@ export const AuthProvider = ({ children }) => {
       };
     }
 
+    clearToken();
     setUser(demoUser);
     setIsAuthenticated(true);
 
@@ -495,6 +556,7 @@ export const AuthProvider = ({ children }) => {
       value={{
         user,
         isAuthenticated,
+        isDemo: isDemoUser(user),
         login,
         signup,
         verifyOTP,

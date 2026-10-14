@@ -1,6 +1,7 @@
 import React from 'react';
-import { Sparkles, Sun, Moon, ArrowRight } from 'lucide-react';
+import { Sun, Moon, ArrowRight } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
+import acharyaLogo from '../../assets/acharya-logo.jpg';
 
 export const LandingNav = ({ onOpenLogin, onOpenSignup }) => {
   const { isDark, toggleTheme } = useTheme();
@@ -10,8 +11,12 @@ export const LandingNav = ({ onOpenLogin, onOpenSignup }) => {
       <div className="flex items-center justify-between px-4 sm:px-6 py-3 rounded-3xl bg-slate-950/80 dark:bg-slate-950/80 light:bg-white/90 border border-slate-800/80 dark:border-slate-800/80 light:border-slate-200/90 shadow-xl backdrop-blur-2xl">
         {/* Brand Logo */}
         <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-          <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-blue-600 via-blue-500 to-orange-500 flex items-center justify-center shadow-md shadow-blue-500/30">
-            <Sparkles className="w-4 h-4 text-white" />
+          <div className="w-10 h-10 rounded-2xl bg-white overflow-hidden flex items-center justify-center shadow-md shadow-blue-500/30 ring-1 ring-slate-200/70 shrink-0">
+            <img
+              src={acharyaLogo}
+              alt="Acharya Institute logo"
+              className="w-full h-full object-contain p-0.5"
+            />
           </div>
           <div>
             <span className="font-display font-black text-lg tracking-tight text-slate-100 dark:text-slate-100 light:text-slate-900">

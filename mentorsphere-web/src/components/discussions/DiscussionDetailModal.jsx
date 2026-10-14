@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   X, 
@@ -8,13 +8,15 @@ import {
   Send, 
   ShieldCheck, 
   Sparkles,
-  Share2
+  Share2,
+  AlertCircle
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useNotifications } from '../../context/NotificationContext';
 import { AnimeAvatar } from '../../data/animeAvatars';
 import { RoleBadge } from '../common/Badge';
 import { moderationService } from '../../services/moderationService';
+import { createReply } from '../../services/discussionService';
 import { ModerationAlert } from './ModerationAlert';
 
 export const DiscussionDetailModal = ({ discussion, isOpen, onClose, onUpdateDiscussion }) => {
@@ -23,6 +25,8 @@ export const DiscussionDetailModal = ({ discussion, isOpen, onClose, onUpdateDis
 
   const [replyText, setReplyText] = useState('');
   const [isSubmittingReply, setIsSubmittingReply] = useState(false);
+  const [replyError, setReplyError] = useState('');
+  const replyingRef = useRef(false);
   const [upvotes, setUpvotes] = useState(discussion?.upvotes || 0);
   const [hasUpvoted, setHasUpvoted] = useState(false);
 
@@ -44,47 +48,54 @@ export const DiscussionDetailModal = ({ discussion, isOpen, onClose, onUpdateDis
 
   const handleAddReply = async (e) => {
     e.preventDefault();
-    if (!replyText.trim()) {
+
+    // Ignore repeated clicks / Enter presses while a reply is being saved.
+    if (replyingRef.current) return;
+
+    const text = replyText.trim();
+    if (!text) {
       showToast('Please type your response', 'warning');
       return;
     }
 
+    replyingRef.current = true;
     setIsSubmittingReply(true);
+    setReplyError('');
 
-    // AI Safety Moderation
-    const check = await moderationService.evaluateMessage(replyText);
-    if (!check.isClean) {
-      setIsSubmittingReply(false);
-      setModAlert({
-        isOpen: true,
-        reason: check.flaggedReason,
-        message: check.friendlyMessage
-      });
-      return;
-    }
+    try {
+      // AI Safety Moderation
+      const check = await moderationService.evaluateMessage(text);
+      if (!check.isClean) {
+        setModAlert({
+          isOpen: true,
+          reason: check.flaggedReason,
+          message: check.friendlyMessage
+        });
+        return;
+      }
 
-    const newReply = {
-      id: 'rep-' + Date.now(),
-      authorPublicId: user?.publicId || 'PeerStudent',
-      authorAvatar: user?.avatar || 'avatar-1',
-      authorRole: user?.role || 'Junior',
-      createdAt: 'Just now',
-      content: replyText.trim(),
-      upvotes: 0,
-      isAccepted: false
-    };
+      // Saved in MongoDB, attached to this discussion, author taken from the session token.
+      const { discussion: saved } = await createReply(discussion.id, text);
 
-    const updated = {
-      ...discussion,
-      replies: [...(discussion.replies || []), newReply]
-    };
-
-    setTimeout(() => {
-      setIsSubmittingReply(false);
       setReplyText('');
-      onUpdateDiscussion(updated);
+      onUpdateDiscussion(saved);
       showToast('Your answer has been posted!', 'success');
-    }, 300);
+    } catch (err) {
+      if (err?.code === 'MODERATION_REJECTED') {
+        setModAlert({
+          isOpen: true,
+          reason: err.data?.flaggedReason,
+          message: err.message
+        });
+      } else {
+        const message = err?.message || 'Could not save your reply. Please try again.';
+        setReplyError(message);
+        showToast(message, 'error');
+      }
+    } finally {
+      replyingRef.current = false;
+      setIsSubmittingReply(false);
+    }
   };
 
   return (
@@ -224,19 +235,35 @@ export const DiscussionDetailModal = ({ discussion, isOpen, onClose, onUpdateDis
               </div>
             </div>
 
+            {/* Reply save error */}
+            {replyError && (
+              <div
+                role="alert"
+                className="mt-3 p-3 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-xs text-rose-300 light:text-rose-700 flex items-start gap-2"
+              >
+                <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                <span>{replyError}</span>
+              </div>
+            )}
+
             {/* Bottom Reply Form */}
             <form onSubmit={handleAddReply} className="mt-4 pt-4 border-t border-slate-800 light:border-slate-200 flex gap-2">
               <input
                 type="text"
                 value={replyText}
-                onChange={(e) => setReplyText(e.target.value)}
+                maxLength={3000}
+                disabled={isSubmittingReply}
+                onChange={(e) => {
+                  setReplyText(e.target.value);
+                  if (replyError) setReplyError('');
+                }}
                 placeholder={`Reply to discussion as ${user?.publicId}...`}
                 className="flex-1 px-4 py-2.5 text-xs rounded-xl bg-slate-900 border border-slate-800 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500 light:bg-white light:border-slate-300 light:text-slate-900"
               />
               <button
                 type="submit"
-                disabled={isSubmittingReply}
-                className="px-4 py-2.5 rounded-xl font-display font-bold text-xs text-white bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-600 flex items-center gap-1.5 transition-all shrink-0"
+                disabled={isSubmittingReply || !replyText.trim()}
+                className="px-4 py-2.5 rounded-xl font-display font-bold text-xs text-white bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-600 flex items-center gap-1.5 transition-all shrink-0 disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 <Send className="w-3.5 h-3.5" />
                 <span>Answer</span>

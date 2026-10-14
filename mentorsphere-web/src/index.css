@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* Tailwind v4 has no built-in `light:` variant, so every `light:...` class in the app
+   was silently ignored. ThemeContext puts a `.light` class on <html> in light mode;
+   this activates all of those classes. Dark mode (the `.dark` class) is untouched. */
+@custom-variant light (&:where(.light, .light *));
+
 @layer base {
   :root {
     --bg-primary: #f8fafc;
